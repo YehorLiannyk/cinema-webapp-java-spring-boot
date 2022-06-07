@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang=ua xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header (pageTitle)">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/my-styles.css}"/>
+
+    <title th:text="${pageTitle}"></title>
+</head>
+<body>
+
+<!--Menu-->
+<nav class="container-fluid site-header sticky-top" th:fragment="menu">
+    <div class="container d-flex flex-column flex-md-row justify-content-between py-2">
+        <span class="py-2 menu-item" th:text="#{menu.title}"></span>
+
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/main}" th:text="#{menu.main}"></a>
+
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/schedule}" th:text="#{menu.schedule}"></a>
+
+        <!--GUEST-->
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/login}" th:text="#{menu.guest.login}"></a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/register}" th:text="#{menu.guest.register}"></a>
+        <!--/GUEST-->
+
+        <!--USER-->
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/myProfile}" th:text="#{menu.user.myProfile}"> </a>
+        <!--/USER-->
+
+        <!--ADMIN-->
+        <!--<div class="dropdown">
+            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ${filmSession}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <ul style="list-style-type: none;" class="px-3">
+                    <li class="menu-li py-1"><a href="${addFilm_url}">${addFilm}</a></li>
+                    <li class="menu-li py-1"><a href="${filmSetting_url}">${filmSetting}</a></li>
+                    <li class="menu-li py-1"><a href="${addSession_url}">${addSession}</a>
+                    </li>
+                    <li class="menu-li py-1"><a href="${sessionSetting_url}">${sessionsSetting}</a></li>
+                </ul>
+            </div>
+        </div>-->
+        <!--/ADMIN-->
+
+        <!--REGISTERED USER-->
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/logout}" th:text="#{menu.user.logout}"></a>
+        <!--/REGISTERED USER-->
+
+        <!--LANGUAGE SWITCHER-->
+       <!-- <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
+            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ${languageSelector}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
+                <ul style="list-style-type: none;" class="px-3">
+                    <li class="menu-li py-1"><a href="?lang=en">${langENG}</a></li>
+                    <li class="menu-li py-1"><a href="?lang=ua">${langUA}</a></li>
+                </ul>
+            </div>
+        </div>-->
+        <!--/LANGUAGE SWITCHER-->
+
+    </div>
+</nav>
+
+</body>
