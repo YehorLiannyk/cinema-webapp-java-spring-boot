@@ -8,14 +8,11 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "genres")
-public class Genre {
+@Table(name = "seats")
+public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /**
-     * Genre's name
-     */
-    @Column(name = "genre_name", nullable = false)
-    private String name;
+    private Integer rowNo;
+    private Integer placeNo;
 }

@@ -27,6 +27,7 @@ public class Film {
     /**
      * Film's duration
      */
+    @Column(nullable = false)
     private Duration duration;
     /**
      * Film's genres
@@ -41,6 +42,7 @@ public class Film {
     /**
      * URL of Film's poster
      */
+    @Column(nullable = false)
     private String posterUrl;
 
     public Long getDurationInMinutes() {

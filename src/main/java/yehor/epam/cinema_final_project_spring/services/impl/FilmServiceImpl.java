@@ -1,5 +1,6 @@
 package yehor.epam.cinema_final_project_spring.services.impl;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import yehor.epam.cinema_final_project_spring.services.FilmService;
 
 import java.util.List;
 
+@Log4j2
 @Service
 public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
@@ -21,6 +23,7 @@ public class FilmServiceImpl implements FilmService {
 
     public List<Film> getAllSortedByIdAndPaginated(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
+        log.error("DGFSJHGJSDGBKJDSGJDSJBGK");
         return filmRepository.findAllByOrderByIdDesc(pageable);
     }
 

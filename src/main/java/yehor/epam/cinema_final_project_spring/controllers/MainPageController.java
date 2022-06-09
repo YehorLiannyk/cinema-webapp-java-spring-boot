@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import yehor.epam.cinema_final_project_spring.constants.HtmlFileConstants;
 import yehor.epam.cinema_final_project_spring.entities.Film;
 import yehor.epam.cinema_final_project_spring.services.FilmService;
 import yehor.epam.cinema_final_project_spring.services.PaginationService;
@@ -29,7 +30,7 @@ public class MainPageController {
     public String mainPageWithPagination(@ModelAttribute(name = PAGE_NUMBER_PARAM) Integer page, Model model) {
         final List<Film> filmList = filmService.getAllSortedByIdAndPaginated(page, DEFAULT_PAGING_SIZE);
         model.addAttribute("filmList", filmList);
-        return "index";
+        return HtmlFileConstants.MAIN_PAGE;
     }
 
     @ModelAttribute

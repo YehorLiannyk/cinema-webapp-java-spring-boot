@@ -1,8 +1,13 @@
 package yehor.epam.cinema_final_project_spring.entities;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
