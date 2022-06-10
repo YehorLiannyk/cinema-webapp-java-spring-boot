@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@NoArgsConstructor
 @Table(name = "users")
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class User {
     /**
      * User's  email
      */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     /**
      * User's encrypted password
@@ -36,6 +36,7 @@ public class User {
     /**
      * User's phone number (non required)
      */
+    @Column(unique = true)
     private String phoneNumber;
     /**
      * User's role
@@ -46,9 +47,6 @@ public class User {
     /**
      * Email notification switcher
      */
+    @Column(columnDefinition = "boolean default false")
     private Boolean notification;
-    /**
-     * User's encryption
-     */
-    private String salt;
 }

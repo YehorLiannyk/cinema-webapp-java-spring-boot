@@ -1,4 +1,4 @@
-package yehor.epam.cinema_final_project_spring.constants;
+package yehor.epam.cinema_final_project_spring.utils.constants;
 
 public final class HtmlFileConstants {
     public static final String MAIN_PAGE = "index";

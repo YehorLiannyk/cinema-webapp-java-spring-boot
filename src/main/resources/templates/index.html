@@ -50,7 +50,8 @@
                     </tr>
                     </tbody>
                 </table>
-                <nav>
+                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/main')"></nav>
+                <!--<nav class="pagination-nav">
                     <ul class="pagination justify-content-center">
                         <th:block th:if="${pageAmount > 1}" th:each="i, state: ${#numbers.sequence(1, pageAmount)}">
                             <li class="page-item">
@@ -59,9 +60,10 @@
                             </li>
                         </th:block>
                     </ul>
-                </nav>
+                </nav>-->
             </div>
         </div>
     </div>
 </main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
 </body>

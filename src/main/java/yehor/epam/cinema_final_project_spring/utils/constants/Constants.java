@@ -1,4 +1,4 @@
-package yehor.epam.cinema_final_project_spring.constants;
+package yehor.epam.cinema_final_project_spring.utils.constants;
 
 public final class Constants {
     public static final int DEFAULT_PAGING_SIZE = 2;

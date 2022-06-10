@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header ('Yaka title, ti sho')"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-primary">
+                    <div class="panel-collapse">
+                        <h1 th:text="#{user.activeTickets}"></h1>
+                        <div class="row">
+                            <div class="col-md-12" th:switch="${ticketList}">
+
+                                <th:block th:case="${isEmpty()}">
+                                    <span th:text="#{user.noActiveTickets}"></span>
+                                </th:block>
+
+                                <th:block th:case="${size() > 0}" th:each="ticket : ${ticketList}">
+                                    <div class="card w-100">
+                                        <div class="row p-3">
+                                            <div class="col-md-6">
+                                                <h3 th:text="#{ticket.ticketTitle}"></h3>
+                                                <p th:text="|#{ticket.date}: *{session.date}|"></p>
+                                                <p th:text="|#{session.time}: *{session.time}|"></p>
+                                                <p th:text="|#{ticket.seatRow}: *{seat.rowNo}|"></p>
+                                                <p th:text="|#{ticket.seatPlace}: *{seat.placeNo}|"></p>
+                                                <p th:text="|#{ticket.film}: *{film.name}|"></p>
+                                                <p th:text="|#{film.duration}: *{film.getDurationInMinutes()} #{film.duration.postfix}|"></p>
+                                                <p th:text="|#{ticket.cost}: *{session.ticketPrice} #{currency}|"></p>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="vertical-buttons">
+                                                    <a type="button" th:href="@{/ticket/sendViaEmail(ticketId=*{id})}"
+                                                       th:text="#{ticket.sendMail}"
+                                                       class="btn btn-lg btn-block btn-primary my-2">
+                                                    </a>
+                                                    <a type="button" th:href="@{/ticket/downloadPdf(ticketId=*{id})}"
+                                                       th:text="#{ticket.downloadTicket}"
+                                                       class="btn btn-lg btn-block btn-primary my-2">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragments/mainContent :: footer"></footer>
+</main>

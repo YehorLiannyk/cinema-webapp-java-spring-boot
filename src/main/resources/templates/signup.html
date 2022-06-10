@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/mainContent :: header ('Yaka title, ti sho')"></head>
+<head th:replace="fragments/mainContent :: header (#{signup.pageTitle})"></head>
 <body>
 <nav th:replace="fragments/mainContent :: menu"></nav>
 <div class="container">
@@ -22,56 +22,60 @@
 
                             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" th:text="#{form.signup}"></p>
 
-                            <form class="mx-1 mx-md-4" name="command" method="post" action="main">
-                                <input type="hidden" name="command" value="register">
-                                <input type="hidden" name="rememberMe" value="rememberMe" checked/>
+                            <form class="mx-1 mx-md-4" th:method="POST" th:action="@{/signup}" th:object="${user}">
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="text" name="firstName" id="firstName" class="form-control"
-                                               placeholder="${requiredField}" maxlength="45"
+                                        <input type="text" id="firstName" class="form-control" th:field="*{firstName}"
+                                               th:placeholder="#{form.requiredField}"
                                                required/>
-                                        <label class="form-label" for="firstName">${fName}</label>
+                                        <label class="form-label" for="firstName" th:text="#{form.fName}"></label>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="text" name="secondName" id="secondName" class="form-control"
-                                               placeholder="${requiredField}" maxlength="45"
+                                        <input type="text" id="lastName" class="form-control"
+                                               th:field="*{lastName}"
+                                               th:placeholder="#{form.requiredField}"
                                                required/>
-                                        <label class="form-label" for="secondName">${sName}</label>
+                                        <label class="form-label" for="lastName" th:text="#{form.lName}"></label>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="email" name="email" id="email" class="form-control"
-                                               placeholder="${requiredField}" maxlength="320"
+                                        <input type="email" id="email" class="form-control"
+                                               th:field="*{email}"
+                                               th:placeholder="#{form.requiredField}" maxlength="320"
                                                required/>
-                                        <label class="form-label" for="email">${email}</label>
+                                        <label class="form-label" for="email" th:text="#{form.email}"></label>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="password" name="password" id="password" class="form-control" maxlength="200"
-                                               onkeyup='check();' placeholder="${requiredField}" required/>
-                                        <label class="form-label" for="password">${password}</label>
+                                        <input type="password" id="password" class="form-control"
+                                               maxlength="200" onkeyup='check();'
+                                               th:field="*{password}" th:placeholder="#{form.requiredField}"
+                                               required/>
+                                        <label class="form-label" for="password" th:text="#{form.password}"></label>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-key fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="password" id="confirm_password" name="confirm_password"
-                                               class="form-control" placeholder="${requiredField}" maxlength="200"
-                                               onkeyup='check();' required/>
-                                        <label class="form-label" for="confirm_password">${passwordRepeat}</label>
+                                        <input type="password" id="repeat_password" class="form-control"
+                                               maxlength="200" onkeyup='check();'
+                                               th:placeholder="#{form.requiredField}"
+                                               required/>
+                                        <label class="form-label" for="repeat_password"
+                                               th:text="#{form.passwordRepeat}"></label>
                                         <span id='message'></span>
                                     </div>
                                 </div>
@@ -79,28 +83,34 @@
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="tel" name="phoneNumber"
-                                               placeholder="380671234567 ${nonRequiredField}"
-                                               pattern="380[0-9]{4}[0-9]{5}" maxlength="12" id="phoneNumber"
-                                               class="form-control"/>
-                                        <label class="form-label" for="phoneNumber">${phoneNumber}</label>
+                                        <input type="text" name="phoneNumber"
+                                               th:placeholder="|#{form.phoneNumber.tips} #{form.nonRequiredField}|"
+                                               id="phoneNumber"
+                                               class="form-control" th:field="*{phoneNumber}"/>
+                                        <label class="form-label" for="phoneNumber"
+                                               th:text="#{form.phoneNumber}"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-check d-flex mb-4">
-                                    <input class="form-check-input me-2" name="notification" type="checkbox" checked
-                                           id="notification"/>
-                                    <label class="form-check-label" for="notification">
-                                        ${notification}
+                                    <!--<input class="form-check-input me-2" type="checkbox"
+                                           checked
+                                           id="notification" name="notification"/>-->
+                                    <input class="form-check-input me-2" type="checkbox"
+                                           checked
+                                           id="notification" name="notification" th:field="*{notification}"
+                                           th:checked="*{notification}"/>
+                                    <label class="form-check-label" for="notification" th:text="#{form.notification}">
+
                                     </label>
                                 </div>
 
-                                <div class="d-flex mb-5 g-recaptcha"
-                                     data-sitekey="6LeFvCUgAAAAACAtqpZg-ECgUPYLBP-_GqY8D0OT">
-                                </div>
+                                <!-- <div class="d-flex mb-5 g-recaptcha"
+                                      data-sitekey="6LeFvCUgAAAAACAtqpZg-ECgUPYLBP-_GqY8D0OT">
+                                 </div>-->
 
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                    <button type="submit" class="btn btn-primary btn-lg">${signupBtn}</button>
+                                    <input type="submit" class="btn btn-primary btn-lg" th:value="#{form.signupBtn}"/>
                                 </div>
 
                             </form>
@@ -115,4 +125,5 @@
         </div>
     </div>
 </main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
 </body>

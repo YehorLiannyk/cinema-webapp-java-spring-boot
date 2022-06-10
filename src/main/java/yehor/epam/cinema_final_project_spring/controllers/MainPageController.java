@@ -6,14 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import yehor.epam.cinema_final_project_spring.constants.HtmlFileConstants;
+import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 import yehor.epam.cinema_final_project_spring.entities.Film;
 import yehor.epam.cinema_final_project_spring.services.FilmService;
 import yehor.epam.cinema_final_project_spring.services.PaginationService;
 
 import java.util.List;
 
-import static yehor.epam.cinema_final_project_spring.constants.Constants.*;
+import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
 
 @Controller
 public class MainPageController {

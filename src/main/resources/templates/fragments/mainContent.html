@@ -40,11 +40,11 @@
 
         <!--GUEST-->
         <a class="py-2 d-none d-md-inline-block" th:href="@{/login}" th:text="#{menu.guest.login}"></a>
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/register}" th:text="#{menu.guest.register}"></a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/signup}" th:text="#{menu.guest.signup}"></a>
         <!--/GUEST-->
 
         <!--USER-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/myProfile}" th:text="#{menu.user.myProfile}"> </a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/userProfile}" th:text="#{menu.user.myProfile}"> </a>
         <!--/USER-->
 
         <!--ADMIN-->
@@ -70,21 +70,42 @@
         <!--/REGISTERED USER-->
 
         <!--LANGUAGE SWITCHER-->
-       <!-- <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
-            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                ${languageSelector}
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
-                <ul style="list-style-type: none;" class="px-3">
-                    <li class="menu-li py-1"><a href="?lang=en">${langENG}</a></li>
-                    <li class="menu-li py-1"><a href="?lang=ua">${langUA}</a></li>
-                </ul>
-            </div>
-        </div>-->
+        <!-- <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
+             <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 ${languageSelector}
+             </button>
+             <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
+                 <ul style="list-style-type: none;" class="px-3">
+                     <li class="menu-li py-1"><a href="?lang=en">${langENG}</a></li>
+                     <li class="menu-li py-1"><a href="?lang=ua">${langUA}</a></li>
+                 </ul>
+             </div>
+         </div>-->
         <!--/LANGUAGE SWITCHER-->
 
     </div>
 </nav>
+
+<nav class="pagination-nav" th:fragment="pagination(pageAmount, pageLink)">
+    <ul class="pagination justify-content-center">
+        <th:block th:if="${pageAmount > 1}" th:each="i, state: ${#numbers.sequence(1, pageAmount)}">
+            <li class="page-item">
+                <a class="page-link" th:href="@{${pageLink}(page=${state.index})}"
+                   th:text="${state.count}"></a>
+            </li>
+        </th:block>
+    </ul>
+</nav>
+
+<!--Footer-->
+<footer th:fragment="footer" class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12 mx-auto footer-info">
+            <address class="footer-made-by">Made by Yehor Liannyk</address>
+            <small class="d-block mb-3 text-muted">EPAM University Program 2022</small>
+        </div>
+    </div>
+</footer>
 
 </body>

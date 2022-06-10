@@ -1,5 +1,6 @@
 package yehor.epam.cinema_final_project_spring.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,11 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import yehor.epam.cinema_final_project_spring.constants.HtmlFileConstants;
-import yehor.epam.cinema_final_project_spring.entities.User;
+import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
+import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 
 @Controller
+@Slf4j
 @RequestMapping("/signup")
 public class SignupController {
     private final UserService userService;
@@ -23,15 +25,14 @@ public class SignupController {
 
     @GetMapping
     public String signUpPage(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserSignUpDTO());
         return HtmlFileConstants.SIGN_UP_PAGE;
     }
 
-    @PostMapping
-    // todo: read about DTO obj and create the one for User
     // todo: add User validation
-    public String signingUp(@ModelAttribute User user) {
-        userService.save(user);
+    @PostMapping
+    public String signingUp(@ModelAttribute UserSignUpDTO userDto) {
+        userService.save(userDto);
         return "redirect:/" + HtmlFileConstants.USER_PROFILE_PAGE;
     }
 }

@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import yehor.epam.cinema_final_project_spring.constants.HtmlFileConstants;
+import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
+import yehor.epam.cinema_final_project_spring.dto.UserLoginDTO;
 import yehor.epam.cinema_final_project_spring.entities.User;
+import yehor.epam.cinema_final_project_spring.exceptions.AuthException;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 
 import java.util.Optional;
@@ -24,16 +26,17 @@ public class LoginController {
     }
 
     @GetMapping
-    public String loginPage() {
+    public String loginPage(Model model) {
+        model.addAttribute("user", new UserLoginDTO());
         return HtmlFileConstants.LOGIN_PAGE;
     }
 
     @PostMapping
-    // todo: read about DTO obj and create the one for User
     // todo: add User validation
-    public String login(@ModelAttribute User user) {
-        final Optional<User> optional = userService.getByLoginAndPass(user.getEmail(), user.getPassword());
-        //todo: optional User
-        return "redirect:/" + HtmlFileConstants.USER_PROFILE_PAGE;
+    public String login(@ModelAttribute UserLoginDTO userLoginDTO) {
+        final Optional<User> optional = userService.getByLoginAndPass(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+        User user = optional.orElseThrow(AuthException::new);
+
+        return "redirect:/" + HtmlFileConstants.SIGN_UP_PAGE;
     }
 }
