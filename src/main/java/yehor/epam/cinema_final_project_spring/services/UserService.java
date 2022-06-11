@@ -11,7 +11,9 @@ public interface UserService {
     void save(final UserSignUpDTO userSignUpDTO);
     void save(final UserDTO userDTO);
 
-    Optional<User> getById(final long id);
+    User getById(final long id);
+
+    Long getUserIdByEmail(String email);
 
     User getByLoginAndPass(String login, String password) throws UserAlreadyExistException;
 }

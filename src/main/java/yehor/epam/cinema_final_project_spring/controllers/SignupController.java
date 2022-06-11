@@ -14,7 +14,6 @@ import yehor.epam.cinema_final_project_spring.services.UserService;
 
 @Controller
 @Slf4j
-@RequestMapping("/signup")
 public class SignupController {
     private final UserService userService;
 
@@ -23,16 +22,21 @@ public class SignupController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/signup")
     public String signUpPage(Model model) {
         model.addAttribute("user", new UserSignUpDTO());
         return HtmlFileConstants.SIGN_UP_PAGE;
     }
 
     // todo: add User validation
-    @PostMapping
+    @PostMapping("/signup")
     public String signingUp(@ModelAttribute UserSignUpDTO userDto) {
         userService.save(userDto);
         return "redirect:/" + HtmlFileConstants.USER_PROFILE_PAGE;
+    }
+
+    @RequestMapping("/logout")
+    public String logout() {
+        return "redirect:/";
     }
 }

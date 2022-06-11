@@ -14,11 +14,11 @@
                         <div class="row">
                             <div class="col-md-12" th:switch="${ticketList}">
 
-                                <th:block th:case="${isEmpty()}">
+                                <th:block th:case="${ticketList.isEmpty()}">
                                     <span th:text="#{user.noActiveTickets}"></span>
                                 </th:block>
 
-                                <th:block th:case="${size() > 0}" th:each="ticket : ${ticketList}">
+                                <th:block th:case="${ticketList.size() > 0}" th:each="ticket : ${ticketList}">
                                     <div class="card w-100">
                                         <div class="row p-3">
                                             <div class="col-md-6">
@@ -54,5 +54,5 @@
             </div>
         </div>
     </div>
-    <footer th:replace="fragments/mainContent :: footer"></footer>
 </main>
+<footer th:replace="fragments/mainContent :: footer"></footer>

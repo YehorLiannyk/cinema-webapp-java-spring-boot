@@ -6,6 +6,7 @@ import yehor.epam.cinema_final_project_spring.dto.UserDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.UserNotExistException;
 import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 import yehor.epam.cinema_final_project_spring.services.UserRoleService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
@@ -43,8 +44,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getById(final long id) {
-        return userRepository.findById(id);
+    public User getById(final long id) {
+        return null;
+    }
+
+    @Override
+    public Long getUserIdByEmail(String email) {
+        final User user = userRepository.findByEmail(email).orElseThrow(UserNotExistException::new);
+        return user.getId();
     }
 
     //todo: read about userRepository.exists() method
