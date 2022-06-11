@@ -1,6 +1,7 @@
 package yehor.epam.cinema_final_project_spring.dto;
 
 import lombok.*;
+import yehor.epam.cinema_final_project_spring.entities.UserRole;
 
 @Data
 @NoArgsConstructor
@@ -26,6 +27,10 @@ public class UserSignUpDTO {
      * User's phone number (non required)
      */
     private String phoneNumber;
+    /**
+     * User's role
+     */
+    private UserRole userRole;
     /**
      * Email notification switcher
      */

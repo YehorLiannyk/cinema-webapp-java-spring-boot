@@ -3,6 +3,8 @@ package yehor.epam.cinema_final_project_spring.dto;
 import lombok.Builder;
 import yehor.epam.cinema_final_project_spring.entities.UserRole;
 
+import java.util.Set;
+
 @Builder
 public class UserDTO {
     private final Long id;

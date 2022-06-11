@@ -11,18 +11,19 @@ import yehor.epam.cinema_final_project_spring.services.UserService;
 import java.util.List;
 
 @Controller(value = "/user")
-public class UserProfileController {
+public class UserController {
     private final UserService userService;
     private final TicketService ticketService;
 
     @Autowired
-    public UserProfileController(UserService userService, TicketService ticketService) {
+    public UserController(UserService userService, TicketService ticketService) {
         this.userService = userService;
         this.ticketService = ticketService;
     }
 
-    @GetMapping
-    public void userProfilePage(Model model) {
-        final List<Ticket> ticketList = ticketService.getAll();
+    @GetMapping(value = "/profile")
+    public String userProfilePage(Model model) {
+        //final List<Ticket> ticketList = ticketService.getAll();
+        return "index";
     }
 }

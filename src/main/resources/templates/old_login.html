@@ -13,13 +13,13 @@
 
                             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" th:text="#{form.login}"></p>
 
-                            <form class="mx-1 mx-md-4" th:method="POST" th:action="@{/process_login}">
+                            <form class="mx-1 mx-md-4" th:method="POST" th:action="@{/process_login}" th:object="${user}">
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="email" id="email" class="form-control"
-                                               name="username"
+                                               th:field="*{email}"
                                                th:placeholder="#{form.requiredField}" maxlength="320"
                                                required/>
                                         <label class="form-label" for="email" th:text="#{form.email}"></label>
@@ -31,7 +31,7 @@
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="password" id="password" class="form-control"
                                                maxlength="200" onkeyup='check();'
-                                               name="password" th:placeholder="#{form.requiredField}"
+                                               th:field="*{password}" th:placeholder="#{form.requiredField}"
                                                required/>
                                         <label class="form-label" for="password" th:text="#{form.password}"></label>
                                     </div>
@@ -39,8 +39,8 @@
 
                                 <div class="form-check d-flex mb-4">
                                     <input class="form-check-input me-2" type="checkbox"
-                                           id="rememberMe" name="rememberMe"/>
-                                    <label class="form-check-label" for="rememberMe" th:text="#{form.rememberMe}">
+                                           id="notification" name="notification"/>
+                                    <label class="form-check-label" for="notification" th:text="#{form.rememberMe}">
                                     </label>
                                 </div>
 

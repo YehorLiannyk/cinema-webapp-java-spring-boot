@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -41,8 +42,12 @@ public class User {
     /**
      * User's role
      */
-    @OneToOne
-    @JoinColumn(name = "user_role", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private UserRole userRole;
     /**
      * Email notification switcher
