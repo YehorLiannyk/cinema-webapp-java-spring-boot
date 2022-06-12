@@ -2,22 +2,18 @@ package yehor.epam.cinema_final_project_spring.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
-import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.services.UserService;
+import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -37,9 +33,20 @@ public class SignupController {
 
     // todo: add User validation
     @PostMapping("/signup")
-    public String signingUp(@ModelAttribute UserSignUpDTO userSignUpDTO) throws UserAlreadyExistException{
+    public String signingUp(@ModelAttribute("user") @Valid UserSignUpDTO userSignUpDTO, BindingResult bindingResult) {
+        if (hasError(userSignUpDTO, bindingResult)) {
+            return HtmlFileConstants.SIGN_UP_PAGE;
+        }
         userService.save(userSignUpDTO);
         return "redirect:/" + HtmlFileConstants.USER_PROFILE_PAGE;
+
+    }
+
+    private boolean hasError(UserSignUpDTO userSignUpDTO, BindingResult bindingResult) {
+        if (!userSignUpDTO.getPassword().equals(userSignUpDTO.getPasswordRepeat())) {
+            bindingResult.addError(new FieldError("user", "passwordRepeat", "Passwords aren't equal"));
+        }
+        return bindingResult.hasErrors();
     }
 
 }

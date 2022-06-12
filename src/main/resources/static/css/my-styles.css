@@ -96,6 +96,13 @@ span.menu-item {
     color: #0056b3;
     text-decoration: underline;
 }
+
+.form-error {
+    color: red;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
 /**/
 /*  Dropdown menu styles */
 /**/

@@ -58,42 +58,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         log.warn("Enter to configure(HttpSecurity http) method");
         http
                 .authorizeRequests()
-                .antMatchers("/user/profile").hasAuthority("USER")
-                .antMatchers("/swager/**").hasAuthority("ADMIN")
-                .antMatchers("/logout").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/login*", "/signup*").anonymous()
-                .antMatchers("/", "/main", "/error/**").permitAll()
-                .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
-                .anyRequest().hasAuthority("ADMIN")
+                    .antMatchers("/user/profile").hasAuthority("USER")
+                    .antMatchers("/swager/**").hasAuthority("ADMIN")
+                    .antMatchers("/logout").hasAnyAuthority("USER", "ADMIN")
+                    .antMatchers("/login*", "/signup*").anonymous()
+                    .antMatchers("/", "/main", "/error/**").permitAll()
+                    .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
+                    .anyRequest().hasAuthority("ADMIN")
                 .and()
-                .exceptionHandling().accessDeniedPage("/error/access-denied")
-                .authenticationEntryPoint(getAuthenticationEntryPoint())
+                    .exceptionHandling().accessDeniedPage("/error/access-denied")
+                    .authenticationEntryPoint(getAuthenticationEntryPoint())
                 .and()
-                .formLogin().loginPage("/login")
-                .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/user/profile", true)
-                .failureUrl("/login?error")
+                    .formLogin().loginPage("/login")
+                    .loginProcessingUrl("/process_login")
+                    .defaultSuccessUrl("/user/profile", true)
+                    .failureUrl("/login?error")
                 .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .deleteCookies("JSESSIONID")
-                .deleteCookies("REMEMBER-ME")
-                .invalidateHttpSession(true)
+                    .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID")
+                    .deleteCookies("REMEMBER-ME")
+                    .invalidateHttpSession(true)
                 .and()
-                .rememberMe()
-                .key("remember-me-key")
-                .rememberMeParameter("rememberMe")
-                .rememberMeCookieName("REMEMBER-ME")
-                .tokenValiditySeconds(Constants.COOKIE_LOGIN_LIFETIME)
-                .userDetailsService(this.customUserDetailsService)
-
+                    .rememberMe()
+                    .key("remember-me-key")
+                    .rememberMeParameter("rememberMe")
+                    .rememberMeCookieName("REMEMBER-ME")
+                    .tokenValiditySeconds(Constants.COOKIE_LOGIN_LIFETIME)
+                    .userDetailsService(this.customUserDetailsService)
         ;
     }
 

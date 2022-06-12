@@ -13,6 +13,18 @@ public final class Constants {
     public static final String USER_ROLE = "USER";
     public static final String ADMIN_ROLE = "ADMIN";
 
+    public static final int MAX_FIRST_NAME_LENGTH = 45;
+    public static final int MIN_FIRST_NAME_LENGTH = 1;
+    public static final int MAX_LAST_NAME_LENGTH = 45;
+    public static final int MIN_LAST_NAME_LENGTH = 1;
+    public static final int MAX_PASS_LENGTH = 120;
+    public static final int MIN_PASS_LENGTH = 3;
+    public static final int PHONE_NUMBER_LENGTH = 11;
+    public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$";
+
+    public static final String ONLY_LETTERS_PATTERN = "^[a-zA-Z]+$";
+    public static final String ONLY_DIGITS_PATTERN = "^[0-9]+$";
+
     /**
      * Lifetime of Cookie login in seconds, equal to 90 days
      */

@@ -19,75 +19,88 @@
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
+                                        <label class="form-label" for="firstName" th:text="#{form.fName}"></label>
                                         <input type="text" id="firstName" class="form-control" th:field="*{firstName}"
                                                th:placeholder="#{form.requiredField}"
                                                required/>
-                                        <label class="form-label" for="firstName" th:text="#{form.fName}"></label>
+                                        <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                             class="form-error">First name error
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
+                                        <label class="form-label" for="lastName" th:text="#{form.lName}"></label>
                                         <input type="text" id="lastName" class="form-control"
                                                th:field="*{lastName}"
                                                th:placeholder="#{form.requiredField}"
                                                required/>
-                                        <label class="form-label" for="lastName" th:text="#{form.lName}"></label>
+                                        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                             class="form-error">Last name error
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
+                                        <label class="form-label" for="email" th:text="#{form.email}"></label>
                                         <input type="email" id="email" class="form-control"
                                                th:field="*{email}"
                                                th:placeholder="#{form.requiredField}" maxlength="320"
                                                required/>
-                                        <label class="form-label" for="email" th:text="#{form.email}"></label>
+                                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                             class="form-error">Email error
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
+                                        <label class="form-label" for="password" th:text="#{form.password}"></label>
                                         <input type="password" id="password" class="form-control"
                                                maxlength="200" onkeyup='check();'
                                                th:field="*{password}" th:placeholder="#{form.requiredField}"
                                                required/>
-                                        <label class="form-label" for="password" th:text="#{form.password}"></label>
+                                        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                             class="form-error">Password error
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-key fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="password" id="repeat_password" class="form-control"
-                                               maxlength="200" onkeyup='check();'
-                                               th:placeholder="#{form.requiredField}"
-                                               required/>
                                         <label class="form-label" for="repeat_password"
                                                th:text="#{form.passwordRepeat}"></label>
-                                        <span id='message'></span>
+                                        <input type="password" id="repeat_password" class="form-control"
+                                               maxlength="200" onkeyup='check();'
+                                               th:placeholder="#{form.requiredField}" th:field="*{passwordRepeat}"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('passwordRepeat')}"
+                                             th:text="#{validation.password.notEqual}" class="form-error">Password repeat error
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
+                                        <label class="form-label" for="phoneNumber"
+                                               th:text="#{form.phoneNumber}"></label>
                                         <input type="text" name="phoneNumber"
                                                th:placeholder="|#{form.phoneNumber.tips} #{form.nonRequiredField}|"
                                                id="phoneNumber"
                                                class="form-control" th:field="*{phoneNumber}"/>
-                                        <label class="form-label" for="phoneNumber"
-                                               th:text="#{form.phoneNumber}"></label>
+                                        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="form-error">Phone number error</div>
+
                                     </div>
                                 </div>
 
                                 <div class="form-check d-flex mb-4">
-                                    <!--<input class="form-check-input me-2" type="checkbox"
-                                           checked
-                                           id="notification" name="notification"/>-->
                                     <input class="form-check-input me-2" type="checkbox"
                                            checked
                                            id="notification" name="notification" th:field="*{notification}"
