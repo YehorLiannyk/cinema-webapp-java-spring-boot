@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=ua xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang=ua xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header (pageTitle)">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
@@ -44,7 +44,7 @@
         <!--/GUEST-->
 
         <!--USER-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/userProfile}" th:text="#{menu.user.myProfile}"> </a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/user/profile}" th:text="#{menu.user.myProfile}"> </a>
         <!--/USER-->
 
         <!--ADMIN-->
@@ -66,7 +66,9 @@
         <!--/ADMIN-->
 
         <!--REGISTERED USER-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/logout}" th:text="#{menu.user.logout}"></a>
+        <form th:action="@{/logout}" th:method="POST" name="logout">
+            <input type="submit" class="py-2 d-none d-md-inline-block logout-btn" th:value="#{menu.user.logout}"/>
+        </form>
         <!--/REGISTERED USER-->
 
         <!--LANGUAGE SWITCHER-->

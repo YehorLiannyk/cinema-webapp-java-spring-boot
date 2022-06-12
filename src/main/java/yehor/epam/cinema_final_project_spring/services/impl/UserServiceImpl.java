@@ -1,6 +1,10 @@
 package yehor.epam.cinema_final_project_spring.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.UserDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
@@ -8,6 +12,7 @@ import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
 import yehor.epam.cinema_final_project_spring.exceptions.UserNotExistException;
 import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
+import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
 import yehor.epam.cinema_final_project_spring.services.UserRoleService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
@@ -34,6 +39,9 @@ public class UserServiceImpl implements UserService {
         userSignUpDTO.setUserRole(userRoleService.getUserRole());
         userSignUpDTO.setPassword(encrypt.encodePassword(userSignUpDTO.getPassword()));
         final User user = mapperDTO.toUser(userSignUpDTO);
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         userRepository.save(user);
     }
 
@@ -56,8 +64,8 @@ public class UserServiceImpl implements UserService {
 
     //todo: read about userRepository.exists() method
     @Override
-    public User getByLoginAndPass(String login, String password) throws UserAlreadyExistException {
+    public User getByLoginAndPass(String login, String password) throws UserNotExistException {
         final Optional<User> optional = userRepository.findByEmailAndPassword(login, password);
-        return optional.orElseThrow(UserAlreadyExistException::new);
+        return optional.orElseThrow(UserNotExistException::new);
     }
 }

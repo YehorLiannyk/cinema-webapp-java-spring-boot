@@ -86,6 +86,16 @@ span.menu-item {
     border: 1px solid #dee2e6;
 }
 
+.logout-btn {
+    border: 0;
+    background: transparent;
+    color: #007bff;
+}
+
+.logout-btn:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
 /**/
 /*  Dropdown menu styles */
 /**/

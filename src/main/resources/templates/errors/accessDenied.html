@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/mainContent :: header (#{error.accessDenied})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <div class="d-flex justify-content-center align-items-center" id="main" style="background-color: wheat;">
+                <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center" th:text="#{error.accessDenied}"></h1>
+                <div class="inline-block align-middle">
+                    <h2 class="font-weight-normal lead" id="desc" th:text="#{error.haveNoEnoughPermits}"></h2>
+                    <a th:href="@{/}" class="btn btn-link" th:text="#{error.goMainPage}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

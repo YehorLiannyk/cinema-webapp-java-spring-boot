@@ -2,15 +2,21 @@ package yehor.epam.cinema_final_project_spring.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.services.UserService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @Slf4j
@@ -30,13 +36,9 @@ public class SignupController {
 
     // todo: add User validation
     @PostMapping("/signup")
-    public String signingUp(@ModelAttribute UserSignUpDTO userDto) {
-        userService.save(userDto);
+    public String signingUp(@ModelAttribute UserSignUpDTO userSignUpDTO) {
+        userService.save(userSignUpDTO);
         return "redirect:/" + HtmlFileConstants.USER_PROFILE_PAGE;
     }
 
-    @RequestMapping("/logout")
-    public String logout() {
-        return "redirect:/";
-    }
 }

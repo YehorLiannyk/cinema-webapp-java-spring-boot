@@ -25,9 +25,7 @@ public class LoginController {
     }
 
     @GetMapping
-    public String loginPage(Model model) {
-        model.addAttribute("user", new UserLoginDTO());
-        log.warn("Redirect to login page");
+    public String loginPage() {
         return HtmlFileConstants.LOGIN_PAGE;
     }
 

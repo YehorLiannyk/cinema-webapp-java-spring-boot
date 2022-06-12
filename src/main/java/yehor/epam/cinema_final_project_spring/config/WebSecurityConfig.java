@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,12 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.warn("Enter to configure(HttpSecurity http) method");
         http
                 .authorizeRequests()
-                .antMatchers("/user/profile").hasAuthority("USER")
-                .antMatchers("/logout").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/login*", "/signup*").anonymous()
-                .antMatchers("/", "/main", "/error").permitAll()
-                .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
-                .anyRequest().hasAuthority("ADMIN")
+                    .antMatchers("/user/profile").hasAuthority("USER")
+                    .antMatchers("/logout").hasAnyAuthority("USER", "ADMIN")
+                    .antMatchers("/login*", "/signup*").anonymous()
+                    .antMatchers("/", "/main", "/error/**").permitAll()
+                    .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
+                    .anyRequest().hasAuthority("ADMIN")
                 .and()
                     .formLogin().loginPage("/login")
                     .loginProcessingUrl("/process_login")
@@ -62,19 +63,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .logoutUrl("/logout")
-                    //.deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID")
+                    .deleteCookies("REMEMBER-ME")
                     .invalidateHttpSession(true)
                 .and()
-                    .exceptionHandling()
-                    .accessDeniedPage("/huita")
-                /*.and()
                     .rememberMe()
                     .key("remember-me-key")
                     .rememberMeParameter("rememberMe")
                     .rememberMeCookieName("REMEMBER-ME")
                     .tokenValiditySeconds(Constants.COOKIE_LOGIN_LIFETIME)
-                    .userDetailsService(this.customUserDetailsService)*/
+                    .userDetailsService(this.customUserDetailsService)
         ;
     }
+
 
 }
