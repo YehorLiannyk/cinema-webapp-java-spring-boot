@@ -39,10 +39,14 @@ public class UserServiceImpl implements UserService {
         userSignUpDTO.setUserRole(userRoleService.getUserRole());
         userSignUpDTO.setPassword(encrypt.encodePassword(userSignUpDTO.getPassword()));
         final User user = mapperDTO.toUser(userSignUpDTO);
+        saveUserAuthentication(user);
+        userRepository.save(user);
+    }
+
+    private void saveUserAuthentication(User user) {
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
         Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        userRepository.save(user);
     }
 
     @Override

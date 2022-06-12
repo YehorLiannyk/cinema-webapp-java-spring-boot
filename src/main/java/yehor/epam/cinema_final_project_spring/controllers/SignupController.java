@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.services.UserService;
@@ -36,7 +37,7 @@ public class SignupController {
 
     // todo: add User validation
     @PostMapping("/signup")
-    public String signingUp(@ModelAttribute UserSignUpDTO userSignUpDTO) {
+    public String signingUp(@ModelAttribute UserSignUpDTO userSignUpDTO) throws UserAlreadyExistException{
         userService.save(userSignUpDTO);
         return "redirect:/" + HtmlFileConstants.USER_PROFILE_PAGE;
     }

@@ -6,9 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.entities.UserRole;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class CustomUserDetails implements UserDetails {

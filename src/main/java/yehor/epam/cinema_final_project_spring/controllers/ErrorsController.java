@@ -8,7 +8,7 @@ import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 @Controller
 @RequestMapping("/error")
 public class ErrorsController {
-    @GetMapping("/access-denied")
+    @RequestMapping("/access-denied")
     public String accessDenied() {
         return HtmlFileConstants.ACCESS_DENIED_PAGE;
     }
