@@ -32,7 +32,7 @@ public class Film {
     /**
      * Film's genres
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_genres",
             joinColumns = @JoinColumn(name = "film_id"),

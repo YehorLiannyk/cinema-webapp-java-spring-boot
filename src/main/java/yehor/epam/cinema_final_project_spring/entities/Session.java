@@ -28,14 +28,14 @@ public class Session {
     private LocalTime time;
 
     @OneToOne
-    @JoinColumn(name = "film_id")
+    @JoinColumn(name = "film_id", nullable = false)
     private Film film;
 
     @OneToMany
     @JoinTable(
             name = "session_seats",
             joinColumns = @JoinColumn(name = "session_id"),
-            inverseJoinColumns = @JoinColumn(name = "seat_id", unique = false)
+            inverseJoinColumns = @JoinColumn(name = "seat_id")
     )
     private List<Seat> seatList;
 }

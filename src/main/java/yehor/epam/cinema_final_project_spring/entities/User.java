@@ -2,13 +2,14 @@ package yehor.epam.cinema_final_project_spring.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints={@UniqueConstraint(columnNames = {"email"})})
 @NoArgsConstructor
 public class User {
     @Id
@@ -18,6 +19,7 @@ public class User {
      * User's first name
      */
     @Column(nullable = false)
+    @Length(min = 1, max = 45)
     private String firstName;
     /**
      * User's second name
@@ -37,7 +39,6 @@ public class User {
     /**
      * User's phone number (non required)
      */
-    @Column(unique = true)
     private String phoneNumber;
     /**
      * User's role

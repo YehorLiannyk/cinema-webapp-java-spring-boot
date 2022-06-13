@@ -11,29 +11,32 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" th:text="#{form.login}"></p>
+                            <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4" th:text="#{form.login}"></p>
 
-                            <form class="mx-1 mx-md-4" th:method="POST" th:action="@{/process_login}">
+                            <div th:if="${param.error}" class="user-form-msg"
+                                 th:text="#{error.invalidEmailOrPassword}"></div>
+
+                            <form class="mx-1 mx-md-4 mt-2" th:method="POST" th:action="@{/process_login}">
 
                                 <div class="d-flex flex-row align-items-center mb-4">
-                                    <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
+                                    <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="email" th:text="#{form.email}"></label>
                                         <input type="email" id="email" class="form-control"
                                                name="username"
                                                th:placeholder="#{form.requiredField}" maxlength="320"
                                                required/>
-                                        <label class="form-label" for="email" th:text="#{form.email}"></label>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
-                                    <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
+                                    <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="password" th:text="#{form.password}"></label>
                                         <input type="password" id="password" class="form-control"
                                                maxlength="200" onkeyup='check();'
                                                name="password" th:placeholder="#{form.requiredField}"
                                                required/>
-                                        <label class="form-label" for="password" th:text="#{form.password}"></label>
                                     </div>
                                 </div>
 

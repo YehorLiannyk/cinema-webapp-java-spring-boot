@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UserNotExistException {
         final Optional<User> byEmail = userRepository.findByEmail(email);
         final User user = byEmail.orElseThrow(UserNotExistException::new);
-        log.warn("Return CustomUserDetails");
+        log.info("Return CustomUserDetails");
         return new CustomUserDetails(user);
     }
 }

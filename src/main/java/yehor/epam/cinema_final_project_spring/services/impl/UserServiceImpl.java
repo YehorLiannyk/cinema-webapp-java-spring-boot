@@ -3,9 +3,7 @@ package yehor.epam.cinema_final_project_spring.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.UserDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
@@ -36,12 +34,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserSignUpDTO userSignUpDTO) {
-        PasswordEncrypt encrypt = new PasswordEncrypt();
-        userSignUpDTO.setUserRole(userRoleService.getUserRole());
-        userSignUpDTO.setPassword(encrypt.encodePassword(userSignUpDTO.getPassword()));
+        if (doesUserExistByEmail(userSignUpDTO.getEmail())) {
+            throw new UserAlreadyExistException();
+        }
+        prepareUserSignUpDTO(userSignUpDTO);
         final User user = mapperDTO.toUser(userSignUpDTO);
         saveUserAuthentication(user);
         userRepository.save(user);
+    }
+
+    private void prepareUserSignUpDTO(UserSignUpDTO userSignUpDTO) {
+        PasswordEncrypt encrypt = new PasswordEncrypt();
+        userSignUpDTO.setUserRole(userRoleService.getUserRole());
+        userSignUpDTO.setPassword(encrypt.encodePassword(userSignUpDTO.getPassword()));
     }
 
     private void saveUserAuthentication(User user) {
@@ -72,5 +77,10 @@ public class UserServiceImpl implements UserService {
     public User getByLoginAndPass(String login, String password) throws UserNotExistException {
         final Optional<User> optional = userRepository.findByEmailAndPassword(login, password);
         return optional.orElseThrow(UserNotExistException::new);
+    }
+
+    @Override
+    public boolean doesUserExistByEmail(String email) {
+        return userRepository.existsUserByEmail(email);
     }
 }

@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public WebSecurityConfig(CustomUserDetailsService customUserDetailsService) {
-        log.warn("Entry to WebSecurityConfig(CustomUserDetailsService customUserDetailsService)");
+        log.info("Entry to WebSecurityConfig(CustomUserDetailsService customUserDetailsService)");
         this.customUserDetailsService = customUserDetailsService;
     }
 
@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        log.warn("Entry to DaoAuthenticationProvider authenticationProvider()");
+        log.info("Entry to DaoAuthenticationProvider authenticationProvider()");
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(this.customUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -44,11 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        log.warn("Entry to configure(AuthenticationManagerBuilder auth)");
+        log.info("Entry to configure(AuthenticationManagerBuilder auth)");
         auth.authenticationProvider(authenticationProvider());
     }
 
-    @Bean
+   /* @Bean
     public AuthenticationEntryPoint getAuthenticationEntryPoint() {
         return (request, response, authException) -> {
             if (authException != null) {
@@ -56,25 +56,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 response.sendRedirect("/error/access-denied");
             }
         };
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        log.warn("Enter to configure(HttpSecurity http) method");
+        log.info("Enter to configure(HttpSecurity http) method");
         http
                 .authorizeRequests()
                     .antMatchers("/user/profile").hasAuthority("USER")
                     .antMatchers("/swager/**").hasAuthority("ADMIN")
                     .antMatchers("/logout").hasAnyAuthority("USER", "ADMIN")
-                    .antMatchers("/login*", "/signup*").anonymous()
+                    .antMatchers("/signup*").anonymous()
                     .antMatchers("/", "/main", "/error/**").permitAll()
                     .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
                     .anyRequest().hasAuthority("ADMIN")
                 .and()
-                    .exceptionHandling().accessDeniedPage("/error/access-denied")
-                    .authenticationEntryPoint(getAuthenticationEntryPoint())
+                    .exceptionHandling()/*.accessDeniedPage("/error/access-denied")
+                    .authenticationEntryPoint(getAuthenticationEntryPoint())*/
                 .and()
-                    .formLogin().loginPage("/login")
+                    .formLogin().loginPage("/login").permitAll()
                     .loginProcessingUrl("/process_login")
                     .defaultSuccessUrl("/user/profile", true)
                     .failureUrl("/login?error")

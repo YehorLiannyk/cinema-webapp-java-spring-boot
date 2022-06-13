@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserLoginDTO {
+    //todo: remove or use UserLoginDTO
     /**
      * User's  email
      */
