@@ -23,6 +23,7 @@
 
     <appender name="FILE-ADMIN" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/admin.log</file>
+        <append>false</append>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/archived/app.admin.%d{yyyy-MM-dd}.%i.log</fileNamePattern>

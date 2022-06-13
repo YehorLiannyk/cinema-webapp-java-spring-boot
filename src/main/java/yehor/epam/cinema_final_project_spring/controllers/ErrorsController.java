@@ -15,7 +15,7 @@ public class ErrorsController implements ErrorController {
     }
 
     @RequestMapping
-    public String handleGeneralError(Model model) {
+    public String handleGeneralError() {
         return HtmlFileConstants.ERROR_PAGE;
     }
 }

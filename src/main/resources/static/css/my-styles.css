@@ -139,12 +139,6 @@ main.container {
     margin: 4rem 0;
 }
 
-i.fa.fa-key.fa-lg.me-3.fa-fw,
-i.fa.fa-envelope.fa-lg.me-3.fa-fw,
-i.fa.fa-lock.fa-lg.me-3.fa-fw {
-    height: 2.2em;
-}
-
 .card-header-custom {
     border-radius: .25rem .25rem 0 0;
     padding: .3rem 1.25rem;

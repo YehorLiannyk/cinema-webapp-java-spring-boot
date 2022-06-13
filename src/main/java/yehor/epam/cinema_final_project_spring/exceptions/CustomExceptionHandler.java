@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,9 +42,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {AccessDeniedException.class})
-    protected String handleAccessDeniedException(Locale locale, HttpServletRequest request, Model model, Throwable e) {
-        final int errorStatus = HttpStatus.FORBIDDEN.value();
-        return goToErrorPage("error.haveNoEnoughPermits", null, locale, errorStatus, e, model);
+    protected String handleAccessDeniedException() {
+        log.debug("Handle AccessDeniedException, forward to: /error/access-denied");
+        return "forward:/error/access-denied";
     }
 
     private int getErrorCodeOrSetDefault(HttpServletRequest request) {
@@ -56,6 +57,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         model.addAttribute("errorCode", errorStatus);
         model.addAttribute("errorMessage", errorMessage);
         log.error("Handled exception: ", e);
-        return HtmlFileConstants.ERROR_PAGE;
+        return "forward:/error";
     }
 }

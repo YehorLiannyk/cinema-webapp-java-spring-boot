@@ -71,8 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
                     .anyRequest().hasAuthority("ADMIN")
                 .and()
-                    .exceptionHandling()/*.accessDeniedPage("/error/access-denied")
-                    .authenticationEntryPoint(getAuthenticationEntryPoint())*/
+                    .exceptionHandling().accessDeniedPage("/error/access-denied")
+                    /*.authenticationEntryPoint(getAuthenticationEntryPoint())*/
                 .and()
                     .formLogin().loginPage("/login").permitAll()
                     .loginProcessingUrl("/process_login")

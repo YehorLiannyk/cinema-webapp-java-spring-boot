@@ -43,7 +43,7 @@ public class SignupController {
             model.addAttribute("userExists", true);
             return HtmlFileConstants.SIGN_UP_PAGE;
         }
-        return "redirect:/" + HtmlFileConstants.USER_PROFILE_PAGE;
+        return "redirect:/user/profile";
 
     }
 
