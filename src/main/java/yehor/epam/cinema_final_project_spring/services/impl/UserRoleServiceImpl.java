@@ -21,12 +21,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public UserRole getUserRole() throws NoRoleException {
-        return getRoleByName(Constants.USER_ROLE);
+        return getRoleByName("ROLE_" + Constants.USER_ROLE);
     }
 
     @Override
     public UserRole getAdminRole() throws NoRoleException {
-        return getRoleByName(Constants.ADMIN_ROLE);
+        return getRoleByName("ROLE_" + Constants.ADMIN_ROLE);
     }
 
     private UserRole getRoleByName(String adminRole) {

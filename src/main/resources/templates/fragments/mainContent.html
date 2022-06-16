@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang=ua xmlns:th="http://www.thymeleaf.org">
+<html lang=ua xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="header (pageTitle)">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
@@ -34,39 +35,49 @@
     <div class="container d-flex flex-column flex-md-row justify-content-between py-2">
         <span class="py-2 menu-item" th:text="#{menu.title}"></span>
 
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/main}" th:text="#{menu.main}"></a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/main}" th:text="#{menu.main}">Main</a>
 
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/schedule}" th:text="#{menu.schedule}"></a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/schedule}" th:text="#{menu.schedule}">Schedule</a>
 
         <!--GUEST-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/login}" th:text="#{menu.guest.login}"></a>
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/signup}" th:text="#{menu.guest.signup}"></a>
+        <th:block sec:authorize="isAnonymous()">
+            <a class="py-2 d-none d-md-inline-block" th:href="@{/login}" th:text="#{menu.guest.login}">Login</a>
+            <a class="py-2 d-none d-md-inline-block" th:href="@{/signup}" th:text="#{menu.guest.signup}">Sign up</a>
+        </th:block>
         <!--/GUEST-->
 
         <!--USER-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/user/profile}" th:text="#{menu.user.myProfile}"> </a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/user/profile}" th:text="#{menu.user.myProfile}"
+           sec:authorize="hasRole('USER')">My profile</a>
         <!--/USER-->
 
         <!--ADMIN-->
-        <!--<div class="dropdown">
+        <div class="dropdown" sec:authorize="hasRole('ADMIN')">
             <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                ${filmSession}
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    th:value="#{menu.admin.filmSession}">Films/sessions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <ul style="list-style-type: none;" class="px-3">
-                    <li class="menu-li py-1"><a href="${addFilm_url}">${addFilm}</a></li>
-                    <li class="menu-li py-1"><a href="${filmSetting_url}">${filmSetting}</a></li>
-                    <li class="menu-li py-1"><a href="${addSession_url}">${addSession}</a>
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admin/film}" th:text="#{menu.admin.addFilm}">Add film</a>
                     </li>
-                    <li class="menu-li py-1"><a href="${sessionSetting_url}">${sessionsSetting}</a></li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admin/film}" th:text="#{menu.admin.filmSetting}">Film settings</a>
+                    </li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admin/session}" th:text="#{menu.admin.addSession}">Add session</a>
+                    </li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admin/session}" th:text="#{menu.admin.sessionsSetting}">Session settings</a>
+                    </li>
                 </ul>
             </div>
-        </div>-->
+        </div>
         <!--/ADMIN-->
 
         <!--REGISTERED USER-->
-        <form th:action="@{/logout}" th:method="POST" name="logout">
+        <form th:action="@{/logout}" th:method="POST" name="logout" sec:authorize="isAuthenticated()">
             <input type="submit" class="py-2 d-none d-md-inline-block logout-btn" th:value="#{menu.user.logout}"/>
         </form>
         <!--/REGISTERED USER-->

@@ -51,16 +51,6 @@
                     </tbody>
                 </table>
                 <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/main')"></nav>
-                <!--<nav class="pagination-nav">
-                    <ul class="pagination justify-content-center">
-                        <th:block th:if="${pageAmount > 1}" th:each="i, state: ${#numbers.sequence(1, pageAmount)}">
-                            <li class="page-item">
-                                <a class="page-link" th:href="@{/main(page=${state.index})}"
-                                   th:text="${state.count}"></a>
-                            </li>
-                        </th:block>
-                    </ul>
-                </nav>-->
             </div>
         </div>
     </div>
