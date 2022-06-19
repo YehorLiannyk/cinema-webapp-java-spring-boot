@@ -19,8 +19,12 @@ public final class Constants {
     public static final int MIN_LAST_NAME_LENGTH = 1;
     public static final int MAX_PASS_LENGTH = 120;
     public static final int MIN_PASS_LENGTH = 3;
-    public static final int PHONE_NUMBER_LENGTH = 11;
     public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$";
+
+    public static final int MAX_FILM_NAME_LENGTH = 100;
+    public static final int MAX_FILM_DESC_LENGTH = 1000;
+    public static final int MIN_FILM_DURATION_IN_MINUTE = 10;
+    public static final int MAX_FILM_DURATION_IN_MINUTE = 300;
 
     public static final String ONLY_LETTERS_PATTERN = "^[a-zA-Z]+$";
     public static final String ONLY_DIGITS_PATTERN = "^[0-9]+$";

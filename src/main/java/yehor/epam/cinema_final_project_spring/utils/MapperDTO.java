@@ -1,22 +1,24 @@
 package yehor.epam.cinema_final_project_spring.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
+import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
+import yehor.epam.cinema_final_project_spring.entities.Film;
+import yehor.epam.cinema_final_project_spring.entities.Genre;
 import yehor.epam.cinema_final_project_spring.entities.User;
 
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 @Component
 public class MapperDTO {
-/*    private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public MapperDTO(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }*/
-
     public User toUser(UserDTO userDTO) {
-        return new User();
+        throw new IllegalStateException("This method is not realized yet");
     }
 
     public User toUser(UserSignUpDTO userDTO) {
@@ -31,4 +33,51 @@ public class MapperDTO {
         return user;
     }
 
+    public GenreDTO fromGenre(Genre genre) {
+        return new GenreDTO(genre.getId(), genre.getName());
+    }
+
+    public Genre toGenre(GenreDTO genreDTO) {
+        return new Genre(genreDTO.getId(), genreDTO.getName());
+    }
+
+    public List<GenreDTO> fromGenreList(List<Genre> genreList) {
+        List<GenreDTO> list = new ArrayList<>();
+        genreList.forEach(genre -> list.add(fromGenre(genre)));
+        return list;
+    }
+
+    public List<Genre> toGenreList(List<GenreDTO> genreDTOList) {
+        List<Genre> list = new ArrayList<>();
+        genreDTOList.forEach(genre -> list.add(toGenre(genre)));
+        return list;
+    }
+
+    public FilmDTO fromFilm(Film film) {
+        Long durationInMin = film.getDurationInMinutes();
+        final List<GenreDTO> genreDTOList = fromGenreList(film.getGenreList());
+        return new FilmDTO(
+                film.getId(),
+                film.getName(),
+                film.getDescription(),
+                durationInMin,
+                genreDTOList,
+                film.getPosterUrl()
+        );
+    }
+
+    public Film toFilm(FilmDTO filmDTO) {
+        log.debug("Entry to mapper toFilm(FilmDTO filmDTO) method");
+        Duration duration = Duration.ofMinutes(filmDTO.getDuration());
+        List<Genre> genreList = toGenreList(filmDTO.getGenreList());
+        return new Film(
+                filmDTO.getId(),
+                filmDTO.getName(),
+                filmDTO.getDescription(),
+                duration,
+                genreList,
+                filmDTO.getPosterUrl()
+        );
+
+    }
 }

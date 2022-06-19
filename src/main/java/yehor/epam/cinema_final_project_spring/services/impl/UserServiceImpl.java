@@ -72,12 +72,11 @@ public class UserServiceImpl implements UserService {
         return user.getId();
     }
 
-    //todo: read about userRepository.exists() method
-    @Override
+/*    @Override
     public User getByLoginAndPass(String login, String password) throws UserNotExistException {
         final Optional<User> optional = userRepository.findByEmailAndPassword(login, password);
         return optional.orElseThrow(UserNotExistException::new);
-    }
+    }*/
 
     @Override
     public boolean doesUserExistByEmail(String email) {

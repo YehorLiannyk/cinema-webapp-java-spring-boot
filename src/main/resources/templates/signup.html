@@ -84,7 +84,7 @@
                                                th:placeholder="#{form.requiredField}" th:field="*{passwordRepeat}"
                                                required/>
                                         <div th:if="${#fields.hasErrors('passwordRepeat')}"
-                                             th:text="#{validation.password.notEqual}" class="form-error">Password
+                                             th:text="#{valid.password.notEqual}" class="form-error">Password
                                             repeat error
                                         </div>
                                     </div>

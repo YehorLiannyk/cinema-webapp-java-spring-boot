@@ -199,11 +199,13 @@ article.card-filter {
 
 .two-column-table {
     max-width: 50% !important;
+    min-width: 50% !important;
     float: left !important;
 }
 
 #main-film-list {
     margin-left: 30px;
+    width: 100%;
 }
 
 /**/

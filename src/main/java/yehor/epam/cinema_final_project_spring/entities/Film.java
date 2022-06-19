@@ -1,5 +1,6 @@
 package yehor.epam.cinema_final_project_spring.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,8 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "films")
+@AllArgsConstructor
+@Table(name = "films", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +34,7 @@ public class Film {
     /**
      * Film's genres
      */
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_genres",
             joinColumns = @JoinColumn(name = "film_id"),

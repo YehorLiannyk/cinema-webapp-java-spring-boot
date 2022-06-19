@@ -15,7 +15,7 @@ public interface UserService {
 
     Long getUserIdByEmail(String email);
 
-    User getByLoginAndPass(String login, String password) throws UserNotExistException;
+    //User getByLoginAndPass(String login, String password) throws UserNotExistException;
 
     boolean doesUserExistByEmail(String email);
 }
