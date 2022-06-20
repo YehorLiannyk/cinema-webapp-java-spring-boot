@@ -40,8 +40,8 @@
                                                     <div th:replace="fragments/others :: filmGenreList(${film})"></div>
                                                 </li>
                                             </ul>
-                                            <a class="btn btn-lg btn-block btn-primary w-75" th:href="@{#}"
-                                               th:text="#{film.filmPage}"></a>
+                                            <a class="btn btn-lg btn-block btn-primary w-75" th:href="@{/films/{id}(id=*{id})}"
+                                               th:text="#{film.filmPage}">Film info</a>
                                         </div>
                                     </div>
                                 </div>

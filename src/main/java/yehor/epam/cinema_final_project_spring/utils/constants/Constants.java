@@ -23,6 +23,9 @@ public final class Constants {
     public static final int MIN_PASS_LENGTH = 3;
     public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$";
 
+    public static final int MIN_TICKET_COST = 1;
+    public static final int MAX_TICKET_COST = 5000;
+
     public static final int MAX_FILM_NAME_LENGTH = 100;
     public static final int MAX_FILM_DESC_LENGTH = 1000;
     public static final int MIN_FILM_DURATION_IN_MINUTE = 10;

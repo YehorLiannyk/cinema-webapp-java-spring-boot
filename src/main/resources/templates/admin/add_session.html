@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{admin.addSession.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h1 class="" th:text="#{admin.addSession.pageTitle}">Add a new session</h1>
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-primary">
+                    <div class="panel-collapse">
+                        <form class="panel-body" th:method="POST" th:action="@{/admins/sessions}"
+                              th:object="${session}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="filmList" th:text="#{admin.addSession.films}">Films</label>
+                                        <select id="filmList" class="form-control"
+                                                required name="filmList" th:field="*{film}">
+                                            <option th:each="theFilm: ${allFilmList}"
+                                                    th:value="${theFilm.id}" th:text="${theFilm.name}">Film name
+                                            </option>
+                                        </select>
+                                        <small id="selectTips" class="form-text text-muted"
+                                               th:text="#{general.selector.multipleSelectTips}">Hold Ctrl to choose
+                                            several items</small>
+                                        <div th:if="${#fields.hasErrors('film')}" th:errors="*{film}"
+                                             class="form-error">Film error
+                                        </div>
+                                        <!--<div th:if="${filmIsEmpty}" th:text="#{valid.film.genreList.notEmpty}"
+                                             class="form-error">Genre list error
+                                        </div>-->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="date" th:text="#{admin.addSession.date}">Date</label>
+                                        <input type="date" class="form-control" id="date" th:field="*{date}"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
+                                             class="form-error">Date error
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="time" th:text="#{admin.addSession.time}">Time</label>
+                                        <input th:type="time" class="form-control" id="time" th:field="*{time}"
+                                               required/>
+                                        <!--<small id="timeTips" class="form-text text-muted">
+                                            ${timeMinTips} ${minTime} ${timeMaxTips} ${maxTime}
+                                        </small>-->
+                                        <div th:if="${#fields.hasErrors('time')}" th:errors="*{time}"
+                                             class="form-error">Time error
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="ticketPrice" th:text="#{admin.addSession.ticketPrice}">Ticket
+                                                        price</label>
+                                                    <input type="text" class="form-control" id="ticketPrice"
+                                                           th:field="*{ticketPrice}"
+                                                           th:placeholder="#{admin.addSession.ticketPricePlaceholder}"
+                                                           required/>
+                                                    <div th:if="${#fields.hasErrors('ticketPrice')}" th:errors="*{ticketPrice}"
+                                                         class="form-error">Ticket price error
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label th:text="#{admin.addSession.sessionUpload}">
+                                                        Session uploading
+                                                    </label>
+                                                    <button type="submit" class="btn btn-success btn-sm form-control">
+                                                        <span class="glyphicon glyphicon-floppy-disk"
+                                                              th:text="#{admin.addSession.uploadBtn}">Upload</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

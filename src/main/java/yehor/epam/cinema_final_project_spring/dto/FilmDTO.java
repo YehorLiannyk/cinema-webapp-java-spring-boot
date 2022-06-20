@@ -1,8 +1,6 @@
 package yehor.epam.cinema_final_project_spring.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import yehor.epam.cinema_final_project_spring.entities.Genre;
 

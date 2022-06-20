@@ -13,9 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import yehor.epam.cinema_final_project_spring.security.CustomUserDetailsService;
 import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
-
-import javax.servlet.http.HttpServletResponse;
-
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.ADMIN_ROLE;
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.USER_ROLE;
 
@@ -67,13 +64,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/user/**").hasRole(USER_ROLE)
-                    .antMatchers("/swager/**").hasRole(ADMIN_ROLE)
+                    .antMatchers("/swagger-ui/**").hasRole(ADMIN_ROLE)
                     .antMatchers("/admins/**").hasRole(ADMIN_ROLE)
                     .antMatchers("/logout").hasAnyRole(USER_ROLE, ADMIN_ROLE)
                     .antMatchers("/signup*").anonymous()
+                    .antMatchers("/films/**", "/sessions/**").permitAll()
                     .antMatchers("/", "/main", "/error/**").permitAll()
                     .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
-                    .anyRequest().denyAll()
+                    .anyRequest().hasRole(ADMIN_ROLE)
                 .and()
                     .exceptionHandling().accessDeniedPage("/error/access-denied")
                     /*.authenticationEntryPoint(getAuthenticationEntryPoint())*/

@@ -19,7 +19,7 @@ public class Session {
     private Long id;
 
     @Column(nullable = false)
-    private BigDecimal tickerPrice;
+    private BigDecimal ticketPrice;
 
     @Column(nullable = false)
     private LocalDate date;

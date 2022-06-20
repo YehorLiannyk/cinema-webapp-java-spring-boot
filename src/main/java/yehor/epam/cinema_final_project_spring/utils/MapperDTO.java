@@ -83,7 +83,7 @@ public class MapperDTO {
 
     }
 
-    public List<FilmDTO> froFilmList(List<Film> filmList) {
+    public List<FilmDTO> fromFilmList(List<Film> filmList) {
         List<FilmDTO> list = new ArrayList<>();
         filmList.forEach(film -> list.add(fromFilm(film)));
         return list;
@@ -96,7 +96,7 @@ public class MapperDTO {
     }
 
     public Page<FilmDTO> fromFilmPage(Page<Film> filmPage) {
-        final List<FilmDTO> filmDTOS = froFilmList(filmPage.getContent());
+        final List<FilmDTO> filmDTOS = fromFilmList(filmPage.getContent());
         return new PageImpl<>(filmDTOS, filmPage.getPageable(), filmPage.getTotalElements());
     }
 }

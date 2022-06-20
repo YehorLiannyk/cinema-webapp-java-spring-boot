@@ -1,5 +1,7 @@
 package yehor.epam.cinema_final_project_spring.services;
 
-/*public interface PaginationService {
-    int getPageAmount(long totalAmount, int pagingSize);
-}*/
+import yehor.epam.cinema_final_project_spring.exceptions.PaginationException;
+
+public interface PaginationService {
+    void checkPaginatable(int totalPages, int page, int size) throws PaginationException;
+}
