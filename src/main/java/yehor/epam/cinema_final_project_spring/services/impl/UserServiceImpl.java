@@ -9,15 +9,13 @@ import yehor.epam.cinema_final_project_spring.dto.UserDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
-import yehor.epam.cinema_final_project_spring.exceptions.UserNotExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.UserNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
 import yehor.epam.cinema_final_project_spring.services.UserRoleService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
 import yehor.epam.cinema_final_project_spring.utils.PasswordEncrypt;
-
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -68,14 +66,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long getUserIdByEmail(String email) {
-        final User user = userRepository.findByEmail(email).orElseThrow(UserNotExistException::new);
+        final User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         return user.getId();
     }
 
 /*    @Override
-    public User getByLoginAndPass(String login, String password) throws UserNotExistException {
+    public User getByLoginAndPass(String login, String password) throws UserNotFoundException {
         final Optional<User> optional = userRepository.findByEmailAndPassword(login, password);
-        return optional.orElseThrow(UserNotExistException::new);
+        return optional.orElseThrow(UserNotFoundException::new);
     }*/
 
     @Override

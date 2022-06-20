@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.entities.User;
-import yehor.epam.cinema_final_project_spring.exceptions.UserNotExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.UserNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 
 import java.util.Optional;
@@ -22,9 +22,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UserNotExistException {
+    public UserDetails loadUserByUsername(String email) throws UserNotFoundException {
         final Optional<User> byEmail = userRepository.findByEmail(email);
-        final User user = byEmail.orElseThrow(UserNotExistException::new);
+        final User user = byEmail.orElseThrow(UserNotFoundException::new);
         log.info("Return CustomUserDetails");
         return new CustomUserDetails(user);
     }

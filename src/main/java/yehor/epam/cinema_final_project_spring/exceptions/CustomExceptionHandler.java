@@ -60,7 +60,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {AccessDeniedException.class})
     protected String handleAccessDeniedException() {
         log.debug("Handle AccessDeniedException, forward to: /error/access-denied");
-        return "forward:/error/access-denied";
+        return "redirect:/error/access-denied";
     }
 
     private int getErrorCodeOrSetDefault(HttpServletRequest request) {

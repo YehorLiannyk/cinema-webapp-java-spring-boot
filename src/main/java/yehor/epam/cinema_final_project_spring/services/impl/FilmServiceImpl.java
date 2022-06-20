@@ -2,6 +2,7 @@ package yehor.epam.cinema_final_project_spring.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,10 @@ public class FilmServiceImpl implements FilmService {
         this.mapperDTO = mapperDTO;
     }
 
-    public List<Film> getAllSortedByIdAndPaginated(int pageNo, int pageSize) {
+    public Page<FilmDTO> getAllSortedByIdAndPaginated(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        return filmRepository.findAllByOrderByIdDesc(pageable);
+        final Page<Film> filmPage = filmRepository.findAllByOrderByIdDesc(pageable);
+        return mapperDTO.fromFilmPage(filmPage);
     }
 
     @Override
@@ -38,11 +40,6 @@ public class FilmServiceImpl implements FilmService {
         final Film film = mapperDTO.toFilm(filmDTO);
         log.debug("Saving film: " + film.toString());
         filmRepository.save(film);
-    }
-
-    @Override
-    public Long getTotalAmount() {
-        return filmRepository.count();
     }
 
 }

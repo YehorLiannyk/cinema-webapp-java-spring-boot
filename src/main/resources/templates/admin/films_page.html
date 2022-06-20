@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{admin.filmsSetting.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h1 class="" th:text="#{admin.filmsSetting.pageTitle}">Films setting</h1>
+            <div class="film-posts py-4">
+                <table id="main-film-list">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr th:each="film, state : ${filmList}" th:object="${film}">
+                        <td>
+                            <div class="p-4 film-post card w-100">
+                                <div class="row card-body">
+                                    <div class="col-md-2">
+                                        <img class="poster-img card-img" th:src="*{posterUrl}">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <h2 class="card-title" th:text="*{name}">Film name</h2>
+                                        <ul class="list-unstyled mt-3 mb-4">
+                                            <li class="card-text"
+                                                th:text="|#{film.duration}: *{duration} #{film.duration.postfix}|">Film
+                                                duration
+                                            </li>
+                                            <li class="card-text">
+                                                <span th:text="|#{film.genres}: |">Film genres</span>
+                                                <div th:replace="fragments/others :: filmGenreList(${film})"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="vertical-buttons">
+                                            <a type="button"
+                                               class="btn btn-lg btn-block btn-primary my-2"
+                                               th:text="#{film.goToFilmPage}"
+                                               th:href="@{/films/{id}(id=*{id})}"> Film page
+                                            </a>
+                                            <button type="button"
+                                                    class="btn btn-lg btn-block btn-danger"
+                                                    data-toggle="modal" th:data-target="|#modal*{id}|"
+                                                    th:text="#{admin.filmsSetting.delete}">
+                                                Delete film
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" th:id="|modal*{id}|" tabindex="-1"
+                                 aria-labelledby="modalAccept" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="modalAccept" th:text="#{admin.filmsSetting.filmDeleting}">Film
+                                                deleting</h5>
+                                        </div>
+                                        <div class="modal-body" th:text="#{admin.filmsSetting.sureWantDelete}">
+                                            You're sure you want to delete the film?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form name="film" th:method="DELETE"
+                                                  th:action="@{/admins/films/{id}(id=*{id})}">
+                                                <button type="submit"
+                                                        class="btn btn-primary" th:text="#{admin.filmsSetting.delete}">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/admins/films')"></nav>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

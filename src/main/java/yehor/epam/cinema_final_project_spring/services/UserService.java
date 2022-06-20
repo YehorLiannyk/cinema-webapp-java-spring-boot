@@ -4,7 +4,6 @@ import yehor.epam.cinema_final_project_spring.dto.UserDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
-import yehor.epam.cinema_final_project_spring.exceptions.UserNotExistException;
 
 public interface UserService {
     void save(final UserSignUpDTO userSignUpDTO) throws UserAlreadyExistException;
@@ -15,7 +14,7 @@ public interface UserService {
 
     Long getUserIdByEmail(String email);
 
-    //User getByLoginAndPass(String login, String password) throws UserNotExistException;
+    //User getByLoginAndPass(String login, String password) throws UserNotFoundException;
 
     boolean doesUserExistByEmail(String email);
 }

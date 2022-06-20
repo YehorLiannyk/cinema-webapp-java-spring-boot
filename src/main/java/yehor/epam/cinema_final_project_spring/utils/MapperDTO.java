@@ -1,6 +1,8 @@
 package yehor.epam.cinema_final_project_spring.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
 import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
@@ -79,5 +81,22 @@ public class MapperDTO {
                 filmDTO.getPosterUrl()
         );
 
+    }
+
+    public List<FilmDTO> froFilmList(List<Film> filmList) {
+        List<FilmDTO> list = new ArrayList<>();
+        filmList.forEach(film -> list.add(fromFilm(film)));
+        return list;
+    }
+
+    public List<Film> toFilmList(List<FilmDTO> filmDTOS) {
+        List<Film> list = new ArrayList<>();
+        filmDTOS.forEach(film -> list.add(toFilm(film)));
+        return list;
+    }
+
+    public Page<FilmDTO> fromFilmPage(Page<Film> filmPage) {
+        final List<FilmDTO> filmDTOS = froFilmList(filmPage.getContent());
+        return new PageImpl<>(filmDTOS, filmPage.getPageable(), filmPage.getTotalElements());
     }
 }

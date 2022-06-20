@@ -30,13 +30,13 @@
                                             <img class="poster-img card-img" th:src="*{posterUrl}">
                                         </div>
                                         <div class="col-md-8">
-                                            <h2 class="card-title" th:text="*{name}"></h2>
+                                            <h2 class="card-title" th:text="*{name}">Film name</h2>
                                             <ul class="list-unstyled mt-3 mb-4">
                                                 <li class="card-text"
-                                                    th:text="|#{film.duration}: ${film.getDurationInMinutes()} #{film.duration.postfix}|">
+                                                    th:text="|#{film.duration}: *{duration} #{film.duration.postfix}|">Film duration
                                                 </li>
                                                 <li class="card-text">
-                                                    <span th:text="|#{film.genres}: |"/>
+                                                    <span th:text="|#{film.genres}: |">Film genres</span>
                                                     <div th:replace="fragments/others :: filmGenreList(${film})"></div>
                                                 </li>
                                             </ul>

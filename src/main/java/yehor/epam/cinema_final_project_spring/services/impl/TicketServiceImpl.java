@@ -17,12 +17,6 @@ public class TicketServiceImpl implements TicketService {
         this.ticketRepository = ticketRepository;
     }
 
-
-    @Override
-    public Long getTotalAmount() {
-        return ticketRepository.count();
-    }
-
     @Override
     public List<Ticket> getAllByUserId(long userId) {
         return ticketRepository.findAllByUserId(userId);

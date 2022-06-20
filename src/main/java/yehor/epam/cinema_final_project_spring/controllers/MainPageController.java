@@ -1,44 +1,43 @@
 package yehor.epam.cinema_final_project_spring.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
-import yehor.epam.cinema_final_project_spring.entities.Film;
+import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
+import yehor.epam.cinema_final_project_spring.exceptions.PaginationException;
 import yehor.epam.cinema_final_project_spring.services.FilmService;
-import yehor.epam.cinema_final_project_spring.services.PaginationService;
+import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
 import java.util.List;
 
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
 
+@Slf4j
 @Controller
 public class MainPageController {
     private final FilmService filmService;
-    private final PaginationService paginationService;
 
     @Autowired
-    public MainPageController(FilmService filmService, PaginationService paginationService) {
+    public MainPageController(FilmService filmService) {
         this.filmService = filmService;
-        this.paginationService = paginationService;
     }
 
     @GetMapping(value = {"/", "/main"})
-    public String mainPageWithPagination(@ModelAttribute(name = PAGE_NUMBER_PARAM) Integer page, Model model) {
-        final List<Film> filmList = filmService.getAllSortedByIdAndPaginated(page, DEFAULT_PAGING_SIZE);
+    public String getMainPageWithPagination(@RequestParam(name = PAGE_NO_PARAM, required = false, defaultValue = "1") int page,
+                                            @RequestParam(name = PAGE_SIZE_PARAM, required = false, defaultValue = DEF_PAGING_SIZE_STR) int size,
+                                            Model model) {
+        final Page<FilmDTO> filmPage = filmService.getAllSortedByIdAndPaginated(page - 1, DEFAULT_PAGING_SIZE);
+        if (page > filmPage.getTotalPages()) {
+            log.debug("Page amount is bigger than total page amount. Params: pageNo = " + page + ", size = " + size);
+            throw new PaginationException();
+        }
+        final List<FilmDTO> filmList = filmPage.getContent();
+        model.addAttribute(PAGE_AMOUNT_PARAM, filmPage.getTotalPages());
         model.addAttribute("filmList", filmList);
         return HtmlFileConstants.MAIN_PAGE;
-    }
-
-    @ModelAttribute
-    public void addAttributes(@RequestParam(name = PAGE_NUMBER_PARAM, defaultValue = "0") int pageNo, Model model) {
-        final Long totalAmount = filmService.getTotalAmount();
-        int pageAmount = paginationService.getPageAmount(totalAmount, DEFAULT_PAGING_SIZE);
-        model.addAttribute(PAGE_NUMBER_PARAM, pageNo);
-        model.addAttribute(PAGE_AMOUNT_PARAM, pageAmount);
     }
 }

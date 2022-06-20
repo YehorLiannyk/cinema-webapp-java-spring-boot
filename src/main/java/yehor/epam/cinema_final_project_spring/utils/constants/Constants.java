@@ -4,8 +4,10 @@ import java.time.Duration;
 
 public final class Constants {
     public static final int DEFAULT_PAGING_SIZE = 2;
+    public static final String DEF_PAGING_SIZE_STR = "2";
 
-    public static final String PAGE_NUMBER_PARAM = "page";
+    public static final String PAGE_NO_PARAM = "page";
+    public static final String PAGE_SIZE_PARAM = "size";
     public static final String PAGE_AMOUNT_PARAM = "pageAmount";
 
     public static final int PASSWORD_ENCODE_STRENGTH = 10;

@@ -7,7 +7,6 @@ import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
 import yehor.epam.cinema_final_project_spring.entities.Genre;
 import yehor.epam.cinema_final_project_spring.exceptions.GenreListIsEmptyException;
 import yehor.epam.cinema_final_project_spring.exceptions.GenreNotExistException;
-import yehor.epam.cinema_final_project_spring.exceptions.UserNotExistException;
 import yehor.epam.cinema_final_project_spring.repositories.GenreRepository;
 import yehor.epam.cinema_final_project_spring.services.GenreService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;

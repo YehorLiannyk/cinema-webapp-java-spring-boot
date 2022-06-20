@@ -16,6 +16,9 @@ import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.ADMIN_ROLE;
+import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.USER_ROLE;
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
@@ -63,13 +66,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("Enter to configure(HttpSecurity http) method");
         http
                 .authorizeRequests()
-                    .antMatchers("/user/profile").hasRole("USER")
-                    .antMatchers("/swager/**").hasRole("ADMIN")
-                    .antMatchers("/logout").hasAnyRole("USER", "ADMIN")
+                    .antMatchers("/user/**").hasRole(USER_ROLE)
+                    .antMatchers("/swager/**").hasRole(ADMIN_ROLE)
+                    .antMatchers("/admins/**").hasRole(ADMIN_ROLE)
+                    .antMatchers("/logout").hasAnyRole(USER_ROLE, ADMIN_ROLE)
                     .antMatchers("/signup*").anonymous()
                     .antMatchers("/", "/main", "/error/**").permitAll()
                     .antMatchers("/js/**", "/css/**", "/images/**", "/resources/**").permitAll()
-                    .anyRequest().hasRole("ADMIN")
+                    .anyRequest().denyAll()
                 .and()
                     .exceptionHandling().accessDeniedPage("/error/access-denied")
                     /*.authenticationEntryPoint(getAuthenticationEntryPoint())*/
