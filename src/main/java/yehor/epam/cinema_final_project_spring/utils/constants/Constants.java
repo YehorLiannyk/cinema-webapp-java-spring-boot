@@ -1,6 +1,7 @@
 package yehor.epam.cinema_final_project_spring.utils.constants;
 
 import java.time.Duration;
+import java.time.LocalTime;
 
 public final class Constants {
     public static final int DEFAULT_PAGING_SIZE = 2;
@@ -21,7 +22,7 @@ public final class Constants {
     public static final int MIN_LAST_NAME_LENGTH = 1;
     public static final int MAX_PASS_LENGTH = 120;
     public static final int MIN_PASS_LENGTH = 3;
-    public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$";
+    public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$"; // empty/ has a gap/ is a number
 
     public static final int MIN_TICKET_COST = 1;
     public static final int MAX_TICKET_COST = 5000;
@@ -42,6 +43,15 @@ public final class Constants {
      * Lifetime of Cookie Local in seconds, equal to 360 days
      */
     public static final int COOKIE_LANG_LIFETIME = (int) Duration.ofDays(360).toSeconds();
+
+    /**
+     * Minimum set time for Session
+     */
+    public static final LocalTime MIN_SESSION_TIME = LocalTime.parse("09:00");
+    /**
+     * Maximum set time for Session
+     */
+    public static final LocalTime MAX_SESSION_TIME = LocalTime.parse("22:00");
 
     private Constants() {
     }
