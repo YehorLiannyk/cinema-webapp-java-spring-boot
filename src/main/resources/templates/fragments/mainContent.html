@@ -37,7 +37,7 @@
 
         <a class="py-2 d-none d-md-inline-block" th:href="@{/main}" th:text="#{menu.main}">Main</a>
 
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/schedule}" th:text="#{menu.schedule}">Schedule</a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/sessions}" th:text="#{menu.schedule}">Schedule</a>
 
         <!--GUEST-->
         <th:block sec:authorize="isAnonymous()">
@@ -104,9 +104,14 @@
     <ul class="pagination justify-content-center">
         <th:block th:if="${pageAmount > 1}" th:each="i, state: ${#numbers.sequence(1, pageAmount)}">
             <li class="page-item">
-                <a class="page-link" th:href="@{${pageLink}(page=${state.count})}"
+                <!--<a class="page-link" th:href="@{${pageLink}(page=${state.count})}"
+                   th:text="${state.count}"></a>-->
+                <a class="page-link"
+                   th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', state.count).toUriString()}}"
                    th:text="${state.count}"></a>
             </li>
+
         </th:block>
     </ul>
 </nav>

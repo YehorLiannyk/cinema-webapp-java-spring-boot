@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
@@ -17,10 +18,9 @@ import yehor.epam.cinema_final_project_spring.services.SeatService;
 import yehor.epam.cinema_final_project_spring.services.SessionService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
+import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
 
 @Slf4j
 @Service
@@ -54,6 +54,51 @@ public class SessionServiceImpl implements SessionService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         final Page<Session> sessionPage = sessionRepository.findAllByOrderByIdDesc(pageable);
         return mapperDTO.fromSessionPage(sessionPage);
+    }
+
+    @Override
+    public Page<SessionDTO> getAll(int pageNo, int pageSize, String filter, String sort, String method) {
+        List<Sort.Order> generalOrders = getSortOrder(sort);
+        Sort sorter = Sort.by(generalOrders);
+        sorter = getWithOrderMethod(sorter, method);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sorter);
+        final Page<Session> all = getPageWithFilter(pageable, filter);
+        return mapperDTO.fromSessionPage(all);
+    }
+
+    private Page<Session> getPageWithFilter(Pageable pageable, String filter) {
+        if (filter.equals(FILTER_SHOW_ONLY_AVAILABLE)) {
+            return sessionRepository.findBySeatsAmountGreaterThanEqual(pageable, 1);
+        }
+        return sessionRepository.findBySeatsAmountGreaterThanEqual(pageable, 0);
+    }
+
+    private Sort getWithOrderMethod(Sort sort, String method) {
+        Sort sorter = null;
+        if (method.equals(SORT_METHOD_DESC)) {
+            sorter = sort.descending();
+        } else {
+            sorter = sort.ascending();
+        }
+        return sorter;
+    }
+
+    private List<Sort.Order> getSortOrder(String sort) {
+        log.debug("Sort by: " + sort);
+        List<Sort.Order> orders = new ArrayList<>();
+        if (sort.equals(SORT_BY_SEATS_REMAIN)) {
+            Sort.Order seats = new Sort.Order(Sort.DEFAULT_DIRECTION, "COUNT(seatList)");
+            orders.add(seats);
+        } else if (sort.equals(SORT_BY_FILM_NAME)) {
+            Sort.Order name = new Sort.Order(Sort.DEFAULT_DIRECTION, "film.name");
+            orders.add(name);
+        } else {
+            Sort.Order date = new Sort.Order(Sort.DEFAULT_DIRECTION, "date");
+            orders.add(date);
+            Sort.Order time = new Sort.Order(Sort.DEFAULT_DIRECTION, "time");
+            orders.add(time);
+        }
+        return orders;
     }
 
     @Override
@@ -98,13 +143,7 @@ public class SessionServiceImpl implements SessionService {
             boolean isEqual = freeSeatList.stream().anyMatch(freeSeat -> freeSeat.equals(allSeat));
             final SeatDTO seatDTO = mapperDTO.fromSeat(allSeat);
             seatMap.put(seatDTO, isEqual);
-            if (isEqual) {
-                log.debug("FreeSeat and allSeat are EQUAL, allSeat: " + allSeat);
-            } else {
-                log.debug("FreeSeat and allSeat are NOT EQUAL, allSeat: " + allSeat);
-            }
         });
-        log.debug("Seat map size: " + seatMap.size());
         return seatMap;
     }
 }

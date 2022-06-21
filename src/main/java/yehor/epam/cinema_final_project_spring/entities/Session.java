@@ -40,4 +40,6 @@ public class Session {
             inverseJoinColumns = @JoinColumn(name = "seat_id")
     )
     private List<Seat> seatList;
+
+    private Integer seatsAmount = seatList != null ? seatList.size() : 0;
 }

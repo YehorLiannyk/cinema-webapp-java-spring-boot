@@ -53,6 +53,46 @@ public final class Constants {
      */
     public static final LocalTime MAX_SESSION_TIME = LocalTime.parse("22:00");
 
+    // Constants for Filter and Sorter on Schedule page
+    /**
+     * Schedule page filter param name
+     */
+    public static final String FILTER_SHOW_PARAM = "show";
+    /**
+     * Schedule page filter "show only available" param value
+     */
+    public static final String FILTER_SHOW_ONLY_AVAILABLE = "available";
+    public static final String FILTER_SHOW_ALL = "all";
+    /**
+     * Schedule page sorter param name
+     */
+    public static final String SORT_BY_PARAM = "sortBy";
+    /**
+     * Schedule page sorter by datetime param value
+     */
+    public static final String SORT_BY_DATETIME = "dateTime";
+    /**
+     * Schedule page sorter by film name param value
+     */
+    public static final String SORT_BY_FILM_NAME = "filmName";
+    /**
+     * Schedule page sorter by remaining seats param value
+     */
+    public static final String SORT_BY_SEATS_REMAIN = "seatsRemain";
+
+    /**
+     * Schedule page sort method param name
+     */
+    public static final String SORT_METHOD_PARAM = "sortMethod";
+    /**
+     * Schedule page descending sort method
+     */
+    public static final String SORT_METHOD_DESC = "desc";
+    /**
+     * Schedule page ascending sort method
+     */
+    public static final String SORT_METHOD_ASC = "asc";
+
     private Constants() {
     }
 }

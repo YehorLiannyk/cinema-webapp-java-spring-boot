@@ -47,7 +47,7 @@ public class AdminSessionController {
                                 Model model) {
         log.debug("Received session: " + sessionDTO);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("allSessionList", sessionService.getAll());
+            model.addAttribute("allFilmList", filmService.getAll());
             return ADMIN_ADD_SESSION_PAGE;
         }
         sessionService.save(sessionDTO);

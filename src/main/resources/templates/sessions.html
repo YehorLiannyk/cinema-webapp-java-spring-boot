@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{schedule.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h1 class="" th:text="#{schedule.pageTitle}">Schedule of sessions</h1>
+
+            <!--Filter-->
+            <aside class="col-md-8">
+                <header class="card-header-custom">
+                    <h5 class="card-custom-title" th:text="#{schedule.sortAndFilter}">Sort and filter</h5>
+                </header>
+                <form name="filtration" th:method="GET" th:action="@{/sessions}">
+                    <div class="card-group">
+                        <article class="card card-filter">
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="#{schedule.showSorter}">Show</h5>
+                                    <label class="form-check">
+                                        <input class="form-check-input" type="radio" checked="checked"
+                                               name="show" value="all">
+                                        <span class="form-check-label" th:text="#{schedule.showSorterAll}">All</span>
+                                    </label>
+                                    <label class="form-check">
+                                        <input class="form-check-input" type="radio" name="show"
+                                               value="available">
+                                        <span class="form-check-label" th:text="#{schedule.showSorterOnlyAv}">
+                                            Only available</span>
+                                    </label>
+                                </div> <!-- card-body.// -->
+                            </div>
+                        </article> <!-- card-group-item.// -->
+
+                        <article class="card card-sorter">
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="card-title" th:text="#{schedule.sortBy}">Sort by</h5>
+                                            <div class="form-group">
+                                                <select name="sortBy" id="sortBy" class="form-control"
+                                                        style="min-width: 150px;" required>
+                                                    <option value="dateTime" selected
+                                                            th:text="#{schedule.sortBy.datetime}">
+                                                        Date and time
+                                                    </option>
+                                                    <option value="filmName"
+                                                            th:text="#{schedule.sortBy.filmName}">Film name
+                                                    </option>
+                                                    <option value="seatsRemain"
+                                                            th:text="#{schedule.sortBy.seatsRemain}">Seats remain
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="card-title" th:text="#{schedule.sortMethod}">Sort method</h5>
+                                            <div class="form-group">
+                                                <select name="sortMethod" id="sortMethod" class="form-control"
+                                                        style="min-width: 150px;"
+                                                        required>
+                                                    <option value="asc" selected
+                                                            th:text="#{schedule.sortMethod.asc}">Ascending
+                                                    </option>
+                                                    <option value="desc"
+                                                            th:text="#{schedule.sortMethod.desc}">Descending
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div> <!-- card-body.// -->
+                            </div>
+                        </article>
+                        <div class="w-100"></div>
+                        <article class="card card-sorter" style="border-top: 0;">
+                            <div class="col-12 py-2">
+                                <button type="submit" class="btn btn-primary w-25 btn-sorter"
+                                        th:text="#{schedule.submitBtn}">Submit
+                                </button>
+                            </div>
+                        </article>
+
+                    </div> <!-- card.// -->
+                </form>
+            </aside> <!-- col.// -->
+
+            <div class="film-posts py-4">
+                <table id="main-film-list">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr th:each="theSession : ${allSessionList}" th:object="${theSession}">
+                        <td>
+                            <div class="p-4 film-post card w-100">
+                                <div class="row card-body">
+                                    <div class="col-md-2">
+                                        <img class="poster-img card-img" th:src="*{film.posterUrl}">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <h2 class="card-title" th:text="*{film.name}">Film name</h2>
+                                        <ul class="list-unstyled mt-3 mb-4">
+                                            <li class="card-text"
+                                                th:text="|#{film.duration}: *{film.duration} #{film.duration.postfix}|">
+                                                Film duration
+                                            </li>
+                                            <li class="card-text">
+                                                <span th:text="|#{film.genres}: |">Film genres</span>
+                                                <div th:replace="fragments/others :: filmGenreList(*{film})"></div>
+                                            </li>
+                                            <li class="card-text"
+                                                th:text="|#{admin.addSession.time}: *{date} #{session.timePrefix} *{time}|">
+                                                Time: {date} at {time}
+                                            </li>
+                                            <li class="card-text"
+                                                th:text="|#{session.seatsRemain}: ${theSession.seatList.size()}|">
+                                                Seats remains: {amount}
+                                            </li>
+                                        </ul>
+                                        <h5 class="card-text"
+                                            th:text="|#{session.ticketPrice}: *{ticketPrice} #{general.currency.short}|">
+                                            Ticket price: {price} UAH
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="vertical-buttons">
+                                            <a type="button"
+                                               class="btn btn-lg btn-block btn-primary my-2"
+                                               th:text="#{admin.sessionsSetting.sessionInfo}"
+                                               th:href="@{/admins/sessions/{id}(id=*{id})}">Sessions page
+                                            </a>
+                                            <button type="button"
+                                                    class="btn btn-lg btn-block btn-danger"
+                                                    data-toggle="modal" th:data-target="|#modal*{id}|"
+                                                    th:text="#{admin.sessionsSetting.delete}">
+                                                Delete Session
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/sessions')"></nav>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>
