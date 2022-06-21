@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/mainContent :: header ('Yaka title, ti sho')"></head>
 <body>
 <nav th:replace="fragments/mainContent :: menu"></nav>
@@ -20,29 +20,29 @@
                 <table id="main-film-list">
                     <thead>
                     </thead>
-                    <tbody>
-                    <tr class="two-column-table" th:each="film, state : ${filmList}" th:object="${film}">
+                    <tbody class="row">
+                    <tr class="col-md-6" th:each="film, state : ${filmList}" th:object="${film}">
                         <td>
-                            <div class="row" style="max-width: 100%">
-                                <div class="col p-3 film-post card">
-                                    <div class="row card-body">
-                                        <div class="col-md-4">
-                                            <img class="poster-img card-img" th:src="*{posterUrl}">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h2 class="card-title" th:text="*{name}">Film name</h2>
-                                            <ul class="list-unstyled mt-3 mb-4">
-                                                <li class="card-text"
-                                                    th:text="|#{film.duration}: *{duration} #{film.duration.postfix}|">Film duration
-                                                </li>
-                                                <li class="card-text">
-                                                    <span th:text="|#{film.genres}: |">Film genres</span>
-                                                    <div th:replace="fragments/others :: filmGenreList(${film})"></div>
-                                                </li>
-                                            </ul>
-                                            <a class="btn btn-lg btn-block btn-primary w-75" th:href="@{/films/{id}(id=*{id})}"
-                                               th:text="#{film.filmPage}">Film info</a>
-                                        </div>
+                            <div class="w-100 p-3 film-post card">
+                                <div class="row card-body">
+                                    <div class="col-md-4">
+                                        <img class="poster-img card-img" th:src="*{posterUrl}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h2 class="card-title" th:text="*{name}">Film name</h2>
+                                        <ul class="list-unstyled mt-3 mb-4">
+                                            <li class="card-text"
+                                                th:text="|#{film.duration}: *{duration} #{film.duration.postfix}|">Film
+                                                duration
+                                            </li>
+                                            <li class="card-text">
+                                                <span th:text="|#{film.genres}: |">Film genres</span>
+                                                <div th:replace="fragments/others :: filmGenreList(${film})"></div>
+                                            </li>
+                                        </ul>
+                                        <a class="btn btn-lg btn-block btn-primary w-75"
+                                           th:href="@{/films/{id}(id=*{id})}"
+                                           th:text="#{film.filmPage}">Film info</a>
                                     </div>
                                 </div>
                             </div>

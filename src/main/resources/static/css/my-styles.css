@@ -46,7 +46,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .poster-img {
-    max-width: 100%
+    max-width: 100%;
+/*    display: block;
+    min-width: 161.44px;
+    min-height: 242.15px;*/
 }
 
 .row.card-body {
