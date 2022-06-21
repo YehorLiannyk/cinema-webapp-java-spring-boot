@@ -3,7 +3,7 @@ package yehor.epam.cinema_final_project_spring.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.entities.UserRole;
-import yehor.epam.cinema_final_project_spring.exceptions.NoRoleException;
+import yehor.epam.cinema_final_project_spring.exceptions.user.NoRoleException;
 import yehor.epam.cinema_final_project_spring.repositories.UserRoleRepository;
 import yehor.epam.cinema_final_project_spring.services.UserRoleService;
 import yehor.epam.cinema_final_project_spring.utils.constants.Constants;

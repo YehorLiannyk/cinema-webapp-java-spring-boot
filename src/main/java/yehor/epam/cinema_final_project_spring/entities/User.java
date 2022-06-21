@@ -1,5 +1,6 @@
 package yehor.epam.cinema_final_project_spring.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -9,8 +10,9 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "users", uniqueConstraints={@UniqueConstraint(columnNames = {"email"})})
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users", uniqueConstraints={@UniqueConstraint(columnNames = {"email"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

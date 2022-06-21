@@ -6,10 +6,8 @@
     <!--Film's genreList as text-->
     <th:block th:fragment="filmGenreList (film)">
         <th:block th:each="genre, state : ${film.genreList}">
-            <th:block th:text="${genre.name}"/>
-            <th:block th:if="${!state.last}">
-                <th:block th:text="|, |"/>
-            </th:block>
+            <span th:if="${!state.last}" th:text="|${genre.name}, |"/>
+            <span th:unless="${!state.last}" th:text="${genre.name}"/>
         </th:block>
     </th:block>
 </main>

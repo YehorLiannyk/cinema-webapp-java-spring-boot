@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.entities.User;
-import yehor.epam.cinema_final_project_spring.exceptions.UserNotFoundException;
+import yehor.epam.cinema_final_project_spring.exceptions.user.UserNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 
 import java.util.Optional;

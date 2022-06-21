@@ -1,9 +1,8 @@
 package yehor.epam.cinema_final_project_spring.services;
 
 import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
-import yehor.epam.cinema_final_project_spring.entities.Genre;
-import yehor.epam.cinema_final_project_spring.exceptions.GenreListIsEmptyException;
-import yehor.epam.cinema_final_project_spring.exceptions.GenreNotExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.genre.GenreListIsEmptyException;
+import yehor.epam.cinema_final_project_spring.exceptions.genre.GenreNotExistException;
 
 import java.util.List;
 

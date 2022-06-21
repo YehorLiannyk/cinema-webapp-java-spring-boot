@@ -5,11 +5,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import yehor.epam.cinema_final_project_spring.dto.UserDTO;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.entities.User;
-import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
-import yehor.epam.cinema_final_project_spring.exceptions.UserNotFoundException;
+import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.user.UserNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
 import yehor.epam.cinema_final_project_spring.services.UserRoleService;
@@ -53,16 +52,6 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    @Override
-    public void save(UserDTO userDTO) {
-        final User user = mapperDTO.toUser(userDTO);
-        userRepository.save(user);
-    }
-
-    @Override
-    public User getById(final long id) {
-        return null;
-    }
 
     @Override
     public Long getUserIdByEmail(String email) {

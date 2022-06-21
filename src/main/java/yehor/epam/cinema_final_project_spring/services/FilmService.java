@@ -2,8 +2,8 @@ package yehor.epam.cinema_final_project_spring.services;
 
 import org.springframework.data.domain.Page;
 import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
-import yehor.epam.cinema_final_project_spring.exceptions.FilmListIsEmptyException;
-import yehor.epam.cinema_final_project_spring.exceptions.FilmNotFoundException;
+import yehor.epam.cinema_final_project_spring.exceptions.film.FilmListIsEmptyException;
+import yehor.epam.cinema_final_project_spring.exceptions.film.FilmNotFoundException;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
-import yehor.epam.cinema_final_project_spring.exceptions.UserAlreadyExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 

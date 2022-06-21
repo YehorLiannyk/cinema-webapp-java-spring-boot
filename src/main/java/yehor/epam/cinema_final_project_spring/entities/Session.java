@@ -1,5 +1,6 @@
 package yehor.epam.cinema_final_project_spring.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "sessions")
 public class Session {
     @Id
@@ -31,7 +33,7 @@ public class Session {
     @JoinColumn(name = "film_id", nullable = false)
     private Film film;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "session_seats",
             joinColumns = @JoinColumn(name = "session_id"),

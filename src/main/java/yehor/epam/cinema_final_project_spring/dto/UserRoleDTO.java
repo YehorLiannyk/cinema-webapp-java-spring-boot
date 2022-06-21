@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SeatDTO {
+public class UserRoleDTO {
     private Long id;
 
-    private Integer rowNo;
+    private String name;
 
-    private Integer placeNo;
 }
