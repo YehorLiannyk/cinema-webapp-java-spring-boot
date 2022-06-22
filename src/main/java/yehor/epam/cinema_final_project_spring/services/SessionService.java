@@ -3,6 +3,7 @@ package yehor.epam.cinema_final_project_spring.services;
 import org.springframework.data.domain.Page;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
+import yehor.epam.cinema_final_project_spring.entities.Session;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ public interface SessionService {
     List<SessionDTO> getAll();
 
     SessionDTO getById(Long id);
+
+    Session getEntityById(Long id);
 
     Map<SeatDTO, Boolean> getFreeAndReservedSeatMap(Long id);
 }

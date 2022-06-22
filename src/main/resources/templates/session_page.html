@@ -41,32 +41,41 @@
 
                         <div>
                             <h4 th:text="|#{session.sessionSeat}: |">Seats for the session</h4>
-                            <div class="row under-filter">
-                                <div class="col-md-8 under-filter-block px-3">
+                            <form th:action="@{/sessions/{id}/order(id=*{id})}" th:method="GET">
+                                <div class="row under-filter">
+                                    <div class="col-md-8 under-filter-block px-3">
 
-                                    <th:block th:each="seat : ${freeAndReservedSeatMap}">
+                                        <th:block th:each="seat : ${freeAndReservedSeatMap}">
 
-                                        <div class="w-100" th:if="${seat.key.placeNo == 1 && seatStat.index > 0}"></div>
+                                            <div class="w-100"
+                                                 th:if="${seat.key.placeNo == 1 && seatStat.index > 0}"></div>
 
-                                        <label th:if="${seat.value}">
-                                            <input type="checkbox" name="seatIds"
-                                                   class="seatsElement-admin seatsElement"
-                                                   th:value="*{id}" disabled>
-                                            <img class="seatsImg-admin seatsImg" th:src="@{/images/seat_blue.png}">
-                                        </label>
+                                            <label th:if="${seat.value}">
+                                                <input type="checkbox" name="seat"
+                                                       class="seatsElement"
+                                                       th:value="|${seat.key.id}_${seat.key.rowNo}_${seat.key.placeNo}|">
+                                                <img class="seatsImg" th:src="@{/images/seat_blue.png}">
+                                            </label>
 
-                                        <label th:unless="${seat.value}">
-                                            <input type="checkbox" name="seatIds"
-                                                   class="seatsElement-admin seatsElement"
-                                                   value="${seat.id}" disabled>
-                                            <img class="seatsImg-admin seatsImg"
-                                                 th:src="@{/images/seat_gray.png}">
-                                        </label>
+                                            <label th:unless="${seat.value}">
+                                                <input type="checkbox"
+                                                       class="seatsElement" disabled>
+                                                <img class="seatsImg"
+                                                     th:src="@{/images/seat_gray.png}">
+                                            </label>
 
-                                    </th:block>
+                                        </th:block>
+
+                                    </div>
+
+                                    <div class="col-md-3 under-filter-block px-3">
+                                        <button type="submit" class="btn btn-lg btn-block btn-primary"
+                                                th:text="#{session.buyTicket}">Buy tickets
+                                        </button>
+                                    </div>
 
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

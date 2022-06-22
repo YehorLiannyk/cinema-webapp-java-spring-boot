@@ -1,8 +1,11 @@
 package yehor.epam.cinema_final_project_spring.services.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
@@ -16,6 +19,7 @@ import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
 import yehor.epam.cinema_final_project_spring.utils.PasswordEncrypt;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -59,6 +63,11 @@ public class UserServiceImpl implements UserService {
         return user.getId();
     }
 
+    @Override
+    public User getEntityById(Long id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
 /*    @Override
     public User getByLoginAndPass(String login, String password) throws UserNotFoundException {
         final Optional<User> optional = userRepository.findByEmailAndPassword(login, password);
@@ -68,5 +77,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean doesUserExistByEmail(String email) {
         return userRepository.existsUserByEmail(email);
+    }
+
+    @Override
+    public Long getUserIdFromAuthentication(CustomUserDetails userDetails) {
+        if (userDetails == null ) {
+            log.debug("Couldn't authenticate user");
+            throw new UserNotFoundException();
+        }
+        log.debug("userDetails.getUsername(): " + userDetails.getUsername());
+        String email = userDetails.getUsername();
+        final User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        return user.getId();
     }
 }

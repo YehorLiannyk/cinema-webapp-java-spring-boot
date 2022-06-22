@@ -133,6 +133,12 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
+    public Session getEntityById(Long id) {
+        final Optional<Session> optional = sessionRepository.findById(id);
+        return optional.orElseThrow(SessionNotFoundException::new);
+    }
+
+    @Override
     public Map<SeatDTO, Boolean> getFreeAndReservedSeatMap(Long id) {
         final Optional<Session> optional = sessionRepository.findById(id);
         final Session session = optional.orElseThrow(SessionNotFoundException::new);

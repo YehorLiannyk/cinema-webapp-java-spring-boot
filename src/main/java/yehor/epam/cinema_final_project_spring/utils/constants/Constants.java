@@ -93,6 +93,11 @@ public final class Constants {
      */
     public static final String SORT_METHOD_ASC = "asc";
 
+    /**
+     * Path to font for PDF former
+     */
+    public static final String FONTS_BAHNSCHRIFT_TTF_PATH = "static/fonts/bahnschrift.ttf";
+
     private Constants() {
     }
 }

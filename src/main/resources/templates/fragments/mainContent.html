@@ -47,7 +47,7 @@
         <!--/GUEST-->
 
         <!--USER-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/user/profile}" th:text="#{menu.user.myProfile}"
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/users/me/profile}" th:text="#{menu.user.myProfile}"
            sec:authorize="hasRole('USER')">My profile</a>
         <!--/USER-->
 

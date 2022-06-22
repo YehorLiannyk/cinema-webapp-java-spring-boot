@@ -59,7 +59,7 @@ public class AuthController {
             model.addAttribute("userExists", true);
             return HtmlFileConstants.SIGN_UP_PAGE;
         }
-        return "redirect:/user/profile";
+        return "redirect:/users/me/profile";
     }
 
     private boolean hasError(UserSignUpDTO userSignUpDTO, BindingResult bindingResult) {

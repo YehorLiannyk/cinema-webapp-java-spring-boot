@@ -5,6 +5,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import yehor.epam.cinema_final_project_spring.utils.converters.StringToFilmConverter;
 import yehor.epam.cinema_final_project_spring.utils.converters.StringToGenreConverter;
+import yehor.epam.cinema_final_project_spring.utils.converters.StringToSeatConverter;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -13,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToGenreConverter());
         registry.addConverter(new StringToFilmConverter());
+        registry.addConverter(new StringToSeatConverter());
     }
 
 }

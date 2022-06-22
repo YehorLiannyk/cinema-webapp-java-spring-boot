@@ -8,6 +8,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
 
@@ -29,6 +30,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected String generalHandler(Exception e, Locale locale, Model model) {
         log.error("Unexpected Exception was occurred");
         return goToErrorPage(DEFAULT_MSG_CODE, null, locale, DEFAULT_STATUS, e, model);
@@ -38,6 +40,18 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     protected String handleUserAlreadyExistException(Locale locale, HttpServletRequest request, Model model, Throwable e) {
         final int errorStatus = getErrorCodeOrSetDefault(request);
         return goToErrorPage("error.userAlreadyExists", null, locale, errorStatus, e, model);
+    }
+
+    @ExceptionHandler(value = {PDFException.class})
+    protected String handlePDFException(Locale locale, HttpServletRequest request, Model model, Throwable e) {
+        final int errorStatus = getErrorCodeOrSetDefault(request);
+        return goToErrorPage("error.pdfException", null, locale, errorStatus, e, model);
+    }
+
+    @ExceptionHandler(value = {SeatWasNotPickedException.class})
+    protected String handleSeatWasNotPickedException(Locale locale, HttpServletRequest request, Model model, Throwable e) {
+        final int errorStatus = HttpStatus.BAD_REQUEST.value();
+        return goToErrorPage("error.seatWasNotPicked", null, locale, errorStatus, e, model);
     }
 
     @ExceptionHandler(value = {AccessDeniedException.class})

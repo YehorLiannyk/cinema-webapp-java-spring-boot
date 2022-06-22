@@ -11,6 +11,5 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     Page<Session> findAll(Pageable pageable);
 
-    //@Query(value = "SELECT s FROM Session s WHERE s.seatsAmount > 0")
     Page<Session> findBySeatsAmountGreaterThanEqual(Pageable pageable, Integer seatsAmount);
 }

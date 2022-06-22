@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{paying.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h1 class="" th:text="#{paying.pageTitle}">Tickets info</h1>
+
+            <div class="film-posts py-4">
+                <table id="main-film-list">
+                    <thead>
+                    </thead>
+                    <tbody>
+                <form name="seatIds" th:method="POST" th:action="@{/tickets}">
+                    <tr th:each="ticket : ${session.ticketList}" th:object="${ticket}">
+                        <td>
+                            <div class="p-4 film-post card w-100">
+                                <div class="col-md-6">
+                                    <h3 th:text="#{ticket.ticketTitle} + ': '">Ticket: </h3>
+                                    <p th:text="|#{ticket.date}: *{session.date}|">Date: {date}</p>
+                                    <p th:text="|#{session.time}: *{session.time}|">Time: {time}</p>
+                                    <p th:text="|#{ticket.seatRow}: *{seat.rowNo}|">Seat row: {rowNo}</p>
+                                    <p th:text="|#{ticket.seatPlace}: *{seat.placeNo}|">Seat place: {placeNo}</p>
+                                    <p th:text="|#{ticket.film}: *{session.film.name}|">Film: {filmName}</p>
+                                    <p th:text="|#{film.duration}: *{session.film.duration} #{film.duration.postfix}|">
+                                        Duration: {duration} minutes</p>
+                                    <p th:text="|#{session.ticketPrice}: *{session.ticketPrice} #{general.currency.short}|">
+                                        Ticket price: {price} UAH</p>
+                                </div>
+
+
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="w-100"></div>
+                <br/>
+                <h2 style="text-align: right" th:text="|#{paying.totalCost}: ${totalCost} #{general.currency.short}|">
+                    Total cost: {cost} UAH</h2>
+                    <button type="submit" class="btn btn-success w-25" style="float: right;" th:text="#{ticket.payBtn}">
+                        Pay
+                    </button>
+                </form>
+
+                <!--<nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '')"></nav>-->
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

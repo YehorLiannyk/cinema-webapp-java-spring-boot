@@ -63,10 +63,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("Enter to configure(HttpSecurity http) method");
         http
                 .authorizeRequests()
-                    .antMatchers("/user/**").hasRole(USER_ROLE)
+                    .antMatchers("/users/me/**").permitAll() //change
                     .antMatchers("/swagger-ui/**").hasRole(ADMIN_ROLE)
                     .antMatchers("/admins/**").hasRole(ADMIN_ROLE)
                     .antMatchers("/logout").hasAnyRole(USER_ROLE, ADMIN_ROLE)
+                    .antMatchers("/sessions/{id}/order").hasRole(ADMIN_ROLE) // change
+                    .antMatchers("/tickets/**").hasRole(ADMIN_ROLE) // change
                     .antMatchers("/signup*").anonymous()
                     .antMatchers("/films/**", "/sessions/**").permitAll()
                     .antMatchers("/", "/main", "/error/**").permitAll()
@@ -78,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin().loginPage("/login").permitAll()
                     .loginProcessingUrl("/process_login")
-                    .defaultSuccessUrl("/user/profile")
+                    .defaultSuccessUrl("/users/me/profile")
                     .failureUrl("/login?error")
                 .and()
                     .logout()

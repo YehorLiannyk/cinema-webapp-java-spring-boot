@@ -3,19 +3,28 @@ package yehor.epam.cinema_final_project_spring.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
-import yehor.epam.cinema_final_project_spring.services.FilmService;
-import yehor.epam.cinema_final_project_spring.services.PaginationService;
-import yehor.epam.cinema_final_project_spring.services.SessionService;
+import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
+import yehor.epam.cinema_final_project_spring.exceptions.SeatWasNotPickedException;
+import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
+import yehor.epam.cinema_final_project_spring.services.*;
+import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
+import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
+import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants.ORDER_PAGE;
 import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants.SESSIONS_PAGE;
 
 @Slf4j
@@ -24,13 +33,17 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileCon
 public class SessionController {
     private final FilmService filmService;
     private final SessionService sessionService;
+    private final TicketService ticketService;
+    private final UserService userService;
     private final PaginationService paginationService;
 
     @Autowired
-    public SessionController(FilmService filmService, SessionService sessionService, PaginationService paginationService) {
+    public SessionController(FilmService filmService, SessionService sessionService, PaginationService paginationService, TicketService ticketService, UserService userService) {
         this.filmService = filmService;
         this.sessionService = sessionService;
         this.paginationService = paginationService;
+        this.ticketService = ticketService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -41,23 +54,38 @@ public class SessionController {
                               @RequestParam(name = SORT_METHOD_PARAM, required = false, defaultValue = SORT_METHOD_ASC) String method,
                               Model model) {
         final Page<SessionDTO> sessionPage = sessionService.getAll(page - 1, size, filter, sort, method);
-        log.debug("page = " + page + " sessionPage.getContent(): " + sessionPage.getContent());
-        log.debug("page = " + page + ", size = " + size + ", filter = " + filter + ", sort = " + sort + ", method = " + method);
-        log.debug("getAllSession: " + sessionService.getAll());
-        log.debug("getAllSession size: " + sessionService.getAll().size());
         paginationService.checkPaginatable(sessionPage.getTotalPages(), page, size);
         final List<SessionDTO> sessionList = sessionPage.getContent();
         model.addAttribute(PAGE_AMOUNT_PARAM, sessionPage.getTotalPages());
         model.addAttribute("allSessionList", sessionList);
-        log.debug("allSessionList: " + sessionList);
         return SESSIONS_PAGE;
     }
 
 
-   /* @GetMapping("/{id}")
-    public String getFilmPage(@PathVariable Long id, Model model) {
-        final FilmDTO filmDTO = filmService.getById(id);
-        model.addAttribute("film", filmDTO);
+    @GetMapping("/{id}")
+    public String getSessionPage(@PathVariable Long id, Model model) {
+        final SessionDTO sessionDTO = sessionService.getById(id);
+        final Map<SeatDTO, Boolean> freeAndReservedSeatMap = sessionService.getFreeAndReservedSeatMap(id);
+        model.addAttribute("theSession", sessionDTO);
+        model.addAttribute("freeAndReservedSeatMap", freeAndReservedSeatMap);
         return HtmlFileConstants.SESSION_PAGE;
-    }*/
+    }
+
+    @GetMapping("/{id}/order")
+    public String getOrderPage(@RequestParam(name = PAGE_NO_PARAM, required = false, defaultValue = "1") int page,
+                               @RequestParam(name = PAGE_SIZE_PARAM, required = false, defaultValue = DEF_PAGING_SIZE_STR) int size,
+                               @PathVariable(name = "id") Long sessionId, @AuthenticationPrincipal CustomUserDetails userDetails,
+                               @RequestParam(name = "seat", required = false) List<SeatDTO> seatDTOList, HttpSession session, Model model) {
+        if (seatDTOList == null || seatDTOList.isEmpty()) {
+            log.debug("User didn't pick any seat for ticket");
+            throw new SeatWasNotPickedException();
+        }
+        final Long userId = userService.getUserIdFromAuthentication(userDetails);
+        final List<TicketDTO> ticketDTOList = ticketService.formTicketList(seatDTOList, sessionId, userId);
+        final BigDecimal totalCost = ticketService.countTotalCost(ticketDTOList);
+        session.setAttribute("ticketList", ticketDTOList);
+        model.addAttribute("totalCost", totalCost);
+        return ORDER_PAGE;
+    }
+
 }
