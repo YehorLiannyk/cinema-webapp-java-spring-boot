@@ -4,11 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
+import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
 import yehor.epam.cinema_final_project_spring.entities.Seat;
 import yehor.epam.cinema_final_project_spring.entities.Session;
 import yehor.epam.cinema_final_project_spring.entities.Ticket;
 import yehor.epam.cinema_final_project_spring.entities.User;
+import yehor.epam.cinema_final_project_spring.exceptions.seat.SeatIsAlreadyReservedException;
 import yehor.epam.cinema_final_project_spring.exceptions.ticket.TicketListIsEmptyException;
 import yehor.epam.cinema_final_project_spring.exceptions.ticket.TicketNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.TicketRepository;
@@ -75,9 +77,39 @@ public class TicketServiceImpl implements TicketService {
             log.debug("Received ticket list is empty");
             throw new TicketListIsEmptyException();
         }
+        log.debug("Received ticketList size: " + ticketDTOList.size() + ", ticketLIst: " + ticketDTOList);
+        final boolean isFree = checkSeatsOfTicketListAreFree(ticketDTOList);
+        if (!isFree) {
+            log.debug("Couldn't save tickets, seat is already reserved");
+            throw new SeatIsAlreadyReservedException();
+        }
+        log.debug("TicketList after check isFree size: " + ticketDTOList.size() + ", ticketLIst: " + ticketDTOList);
         final List<Ticket> ticketList = mapperDTO.toTicketList(ticketDTOList);
+        log.debug("TicketList after mapping isFree size: " + ticketDTOList.size() + ", ticketLIst: " + ticketDTOList);
         ticketRepository.saveAll(ticketList);
+        deleteSeatsOfTicketList(ticketDTOList);
+        log.info("Save tickets to DB and delete session seats");
     }
+
+    private boolean checkSeatsOfTicketListAreFree(List<TicketDTO> ticketDTOList) {
+        return ticketDTOList.stream()
+                .allMatch(ticketDTO -> {
+                    final SeatDTO seat = ticketDTO.getSeat();
+                    final SessionDTO session = ticketDTO.getSession();
+                    return sessionService.isSeatFreeBySession(seat.getId(), session.getId());
+                });
+    }
+
+    private void deleteSeatsOfTicketList(List<TicketDTO> ticketDTOList) {
+        ticketDTOList
+                .forEach(ticketDTO -> {
+                    final SeatDTO seat = ticketDTO.getSeat();
+                    final SessionDTO session = ticketDTO.getSession();
+                    sessionService.deleteSessionSeat(seat.getId(), session.getId());
+                    log.debug("Delete session seat, seat: " + seat + ", session: " + session + ", ticketID: " + ticketDTO.getId());
+                });
+    }
+
 
     @Override
     public TicketDTO getById(Long id) {

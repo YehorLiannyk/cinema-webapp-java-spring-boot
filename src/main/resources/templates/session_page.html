@@ -47,8 +47,7 @@
 
                                         <th:block th:each="seat : ${freeAndReservedSeatMap}">
 
-                                            <div class="w-100"
-                                                 th:if="${seat.key.placeNo == 1 && seatStat.index > 0}"></div>
+                                            <div th:if="${seat.key.placeNo == 1}" class="w-100"></div>
 
                                             <label th:if="${seat.value}">
                                                 <input type="checkbox" name="seat"

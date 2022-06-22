@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
-import yehor.epam.cinema_final_project_spring.exceptions.SeatWasNotPickedException;
+import yehor.epam.cinema_final_project_spring.exceptions.seat.SeatWasNotPickedException;
 import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
 import yehor.epam.cinema_final_project_spring.services.*;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;

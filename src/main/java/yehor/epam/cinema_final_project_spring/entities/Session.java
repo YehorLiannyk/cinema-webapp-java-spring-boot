@@ -42,4 +42,7 @@ public class Session {
     private List<Seat> seatList;
 
     private Integer seatsAmount = seatList != null ? seatList.size() : 0;
+
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    private List<Ticket> ticketList;
 }

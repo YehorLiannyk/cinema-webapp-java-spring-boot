@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -57,4 +59,7 @@ public class User {
      */
     @Column(columnDefinition = "boolean default false")
     private Boolean notification;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Ticket> ticket;
 }

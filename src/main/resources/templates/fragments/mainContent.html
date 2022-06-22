@@ -47,7 +47,7 @@
         <!--/GUEST-->
 
         <!--USER-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/users/me/profile}" th:text="#{menu.user.myProfile}"
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/users/me/tickets}" th:text="#{menu.user.myProfile}"
            sec:authorize="hasRole('USER')">My profile</a>
         <!--/USER-->
 
@@ -83,18 +83,25 @@
         <!--/REGISTERED USER-->
 
         <!--LANGUAGE SWITCHER-->
-        <!-- <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
-             <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
-                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 ${languageSelector}
-             </button>
-             <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
-                 <ul style="list-style-type: none;" class="px-3">
-                     <li class="menu-li py-1"><a href="?lang=en">${langENG}</a></li>
-                     <li class="menu-li py-1"><a href="?lang=ua">${langUA}</a></li>
-                 </ul>
-             </div>
-         </div>-->
+        <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
+            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    th:text="#{menu.languageSelector}">Select language
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
+                <ul style="list-style-type: none;" class="px-3"
+                    th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                    <li class="menu-li py-1">
+                        <a th:href="@{${urlBuilder.replaceQueryParam('lang', 'en').toUriString()}}"
+                           th:text="#{menu.languageENG}">English</a>
+                    </li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{${urlBuilder.replaceQueryParam('lang', 'uk').toUriString()}}"
+                           th:text="#{menu.languageUA}">Ukrainian</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <!--/LANGUAGE SWITCHER-->
 
     </div>

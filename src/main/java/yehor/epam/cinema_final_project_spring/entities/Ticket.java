@@ -16,15 +16,15 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "session_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "session_id")
     private Session session;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 

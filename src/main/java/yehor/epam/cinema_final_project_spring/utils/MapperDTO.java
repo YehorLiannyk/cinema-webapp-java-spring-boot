@@ -42,16 +42,15 @@ public class MapperDTO {
 
     public User toUser(UserDTO userDTO) {
         UserRole userRole = toUserRole(userDTO.getUserRole());
-        return new User(
-                userDTO.getId(),
-                userDTO.getFirstName(),
-                userDTO.getLastName(),
-                userDTO.getEmail(),
-                null,
-                userDTO.getPhoneNumber(),
-                userRole,
-                userDTO.getNotification()
-        );
+        User user = new User();
+        user.setId(userDTO.getId());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setUserRole(userRole);
+        user.setNotification(userDTO.getNotification());
+        return user;
     }
 
     public UserRoleDTO fromUserRole(UserRole userRole) {
@@ -101,19 +100,19 @@ public class MapperDTO {
         final List<Seat> seatList = toSeatList(sessionDTO.getSeatList());
         final Film film = toFilm(sessionDTO.getFilm());
         int seatsAmount = seatList != null ? seatList.size() : 0;
-        return new Session(
-                sessionDTO.getId(),
-                sessionDTO.getTicketPrice(),
-                sessionDTO.getDate(),
-                sessionDTO.getTime(),
-                film,
-                seatList,
-                seatsAmount
-        );
+        Session session = new Session();
+        session.setId(sessionDTO.getId());
+        session.setTicketPrice(sessionDTO.getTicketPrice());
+        session.setDate(sessionDTO.getDate());
+        session.setTime(sessionDTO.getTime());
+        session.setFilm(film);
+        session.setSeatList(seatList);
+        session.setSeatsAmount(seatsAmount);
+        return session;
     }
 
     public FilmDTO fromFilm(Film film) {
-        Long durationInMin = film.getDurationInMinutes();
+        Long durationInMin = film.getDuration().toMinutes();
         final List<GenreDTO> genreDTOList = fromGenreList(film.getGenreList());
         return new FilmDTO(
                 film.getId(),
@@ -141,11 +140,11 @@ public class MapperDTO {
     }
 
     public Seat toSeat(SeatDTO seatDTO) {
-        return new Seat(
-                seatDTO.getId(),
-                seatDTO.getRowNo(),
-                seatDTO.getPlaceNo()
-        );
+        Seat seat = new Seat();
+        seat.setId(seatDTO.getId());
+        seat.setRowNo(seatDTO.getRowNo());
+        seat.setPlaceNo(seatDTO.getPlaceNo());
+        return seat;
     }
 
     public SeatDTO fromSeat(Seat seat) {
@@ -195,6 +194,7 @@ public class MapperDTO {
         final List<FilmDTO> filmDTOS = fromFilmList(filmPage.getContent());
         return new PageImpl<>(filmDTOS, filmPage.getPageable(), filmPage.getTotalElements());
     }
+
     public Page<SessionDTO> fromSessionPage(Page<Session> sessionPage) {
         final List<SessionDTO> sessionDTOS = fromSessionList(sessionPage.getContent());
         return new PageImpl<>(sessionDTOS, sessionPage.getPageable(), sessionPage.getTotalElements());
@@ -212,7 +212,6 @@ public class MapperDTO {
                 seat
         );
     }
-
 
 
     public Ticket toTicket(TicketDTO ticketDTO) {

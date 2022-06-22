@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,4 +22,7 @@ public class Seat {
 
     @Column(nullable = false)
     private Integer placeNo;
+
+    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL)
+    private List<Ticket> ticket;
 }

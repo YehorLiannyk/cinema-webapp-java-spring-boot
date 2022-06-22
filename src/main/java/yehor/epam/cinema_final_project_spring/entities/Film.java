@@ -3,6 +3,7 @@ package yehor.epam.cinema_final_project_spring.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
 import javax.persistence.*;
 import java.time.Duration;
@@ -20,11 +21,12 @@ public class Film {
     /**
      * Film's name
      */
-    @Column(nullable = false)
+    @Column(nullable = false, length = Constants.MAX_FILM_NAME_LENGTH)
     private String name;
     /**
      * Film's description (non required)
      */
+    @Column(length = Constants.MAX_FILM_DESC_LENGTH)
     private String description;
     /**
      * Film's duration
@@ -47,7 +49,4 @@ public class Film {
     @Column(nullable = false)
     private String posterUrl;
 
-    public Long getDurationInMinutes() {
-        return duration.toMinutes();
-    }
 }

@@ -30,7 +30,7 @@ public class UserController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping(value = "/me/profile")
+    @GetMapping(value = "/me/tickets")
     public String userProfilePage(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         final Long userId = userService.getUserIdByEmail(userDetails.getUsername());
         final List<TicketDTO> ticketList = ticketService.getAllByUserId(userId);

@@ -56,7 +56,7 @@ public class AdminFilmController {
         }
         filmDTO.setGenreList(genreList);
         filmService.save(filmDTO);
-        return "redirect:/" + ADMIN_FILMS_SETTING_PAGE;
+        return "redirect:/admins/films";
     }
 
     @GetMapping

@@ -152,4 +152,26 @@ public class SessionServiceImpl implements SessionService {
         });
         return seatMap;
     }
+
+    @Override
+    public boolean isSeatFreeBySession(Long seatId, Long sessionId) {
+        return sessionRepository.isSeatFreeBySession(seatId, sessionId);
+    }
+
+    @Override
+    public boolean isSeatListFreeBySession(List<SeatDTO> seatDTOList, Long sessionId) {
+        final List<Seat> seatList = mapperDTO.toSeatList(seatDTOList);
+        return sessionRepository.isSeatListFreeBySession(seatList, sessionId);
+    }
+
+    @Override
+    public void deleteSessionSeat(Long seatId, Long sessionId) {
+        sessionRepository.deleteSessionSeat(seatId, sessionId);
+    }
+
+    @Override
+    public void deleteSessionSeatList(List<SeatDTO> seatDTOList, Long sessionId) {
+        final List<Seat> seatList = mapperDTO.toSeatList(seatDTOList);
+        sessionRepository.deleteSessionSeatList(seatList, sessionId);
+    }
 }

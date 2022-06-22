@@ -6,16 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
-import yehor.epam.cinema_final_project_spring.entities.Ticket;
 import yehor.epam.cinema_final_project_spring.exceptions.PDFException;
 import yehor.epam.cinema_final_project_spring.services.TicketService;
 import yehor.epam.cinema_final_project_spring.utils.TicketPDFService;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,7 +32,7 @@ public class TicketController {
     @PostMapping
     public String createTickets(@SessionAttribute(name = "ticketList") List<TicketDTO> ticketList) {
         ticketService.save(ticketList);
-        return "redirect:/users/me/profile";
+        return "redirect:/users/me/tickets";
     }
 
     @GetMapping("/{id}/pdf")
@@ -47,10 +44,12 @@ public class TicketController {
     }
 
     /**
-     * Call form PDF method and then write received ByteArrayOutputStream to servletOutputStream
+     * Call form PDF method and then write received ByteArrayOutputStream to servletOutputStream;
      *
      * @param response HttpServletResponse
      * @param ticket   Ticket for PDF
+     * @SneakyThrows - There is @SneakyThrows because IOException from ByteArrayOutputStream is only one checked exception here,
+     * don't want to add try-catch block. It will handle with general exception handler
      */
     @SneakyThrows
     private void formAndWritePDF(HttpServletResponse response, TicketDTO ticket, Locale locale) {

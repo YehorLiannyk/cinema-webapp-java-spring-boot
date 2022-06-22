@@ -1,13 +1,13 @@
 package yehor.epam.cinema_final_project_spring.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import yehor.epam.cinema_final_project_spring.entities.Genre;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
@@ -31,7 +31,6 @@ public class FilmDTO {
     /**
      * Film's duration in minutes
      */
-    //@NotBlank(message = "{valid.film.duration.notEmpty}")
     @Min(value = MIN_FILM_DURATION_IN_MINUTE, message = "{valid.film.duration.min}")
     @Max(value = MAX_FILM_DURATION_IN_MINUTE, message = "{valid.film.duration.max}")
     private Long duration;
