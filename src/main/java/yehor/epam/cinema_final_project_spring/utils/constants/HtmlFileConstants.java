@@ -18,7 +18,7 @@ public final class HtmlFileConstants {
     public static final String ACCESS_DENIED_PAGE = "errors/accessDenied";
     public static final String USER_PROFILE_PAGE = "userProfile";
     public static final String ORDER_PAGE = "order";
-    public static final String SUCCESS_PAYMENT_PAGE = "successPayment";
+    public static final String SUCCESS_PAYMENT_PAGE = "success_payment";
 
     private HtmlFileConstants() {
     }

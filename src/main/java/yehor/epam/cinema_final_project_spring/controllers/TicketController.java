@@ -9,6 +9,7 @@ import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
 import yehor.epam.cinema_final_project_spring.exceptions.PDFException;
 import yehor.epam.cinema_final_project_spring.services.TicketService;
 import yehor.epam.cinema_final_project_spring.utils.TicketPDFService;
+import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,12 @@ public class TicketController {
     @PostMapping
     public String createTickets(@SessionAttribute(name = "ticketList") List<TicketDTO> ticketList) {
         ticketService.save(ticketList);
-        return "redirect:/users/me/tickets";
+        return "redirect:/tickets/order/success-payment";
+    }
+
+    @GetMapping("/order/success-payment")
+    public String getSuccessPayPage() {
+        return HtmlFileConstants.SUCCESS_PAYMENT_PAGE;
     }
 
     @GetMapping("/{id}/pdf")
