@@ -63,12 +63,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("Enter to configure(HttpSecurity http) method");
         http
                 .authorizeRequests()
-                    .antMatchers("/users/me/**").permitAll() //change
+                    .antMatchers("/users/me/**").hasRole(USER_ROLE)
                     .antMatchers("/swagger-ui/**").hasRole(ADMIN_ROLE)
                     .antMatchers("/admins/**").hasRole(ADMIN_ROLE)
                     .antMatchers("/logout").hasAnyRole(USER_ROLE, ADMIN_ROLE)
-                    .antMatchers("/sessions/{id}/order").hasRole(ADMIN_ROLE) // change
-                    .antMatchers("/tickets/**").hasRole(ADMIN_ROLE) // change
+                    .antMatchers("/sessions/{id}/order").hasRole(USER_ROLE)
+                    .antMatchers("/tickets/**").hasRole(USER_ROLE)
                     .antMatchers("/signup*").anonymous()
                     .antMatchers("/films/**", "/sessions/**").permitAll()
                     .antMatchers("/", "/main", "/error/**").permitAll()
