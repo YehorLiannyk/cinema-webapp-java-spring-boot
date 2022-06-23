@@ -39,14 +39,14 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public void save(SessionDTO sessionDTO) {
         if (sessionDTO.getSeatList() == null || sessionDTO.getSeatList().isEmpty()) {
+            log.debug("Received session has no seats, set default seatList");
             final List<Seat> allEntities = seatService.getAllEntities();
             final List<SeatDTO> seatDTOList = mapperDTO.fromSeatList(allEntities);
             sessionDTO.setSeatList(seatDTOList);
         }
-        log.debug("SessionDTO: " + sessionDTO);
         final Session session = mapperDTO.toSession(sessionDTO);
-        log.debug("Session ticket price = " + session.getTicketPrice());
         sessionRepository.save(session);
+        log.debug("Saved session: " + session);
     }
 
     @Override
@@ -58,45 +58,46 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public Page<SessionDTO> getAll(int pageNo, int pageSize, String filter, String sort, String method) {
+        log.debug("Sort by: " + sort);
         List<Sort.Order> generalOrders = getSortOrder(sort);
         Sort sorter = Sort.by(generalOrders);
-        sorter = getWithOrderMethod(sorter, method);
+        sorter = getSortWithOrderMethod(sorter, method);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sorter);
-        final Page<Session> all = getPageWithFilter(pageable, filter);
-        return mapperDTO.fromSessionPage(all);
+        Page<Session> sessionPage = getOrderPageWithFilter(pageable, filter);
+        return mapperDTO.fromSessionPage(sessionPage);
     }
 
-    private Page<Session> getPageWithFilter(Pageable pageable, String filter) {
+    private Page<Session> getOrderPageWithFilter(Pageable pageable, String filter) {
         if (filter.equals(FILTER_SHOW_ONLY_AVAILABLE)) {
-            return sessionRepository.findBySeatsAmountGreaterThanEqual(pageable, 1);
+            return sessionRepository.findAllBySeatListSize(1, pageable);
         }
-        return sessionRepository.findBySeatsAmountGreaterThanEqual(pageable, 0);
+        return sessionRepository.findAllBySeatListSize(0, pageable);
     }
 
-    private Sort getWithOrderMethod(Sort sort, String method) {
-        Sort sorter = null;
+    private Sort getSortWithOrderMethod(Sort sort, String method) {
         if (method.equals(SORT_METHOD_DESC)) {
-            sorter = sort.descending();
-        } else {
-            sorter = sort.ascending();
+            return sort.descending();
         }
-        return sorter;
+        return sort.ascending();
     }
 
     private List<Sort.Order> getSortOrder(String sort) {
-        log.debug("Sort by: " + sort);
         List<Sort.Order> orders = new ArrayList<>();
-        if (sort.equals(SORT_BY_SEATS_REMAIN)) {
-            Sort.Order seats = new Sort.Order(Sort.DEFAULT_DIRECTION, "COUNT(seatList)");
-            orders.add(seats);
-        } else if (sort.equals(SORT_BY_FILM_NAME)) {
-            Sort.Order name = new Sort.Order(Sort.DEFAULT_DIRECTION, "film.name");
-            orders.add(name);
-        } else {
-            Sort.Order date = new Sort.Order(Sort.DEFAULT_DIRECTION, "date");
-            orders.add(date);
-            Sort.Order time = new Sort.Order(Sort.DEFAULT_DIRECTION, "time");
-            orders.add(time);
+        switch (sort) {
+            case SORT_BY_FILM_NAME -> {
+                Sort.Order name = new Sort.Order(Sort.DEFAULT_DIRECTION, "film.name");
+                orders.add(name);
+            }
+            case SORT_BY_SEATS_REMAIN -> {
+                Sort.Order seats = new Sort.Order(Sort.DEFAULT_DIRECTION, "seatList.size");
+                orders.add(seats);
+            }
+            default -> {
+                Sort.Order date = new Sort.Order(Sort.DEFAULT_DIRECTION, "date");
+                orders.add(date);
+                Sort.Order time = new Sort.Order(Sort.DEFAULT_DIRECTION, "time");
+                orders.add(time);
+            }
         }
         return orders;
     }
@@ -173,5 +174,10 @@ public class SessionServiceImpl implements SessionService {
     public void deleteSessionSeatList(List<SeatDTO> seatDTOList, Long sessionId) {
         final List<Seat> seatList = mapperDTO.toSeatList(seatDTOList);
         sessionRepository.deleteSessionSeatList(seatList, sessionId);
+    }
+
+    @Override
+    public Long countFreeSeats(Long sessionId) {
+        return sessionRepository.countFreeSeats(sessionId);
     }
 }

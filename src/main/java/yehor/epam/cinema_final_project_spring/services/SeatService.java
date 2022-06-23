@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SeatService {
     List<Seat> getAllEntities();
+
 }

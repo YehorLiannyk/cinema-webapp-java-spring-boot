@@ -3,7 +3,6 @@ package yehor.epam.cinema_final_project_spring.services;
 import org.springframework.data.domain.Page;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
-import yehor.epam.cinema_final_project_spring.entities.Seat;
 import yehor.epam.cinema_final_project_spring.entities.Session;
 
 import java.util.List;
@@ -35,4 +34,5 @@ public interface SessionService {
 
     void deleteSessionSeatList(List<SeatDTO> seatDTOList, Long sessionId);
 
+    Long countFreeSeats(Long SessionId);
 }

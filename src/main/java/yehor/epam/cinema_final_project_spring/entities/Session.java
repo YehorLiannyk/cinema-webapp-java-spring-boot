@@ -33,7 +33,7 @@ public class Session {
     @JoinColumn(name = "film_id", nullable = false)
     private Film film;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "session_seats",
             joinColumns = @JoinColumn(name = "session_id"),
@@ -41,7 +41,6 @@ public class Session {
     )
     private List<Seat> seatList;
 
-    private Integer seatsAmount = seatList != null ? seatList.size() : 0;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
     private List<Ticket> ticketList;

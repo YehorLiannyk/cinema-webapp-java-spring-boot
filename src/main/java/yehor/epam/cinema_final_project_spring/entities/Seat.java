@@ -25,4 +25,13 @@ public class Seat {
 
     @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL)
     private List<Ticket> ticket;
+
+/*@ManyToOne
+    @JoinTable(
+            name = "session_seats",
+            joinColumns = @JoinColumn(name = "session_id"),
+            inverseJoinColumns = @JoinColumn(name = "seat_id")
+    )*/
+    @ManyToMany(mappedBy = "seatList")
+    private List<Session> sessionList;
 }

@@ -99,7 +99,6 @@ public class MapperDTO {
     public Session toSession(SessionDTO sessionDTO) {
         final List<Seat> seatList = toSeatList(sessionDTO.getSeatList());
         final Film film = toFilm(sessionDTO.getFilm());
-        int seatsAmount = seatList != null ? seatList.size() : 0;
         Session session = new Session();
         session.setId(sessionDTO.getId());
         session.setTicketPrice(sessionDTO.getTicketPrice());
@@ -107,7 +106,6 @@ public class MapperDTO {
         session.setTime(sessionDTO.getTime());
         session.setFilm(film);
         session.setSeatList(seatList);
-        session.setSeatsAmount(seatsAmount);
         return session;
     }
 
