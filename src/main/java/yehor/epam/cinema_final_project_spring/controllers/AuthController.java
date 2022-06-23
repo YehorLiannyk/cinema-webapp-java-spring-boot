@@ -10,12 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
+import yehor.epam.cinema_final_project_spring.recaptcha.ValidateCaptchaService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
@@ -25,10 +23,12 @@ import javax.validation.Valid;
 @Slf4j
 public class AuthController {
     private final UserService userService;
+    private final ValidateCaptchaService captchaService;
 
     @Autowired
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, ValidateCaptchaService captchaService) {
         this.userService = userService;
+        this.captchaService = captchaService;
     }
 
     @RequestMapping("/login")
@@ -49,8 +49,15 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String signingUp(@ModelAttribute("user") @Valid UserSignUpDTO userSignUpDTO, BindingResult bindingResult, Model model) {
-        if (hasError(userSignUpDTO, bindingResult)) {
+    public String signingUp(@ModelAttribute("user") @Valid UserSignUpDTO userSignUpDTO, BindingResult bindingResult, Model model,
+                            @RequestParam("g-recaptcha-response") String captcha) {
+
+        log.debug("Received captcha value: " + captcha);
+        boolean invalidCaptcha = !captchaService.isValidCaptcha(captcha);
+        if (hasError(userSignUpDTO, bindingResult) || invalidCaptcha) {
+            if (invalidCaptcha) {
+                model.addAttribute("invalidCaptcha", true);
+            }
             return HtmlFileConstants.SIGN_UP_PAGE;
         }
         try {

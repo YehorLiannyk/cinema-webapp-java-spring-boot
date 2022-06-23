@@ -14,7 +14,7 @@
 
                             <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4" th:text="#{form.signup}"></p>
 
-                            <div th:if="${userExists}" class="user-form-msg"
+                            <div th:if="${userExists}" class="user-form-msg alert alert-danger"
                                  th:text="#{error.userAlreadyExists}"></div>
 
                             <form class="mx-1 mx-md-4 mt-2" th:method="POST" th:action="@{/signup}" th:object="${user}">
@@ -116,13 +116,20 @@
                                     </label>
                                 </div>
 
-                                <!-- <div class="d-flex mb-5 g-recaptcha"
-                                      data-sitekey="6LeFvCUgAAAAACAtqpZg-ECgUPYLBP-_GqY8D0OT">
-                                 </div>-->
+                                <div class="d-flex mb-4 g-recaptcha" id="recaptcha"
+                                     th:data-sitekey="${@environment.getProperty('google.recaptcha.site')}">
+                                </div>
+                                <div th:if="${invalidCaptcha}" class="mb-2">
+                                    <span id="captcha-error" class="alert alert-danger col-sm-4"
+                                          style="display: block; min-width: 100%;"
+                                          th:text="#{valid.captcha}"></span>
+                                </div>
 
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                    <input type="submit" class="btn btn-primary btn-lg" th:value="#{form.signupBtn}"/>
+                                    <input type="submit" id="button" class="btn btn-primary btn-lg"
+                                           th:value="#{form.signupBtn}"/>
                                 </div>
+
 
                             </form>
                         </div>
@@ -136,5 +143,6 @@
         </div>
     </div>
 </main>
+
 <footer th:replace="fragments/mainContent :: footer"></footer>
 </body>

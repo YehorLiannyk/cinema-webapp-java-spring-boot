@@ -13,7 +13,7 @@
 
                             <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4" th:text="#{form.login}"></p>
 
-                            <div th:if="${param.error}" class="user-form-msg"
+                            <div th:if="${param.error}" class="user-form-msg alert alert-danger"
                                  th:text="#{error.invalidEmailOrPassword}"></div>
 
                             <form class="mx-1 mx-md-4 mt-2" th:method="POST" th:action="@{/process_login}">
