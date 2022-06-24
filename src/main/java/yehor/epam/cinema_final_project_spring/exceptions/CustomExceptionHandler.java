@@ -1,8 +1,6 @@
 package yehor.epam.cinema_final_project_spring.exceptions;
 
-import ch.qos.logback.core.status.ErrorStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.ErrorState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -54,7 +52,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return goToErrorPage("error.userAlreadyExists", null, locale, errorStatus, e, model);
     }
 
-    @ExceptionHandler(value = {PDFException.class})
+    @ExceptionHandler(value = {PdfException.class})
     protected String handlePDFException(Locale locale, HttpServletRequest request, Model model, Throwable e) {
         final int errorStatus = getErrorCodeOrSetDefault(request);
         return goToErrorPage("error.pdfException", null, locale, errorStatus, e, model);

@@ -13,10 +13,13 @@ import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
-import yehor.epam.cinema_final_project_spring.exceptions.PDFException;
+import yehor.epam.cinema_final_project_spring.exceptions.PdfException;
+import yehor.epam.cinema_final_project_spring.exceptions.WritePdfToResponseException;
 import yehor.epam.cinema_final_project_spring.services.TicketPDFService;
 import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -48,7 +51,7 @@ public class TicketPDFServiceImpl implements TicketPDFService {
             unicode = BaseFont.createFont(Constants.FONTS_BAHNSCHRIFT_TTF_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         } catch (DocumentException | IOException e) {
             log.error("Couldn't set font for PDF", e);
-            throw new PDFException("Couldn't set font for PDF", e);
+            throw new PdfException("Couldn't set font for PDF", e);
         }
         headFont = new Font(unicode, 12);
         return headFont;
@@ -61,7 +64,7 @@ public class TicketPDFServiceImpl implements TicketPDFService {
      * @return ByteArrayOutputStream
      */
     @Override
-    public ByteArrayOutputStream formPDFTicketToStream(TicketDTO ticket, Locale locale) {
+    public ByteArrayOutputStream formPdfTicketToStream(TicketDTO ticket, Locale locale) {
         Document document = new Document();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -100,9 +103,35 @@ public class TicketPDFServiceImpl implements TicketPDFService {
             document.close();
         } catch (Exception e) {
             log.error("Couldn't create pdf ticket", e);
-            throw new PDFException();
+            throw new PdfException();
         }
         return outputStream;
+    }
+
+    @Override
+    public void writePdfToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response) {
+        try {
+            writeByteArrayOutputStreamToResponse(byteArrayOutputStream, response);
+        } catch (IOException e) {
+            log.error("Couldn't write pdf ticket (byteArrayOutputStream) to HttpServletResponse", e);
+            throw new WritePdfToResponseException(e);
+        }
+    }
+
+    private void writeByteArrayOutputStreamToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response)
+            throws IOException {
+        try {
+            response.setContentType("application/pdf");
+            response.addHeader("Content-Disposition", "inline; filename=" + Constants.DEF_TICKET_FILENAME);
+            ServletOutputStream servletOutputStream = response.getOutputStream();
+            byteArrayOutputStream.writeTo(servletOutputStream);
+        } catch (Exception e) {
+            log.error("Handled error when trying to write PDF to output", e);
+            throw new PdfException();
+        } finally {
+            byteArrayOutputStream.flush();
+            byteArrayOutputStream.close();
+        }
     }
 
     /**

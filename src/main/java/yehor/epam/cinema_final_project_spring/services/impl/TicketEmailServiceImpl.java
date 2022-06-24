@@ -31,7 +31,7 @@ public class TicketEmailServiceImpl implements TicketEmailService {
 
     @Override
     public void sentTicketViaEmail(TicketDTO ticketDTO, Locale locale, String email) {
-        try (ByteArrayOutputStream byteArrayOutputStream = ticketPDFService.formPDFTicketToStream(ticketDTO, locale)) {
+        try (ByteArrayOutputStream byteArrayOutputStream = ticketPDFService.formPdfTicketToStream(ticketDTO, locale)) {
             String subject = messageSource.getMessage("ticket.email.sendTicket.subject", null, locale);
             String text = messageSource.getMessage("ticket.email.sendTicket.text", null, locale);
             final String filename = Constants.DEF_TICKET_FILENAME + ".pdf";
