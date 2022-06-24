@@ -98,6 +98,10 @@ public final class Constants {
      */
     public static final String FONTS_BAHNSCHRIFT_TTF_PATH = "static/fonts/bahnschrift.ttf";
 
+    public static final String NO_REPLY_EMAIL = "noreply@cinema-epam-localhost.com";
+
+    public static final String DEF_TICKET_FILENAME= "ticket";
+
     private Constants() {
     }
 }

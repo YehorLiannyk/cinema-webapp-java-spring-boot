@@ -1,10 +1,13 @@
 package yehor.epam.cinema_final_project_spring.exceptions;
 
+import ch.qos.logback.core.status.ErrorStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.ErrorState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import yehor.epam.cinema_final_project_spring.exceptions.seat.SeatIsAlreadyReservedException;
 import yehor.epam.cinema_final_project_spring.exceptions.seat.SeatWasNotPickedException;
 import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.user.UserNotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +40,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     protected String generalHandler(Exception e, Locale locale, Model model) {
         log.error("Unexpected Exception was occurred");
         return goToErrorPage(DEFAULT_MSG_CODE, null, locale, DEFAULT_STATUS, e, model);
+    }
+
+    @ExceptionHandler(value = {UserNotFoundException.class, InternalAuthenticationServiceException.class})
+    protected String handleUserNotFoundException(Locale locale, Model model, Throwable e) {
+        final int errorStatus = HttpStatus.NOT_FOUND.value();
+        return goToErrorPage("error.userNotFound", null, locale, errorStatus, e, model);
     }
 
     @ExceptionHandler(value = {UserAlreadyExistException.class})

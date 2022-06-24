@@ -10,6 +10,7 @@ import yehor.epam.cinema_final_project_spring.entities.Seat;
 import yehor.epam.cinema_final_project_spring.entities.Session;
 import yehor.epam.cinema_final_project_spring.entities.Ticket;
 import yehor.epam.cinema_final_project_spring.entities.User;
+import yehor.epam.cinema_final_project_spring.exceptions.CantSendTicketEmailException;
 import yehor.epam.cinema_final_project_spring.exceptions.seat.SeatIsAlreadyReservedException;
 import yehor.epam.cinema_final_project_spring.exceptions.ticket.TicketListIsEmptyException;
 import yehor.epam.cinema_final_project_spring.exceptions.ticket.TicketNotFoundException;
@@ -19,9 +20,12 @@ import yehor.epam.cinema_final_project_spring.services.TicketService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Service
@@ -32,7 +36,8 @@ public class TicketServiceImpl implements TicketService {
     private final MapperDTO mapperDTO;
 
     @Autowired
-    public TicketServiceImpl(TicketRepository ticketRepository, SessionService sessionService, UserService userService, MapperDTO mapperDTO) {
+    public TicketServiceImpl(TicketRepository ticketRepository, SessionService sessionService, UserService userService,
+                             MapperDTO mapperDTO) {
         this.ticketRepository = ticketRepository;
         this.sessionService = sessionService;
         this.userService = userService;
@@ -116,4 +121,7 @@ public class TicketServiceImpl implements TicketService {
         final Ticket ticket = ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
         return mapperDTO.fromTicket(ticket);
     }
+
+
+
 }

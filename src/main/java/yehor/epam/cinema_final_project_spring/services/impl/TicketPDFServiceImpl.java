@@ -1,4 +1,4 @@
-package yehor.epam.cinema_final_project_spring.utils;
+package yehor.epam.cinema_final_project_spring.services.impl;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
@@ -14,6 +14,7 @@ import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
 import yehor.epam.cinema_final_project_spring.exceptions.PDFException;
+import yehor.epam.cinema_final_project_spring.services.TicketPDFService;
 import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
 import java.io.ByteArrayOutputStream;
@@ -27,7 +28,7 @@ import java.util.Locale;
  */
 @Service
 @Slf4j
-public class TicketPDFService {
+public class TicketPDFServiceImpl implements TicketPDFService {
     private final Font headFont;
     private final MessageSource messageSource;
 
@@ -35,7 +36,7 @@ public class TicketPDFService {
      * Create TicketService object and set main Font for pdf file
      */
     @Autowired
-    public TicketPDFService(MessageSource messageSource) {
+    public TicketPDFServiceImpl(MessageSource messageSource) {
         this.messageSource = messageSource;
         headFont = getHeadFont();
     }
@@ -59,7 +60,8 @@ public class TicketPDFService {
      * @param ticket Ticket object
      * @return ByteArrayOutputStream
      */
-    public ByteArrayOutputStream formPDFTicket(TicketDTO ticket, Locale locale) {
+    @Override
+    public ByteArrayOutputStream formPDFTicketToStream(TicketDTO ticket, Locale locale) {
         Document document = new Document();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

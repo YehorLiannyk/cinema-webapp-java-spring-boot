@@ -3,17 +3,21 @@ package yehor.epam.cinema_final_project_spring.controllers;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
 import yehor.epam.cinema_final_project_spring.exceptions.PDFException;
+import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
+import yehor.epam.cinema_final_project_spring.services.TicketEmailService;
+import yehor.epam.cinema_final_project_spring.services.TicketPDFService;
 import yehor.epam.cinema_final_project_spring.services.TicketService;
-import yehor.epam.cinema_final_project_spring.utils.TicketPDFService;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,13 +25,15 @@ import java.util.Locale;
 @Controller
 @RequestMapping("/tickets")
 public class TicketController {
-    private final TicketService ticketService;
+    private final TicketEmailService ticketEmailService;
     private final TicketPDFService ticketPDFService;
+    private final TicketService ticketService;
 
     @Autowired
-    public TicketController(TicketService ticketService, TicketPDFService ticketPDFService) {
+    public TicketController(TicketService ticketService, TicketPDFService ticketPDFService, TicketEmailService ticketEmailService) {
         this.ticketService = ticketService;
         this.ticketPDFService = ticketPDFService;
+        this.ticketEmailService = ticketEmailService;
     }
 
     @PostMapping
@@ -46,8 +52,21 @@ public class TicketController {
         final TicketDTO ticketDTO = ticketService.getById(id);
         response.setContentType("application/pdf");
         response.addHeader("Content-Disposition", "inline; filename=" + "ticket.pdf");
-        formAndWritePDF(response, ticketDTO, locale);
+        try (ByteArrayOutputStream byteArrayOutputStream = ticketPDFService.formPDFTicketToStream(ticketDTO, locale)) {
+            writePDFToResponse(byteArrayOutputStream, response, ticketDTO, locale);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    @GetMapping("/{id}/email")
+    public String sendMailTicket(@PathVariable Long id, Locale locale, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        final TicketDTO ticketDTO = ticketService.getById(id);
+        ticketEmailService.sentTicketViaEmail(ticketDTO, locale, userDetails.getUsername());
+        return "redirect:/";
+    }
+
 
     /**
      * Call form PDF method and then write received ByteArrayOutputStream to servletOutputStream;
@@ -58,18 +77,14 @@ public class TicketController {
      * don't want to add try-catch block. It will handle with general exception handler
      */
     @SneakyThrows
-    private void formAndWritePDF(HttpServletResponse response, TicketDTO ticket, Locale locale) {
-        ByteArrayOutputStream byteArrayOutputStream = null;
+    private void writePDFToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response, TicketDTO ticket, Locale locale) {
         try {
-            byteArrayOutputStream = ticketPDFService.formPDFTicket(ticket, locale);
-            final ServletOutputStream servletOutputStream = response.getOutputStream();
+            ServletOutputStream servletOutputStream = response.getOutputStream();
             byteArrayOutputStream.writeTo(servletOutputStream);
         } catch (Exception e) {
-            if (byteArrayOutputStream != null) {
-                byteArrayOutputStream.flush();
-                byteArrayOutputStream.close();
-            }
-            log.error("Handled error when trying to write PDF to output");
+            log.error("Handled error when trying to write PDF to output", e);
+            byteArrayOutputStream.flush();
+            byteArrayOutputStream.close();
             throw new PDFException();
         }
     }

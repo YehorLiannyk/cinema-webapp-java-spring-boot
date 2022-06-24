@@ -51,7 +51,6 @@ public class AuthController {
     @PostMapping("/signup")
     public String signingUp(@ModelAttribute("user") @Valid UserSignUpDTO userSignUpDTO, BindingResult bindingResult, Model model,
                             @RequestParam("g-recaptcha-response") String captcha) {
-
         log.debug("Received captcha value: " + captcha);
         boolean invalidCaptcha = !captchaService.isValidCaptcha(captcha);
         if (hasError(userSignUpDTO, bindingResult) || invalidCaptcha) {
@@ -60,6 +59,10 @@ public class AuthController {
             }
             return HtmlFileConstants.SIGN_UP_PAGE;
         }
+        return getPageAfterSaving(userSignUpDTO, model);
+    }
+
+    private String getPageAfterSaving(UserSignUpDTO userSignUpDTO, Model model) {
         try {
             userService.save(userSignUpDTO);
         } catch (UserAlreadyExistException e) {

@@ -39,7 +39,7 @@
 
                                             <div class="col-md-3">
                                                 <div class="vertical-buttons">
-                                                    <a type="button" th:href="@{/ticket/sendViaEmail(ticketId=*{id})}"
+                                                    <a type="button" th:href="@{/tickets/{id}/email(id=*{id})}"
                                                        th:text="#{ticket.sendMail}"
                                                        class="btn btn-lg btn-block btn-primary my-2">
                                                     </a>
