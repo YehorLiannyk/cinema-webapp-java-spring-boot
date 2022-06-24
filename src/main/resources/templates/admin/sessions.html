@@ -50,7 +50,7 @@
                                             <a type="button"
                                                class="btn btn-lg btn-block btn-primary my-2"
                                                th:text="#{admin.sessionsSetting.sessionInfo}"
-                                               th:href="@{/admins/sessions/{id}(id=*{id})}">Sessions page
+                                               th:href="@{/admins/me/sessions/{id}(id=*{id})}">Sessions page
                                             </a>
                                             <button type="button"
                                                     class="btn btn-lg btn-block btn-danger"
@@ -78,7 +78,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <form name="film" th:method="DELETE"
-                                                  th:action="@{/admins/sessions/{id}(id=*{id})}">
+                                                  th:action="@{/admins/me/sessions/{id}(id=*{id})}">
                                                 <button type="submit"
                                                         class="btn btn-primary" th:text="#{admin.sessionsSetting.delete}">
                                                     Delete
@@ -93,7 +93,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/admins/sessions')"></nav>
+                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/admins/me/sessions')"></nav>
             </div>
         </div>
     </div>

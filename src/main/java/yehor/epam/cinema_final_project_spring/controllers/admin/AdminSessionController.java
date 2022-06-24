@@ -22,7 +22,7 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileCon
 
 @Controller
 @Slf4j
-@RequestMapping("/admins/sessions")
+@RequestMapping("/admins/me/sessions")
 public class AdminSessionController {
     private final FilmService filmService;
     private final SessionService sessionService;
@@ -51,7 +51,7 @@ public class AdminSessionController {
             return ADMIN_ADD_SESSION_PAGE;
         }
         sessionService.save(sessionDTO);
-        return "redirect:/admins/sessions";
+        return "redirect:/admins/me/sessions";
     }
 
     @GetMapping
@@ -70,7 +70,7 @@ public class AdminSessionController {
     @DeleteMapping("/{id}")
     public String deleteSession(@PathVariable Long id) {
         sessionService.deleteById(id);
-        return "redirect:/admins/sessions";
+        return "redirect:/admins/me/sessions";
     }
 
     @GetMapping("/{id}")

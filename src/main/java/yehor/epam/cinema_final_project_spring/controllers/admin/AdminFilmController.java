@@ -22,7 +22,7 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileCon
 
 @Controller
 @Slf4j
-@RequestMapping("/admins/films")
+@RequestMapping("/admins/me/films")
 public class AdminFilmController {
     private final GenreService genreService;
     private final FilmService filmService;
@@ -56,7 +56,7 @@ public class AdminFilmController {
         }
         filmDTO.setGenreList(genreList);
         filmService.save(filmDTO);
-        return "redirect:/admins/films";
+        return "redirect:/admins/me/films";
     }
 
     @GetMapping
@@ -74,7 +74,7 @@ public class AdminFilmController {
     @DeleteMapping("/{id}")
     public String deleteFilm(@PathVariable Long id) {
         filmService.deleteById(id);
-        return "redirect:/admins/films";
+        return "redirect:/admins/me/films";
     }
 
 

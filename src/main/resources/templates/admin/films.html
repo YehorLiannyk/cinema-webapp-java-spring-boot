@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <form name="film" th:method="DELETE"
-                                                  th:action="@{/admins/films/{id}(id=*{id})}">
+                                                  th:action="@{/admins/me/films/{id}(id=*{id})}">
                                                 <button type="submit"
                                                         class="btn btn-primary" th:text="#{admin.filmsSetting.delete}">
                                                     Delete
@@ -81,7 +81,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/admins/films')"></nav>
+                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/admins/me/films')"></nav>
             </div>
         </div>
     </div>
