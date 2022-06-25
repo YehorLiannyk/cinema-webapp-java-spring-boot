@@ -15,16 +15,17 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
 
 @Slf4j
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private final JavaMailSender emailSender;
+    private final JavaMailSender javaMailSender;
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender emailSender) {
-        this.emailSender = emailSender;
+    public EmailServiceImpl(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
     }
 
     @Override
@@ -34,12 +35,12 @@ public class EmailServiceImpl implements EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-        emailSender.send(message);
+        javaMailSender.send(message);
     }
 
     @Override
     public void sendMsgWithAttachment(String to, String subject, String text, File file) {
-        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = getMimeMessageHelper(to, subject, text, message);
             final String filename = getFilename(file.getName());
@@ -48,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
             log.error("Couldn't send email message with attachment", e);
             throw new EmailException();
         }
-        emailSender.send(message);
+        javaMailSender.send(message);
     }
 
     private String getFilename(String fileName) {
@@ -58,7 +59,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendMsgWithAttachment(String to, String subject, String text, ByteArrayOutputStream byteArrayOutputStream,
                                       String filename) {
-        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessage message = javaMailSender.createMimeMessage();
         final ByteArrayResource byteArrayResource = new ByteArrayResource(byteArrayOutputStream.toByteArray());
         try {
             MimeMessageHelper helper = getMimeMessageHelper(to, subject, text, message);
@@ -68,7 +69,7 @@ public class EmailServiceImpl implements EmailService {
             log.error("Couldn't send email message with attachment", e);
             throw new EmailException();
         }
-        emailSender.send(message);
+        javaMailSender.send(message);
     }
 
     private MimeMessageHelper getMimeMessageHelper(String to, String subject, String text, MimeMessage message)

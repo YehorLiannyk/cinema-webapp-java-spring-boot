@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "genres")
+@Table(name = "genres", uniqueConstraints = {@UniqueConstraint(columnNames = {"genre_name"})})
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

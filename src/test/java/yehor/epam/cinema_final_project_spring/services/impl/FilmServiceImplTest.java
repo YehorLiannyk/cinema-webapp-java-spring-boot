@@ -1,6 +1,5 @@
 package yehor.epam.cinema_final_project_spring.services.impl;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,10 +14,8 @@ import yehor.epam.cinema_final_project_spring.entities.Film;
 import yehor.epam.cinema_final_project_spring.exceptions.film.FilmListIsEmptyException;
 import yehor.epam.cinema_final_project_spring.exceptions.film.FilmNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.FilmRepository;
-import yehor.epam.cinema_final_project_spring.services.FilmService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 

@@ -89,18 +89,15 @@ public class TicketServiceImpl implements TicketService {
             log.debug("Received ticket list is empty");
             throw new TicketListIsEmptyException();
         }
-        log.debug("Received ticketList size: " + ticketDTOList.size() + ", ticketLIst: " + ticketDTOList);
         final boolean isFree = checkSeatsOfTicketListAreFree(ticketDTOList);
         if (!isFree) {
             log.debug("Couldn't save tickets, seat is already reserved");
             throw new SeatIsAlreadyReservedException();
         }
-        log.debug("TicketList after check isFree size: " + ticketDTOList.size() + ", ticketLIst: " + ticketDTOList);
         final List<Ticket> ticketList = mapperDTO.toTicketList(ticketDTOList);
-        log.debug("TicketList after mapping isFree size: " + ticketDTOList.size() + ", ticketLIst: " + ticketDTOList);
         ticketRepository.saveAll(ticketList);
         deleteSeatsOfTicketList(ticketDTOList);
-        log.info("Save tickets to DB and delete session seats");
+        log.info("Save tickets to DB and delete session seats, ticketList: " + ticketDTOList);
     }
 
     private boolean checkSeatsOfTicketListAreFree(List<TicketDTO> ticketDTOList) {

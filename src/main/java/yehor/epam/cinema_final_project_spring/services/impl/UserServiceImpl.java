@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(UserSignUpDTO userSignUpDTO) {
         if (doesUserExistByEmail(userSignUpDTO.getEmail())) {
+            log.debug("There is already user with email: " + userSignUpDTO.getEmail());
             throw new UserAlreadyExistException();
         }
         prepareUserSignUpDTO(userSignUpDTO);
@@ -68,11 +69,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-/*    @Override
-    public User getByLoginAndPass(String login, String password) throws UserNotFoundException {
-        final Optional<User> optional = userRepository.findByEmailAndPassword(login, password);
-        return optional.orElseThrow(UserNotFoundException::new);
-    }*/
 
     @Override
     public boolean doesUserExistByEmail(String email) {
@@ -85,7 +81,6 @@ public class UserServiceImpl implements UserService {
             log.debug("Couldn't authenticate user");
             throw new UserNotFoundException();
         }
-        log.debug("userDetails.getUsername(): " + userDetails.getUsername());
         String email = userDetails.getUsername();
         final User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         return user.getId();

@@ -37,6 +37,7 @@ public class TicketEmailServiceImpl implements TicketEmailService {
             final String filename = Constants.DEF_TICKET_FILENAME + ".pdf";
             emailService.sendMsgWithAttachment(email, subject, text, byteArrayOutputStream, filename);
         } catch (IOException e) {
+            log.debug("Couldn't send ticket via email");
             throw new CantSendTicketEmailException(e);
         }
     }

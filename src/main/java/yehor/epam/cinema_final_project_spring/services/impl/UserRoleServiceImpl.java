@@ -29,8 +29,8 @@ public class UserRoleServiceImpl implements UserRoleService {
         return getRoleByName("ROLE_" + Constants.ADMIN_ROLE);
     }
 
-    private UserRole getRoleByName(String adminRole) {
-        final Optional<UserRole> userRoleByName = userRoleRepository.findUserRoleByName(adminRole);
+    private UserRole getRoleByName(String roleByName) {
+        final Optional<UserRole> userRoleByName = userRoleRepository.findUserRoleByName(roleByName);
         return userRoleByName.orElseThrow(NoRoleException::new);
     }
 }
