@@ -2,6 +2,10 @@ package yehor.epam.cinema_final_project_spring.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
@@ -10,7 +14,6 @@ import yehor.epam.cinema_final_project_spring.entities.Seat;
 import yehor.epam.cinema_final_project_spring.entities.Session;
 import yehor.epam.cinema_final_project_spring.entities.Ticket;
 import yehor.epam.cinema_final_project_spring.entities.User;
-import yehor.epam.cinema_final_project_spring.exceptions.CantSendTicketEmailException;
 import yehor.epam.cinema_final_project_spring.exceptions.seat.SeatIsAlreadyReservedException;
 import yehor.epam.cinema_final_project_spring.exceptions.ticket.TicketListIsEmptyException;
 import yehor.epam.cinema_final_project_spring.exceptions.ticket.TicketNotFoundException;
@@ -20,12 +23,9 @@ import yehor.epam.cinema_final_project_spring.services.TicketService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Slf4j
 @Service
@@ -48,6 +48,13 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketDTO> getAllByUserId(long userId) {
         final List<Ticket> allByUserId = ticketRepository.findAllByUserId(userId);
         return mapperDTO.fromTicketList(allByUserId);
+    }
+
+    @Override
+    public Page<TicketDTO> getAllByUserIdPage(int page, int size, long userId) {
+        Pageable pageable = PageRequest.of(page, size);
+        final Page<Ticket> allByUserId = ticketRepository.findAllByUserId(userId, pageable);
+        return mapperDTO.fromTicketPage(allByUserId);
     }
 
     @Override

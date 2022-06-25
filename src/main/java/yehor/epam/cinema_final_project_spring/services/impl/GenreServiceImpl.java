@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
 import yehor.epam.cinema_final_project_spring.entities.Genre;
 import yehor.epam.cinema_final_project_spring.exceptions.genre.GenreListIsEmptyException;
-import yehor.epam.cinema_final_project_spring.exceptions.genre.GenreNotExistException;
+import yehor.epam.cinema_final_project_spring.exceptions.genre.GenreNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.GenreRepository;
 import yehor.epam.cinema_final_project_spring.services.GenreService;
 import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
@@ -43,9 +43,9 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public GenreDTO getById(Long id) throws GenreNotExistException {
+    public GenreDTO getById(Long id) throws GenreNotFoundException {
         final Optional<Genre> optional = genreRepository.findById(id);
-        final Genre genre = optional.orElseThrow(GenreNotExistException::new);
+        final Genre genre = optional.orElseThrow(GenreNotFoundException::new);
         return mapperDTO.fromGenre(genre);
     }
 }

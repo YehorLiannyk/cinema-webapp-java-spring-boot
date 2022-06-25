@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/mainContent :: header (#{schedule.pageTitle})"></head>
 <body>
 <nav th:replace="fragments/mainContent :: menu"></nav>
@@ -21,12 +22,14 @@
                                     <h5 class="card-title" th:text="#{schedule.showSorter}">Show</h5>
                                     <label class="form-check">
                                         <input class="form-check-input" type="radio" checked="checked"
-                                               name="show" value="all">
+                                               th:name="show" th:value="all"
+                                               th:checked="${#request.getParameter('show') == null || #request.getParameter('show') == 'all'}">
                                         <span class="form-check-label" th:text="#{schedule.showSorterAll}">All</span>
                                     </label>
                                     <label class="form-check">
-                                        <input class="form-check-input" type="radio" name="show"
-                                               value="available">
+                                        <input class="form-check-input" type="radio" th:name="show"
+                                               th:value="available"
+                                               th:checked="${#request.getParameter('show') == 'available'}">
                                         <span class="form-check-label" th:text="#{schedule.showSorterOnlyAv}">
                                             Only available</span>
                                     </label>
@@ -43,14 +46,17 @@
                                             <div class="form-group">
                                                 <select name="sortBy" id="sortBy" class="form-control"
                                                         style="min-width: 150px;" required>
-                                                    <option value="dateTime" selected
+                                                    <option th:value="dateTime"
+                                                            th:selected="${#request.getParameter('sortBy') == 'dateTime'}"
                                                             th:text="#{schedule.sortBy.datetime}">
                                                         Date and time
                                                     </option>
-                                                    <option value="filmName"
+                                                    <option th:value="filmName"
+                                                            th:selected="${#request.getParameter('sortBy') == 'filmName'}"
                                                             th:text="#{schedule.sortBy.filmName}">Film name
                                                     </option>
-                                                    <option value="seatsRemain"
+                                                    <option th:value="seatsRemain"
+                                                            th:selected="${#request.getParameter('sortBy') == 'seatsRemain'}"
                                                             th:text="#{schedule.sortBy.seatsRemain}">Seats remain
                                                     </option>
                                                 </select>
@@ -62,10 +68,12 @@
                                                 <select name="sortMethod" id="sortMethod" class="form-control"
                                                         style="min-width: 150px;"
                                                         required>
-                                                    <option value="asc" selected
+                                                    <option th:value="asc"
+                                                            th:selected="${#request.getParameter('sortMethod') == 'asc'}"
                                                             th:text="#{schedule.sortMethod.asc}">Ascending
                                                     </option>
-                                                    <option value="desc"
+                                                    <option th:value="desc"
+                                                            th:selected="${#request.getParameter('sortMethod') == 'desc'}"
                                                             th:text="#{schedule.sortMethod.desc}">Descending
                                                     </option>
                                                 </select>
@@ -78,10 +86,38 @@
                         </article>
                         <div class="w-100"></div>
                         <article class="card card-sorter" style="border-top: 0;">
-                            <div class="col-12 py-2">
-                                <button type="submit" class="btn btn-primary w-25 btn-sorter"
-                                        th:text="#{schedule.submitBtn}">Submit
-                                </button>
+                            <div class="row">
+                                <div class="col-4 py-2 filter-helper">
+                                    <label for="amountSelector" th:text="|#{pagination.selectPageSize.label}: |"
+                                           style="vertical-align: -webkit-baseline-middle;">Select page size: </label>
+                                    <select id="amountSelector" class="form-control form-select" name="size">
+                                        <option value th:text="#{pagination.selectPageSize.option}">Select</option>
+                                        <option th:value="2" th:selected="${#request.getParameter('size') == '2'}">
+                                            2
+                                        </option>
+                                        <option th:value="4" th:selected="${#request.getParameter('size') == '4'}">
+                                            4
+                                        </option>
+                                        <option th:value="10" th:selected="${#request.getParameter('size') == '10'}">
+                                            10
+                                        </option>
+                                        <option th:value="20" th:selected="${#request.getParameter('size') == '20'}">
+                                            20
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-4 py-2 filter-helper">
+                                    <button type="submit" class="btn btn-primary w-25 btn-sorter"
+                                            th:text="#{schedule.submitBtn}">Submit
+                                    </button>
+                                </div>
+                                <div class="col-4 py-2 filter-helper">
+                                    <a type="button" th:href="@{/sessions/}"
+                                       class="btn btn-outline-secondary w-25 btn-sorter"
+                                       th:text="#{schedule.clearBtn}">Clear settings
+                                    </a>
+                                </div>
                             </div>
                         </article>
 
@@ -128,16 +164,23 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <div class="vertical-buttons">
+                                        <div class="vertical-buttons-4">
                                             <a type="button"
                                                class="btn btn-lg btn-block btn-primary my-2"
                                                th:text="#{film.goToFilmPage}"
                                                th:href="@{/films/{id}(id=*{film.id})}">Film page
                                             </a>
-                                            <a type="button"
+                                            <a sec:authorize="hasRole('USER')" type="button"
                                                class="btn btn-lg btn-block btn-primary my-2"
                                                th:text="#{session.buyTicket}"
-                                               th:href="@{/sessions/{id}(id=*{id})}">Buy ticket
+                                               th:href="@{/sessions/{id}(id=*{id})}">
+                                                Buy ticket
+                                            </a>
+                                            <a sec:authorize="hasRole('ADMIN')" type="button"
+                                               class="btn btn-lg btn-block btn-primary my-2"
+                                               th:text="#{admin.sessionsSetting.sessionInfo}"
+                                               th:href="@{/admins/me/sessions/{id}(id=*{id})}">
+                                                Session page
                                             </a>
                                         </div>
                                     </div>

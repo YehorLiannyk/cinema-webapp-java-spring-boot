@@ -135,8 +135,12 @@ main.container {
     min-height: 595px;
 }
 
-.vertical-buttons {
+.vertical-buttons-4 {
     margin: 4rem 0;
+}
+
+.vertical-buttons-2 {
+    margin: 2rem 0;
 }
 
 .card-header-custom {
@@ -175,6 +179,17 @@ article.card-filter {
 .btn-sorter {
     margin: 0 auto;
     display: block;
+    min-width: fit-content;
+}
+
+.filter-helper {
+    margin: auto;
+    text-align: center;
+}
+
+#amountSelector {
+    max-width: fit-content;
+    float: right;
 }
 
 #elementsOnPage {

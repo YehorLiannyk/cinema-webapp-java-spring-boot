@@ -13,8 +13,8 @@ import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
-import yehor.epam.cinema_final_project_spring.exceptions.PdfException;
-import yehor.epam.cinema_final_project_spring.exceptions.WritePdfToResponseException;
+import yehor.epam.cinema_final_project_spring.exceptions.pdf.PdfException;
+import yehor.epam.cinema_final_project_spring.exceptions.pdf.WritePdfToResponseException;
 import yehor.epam.cinema_final_project_spring.services.TicketPDFService;
 import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 

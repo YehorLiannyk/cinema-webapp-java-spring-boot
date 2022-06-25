@@ -3,5 +3,5 @@ package yehor.epam.cinema_final_project_spring.exceptions.genre;
 import lombok.experimental.StandardException;
 
 @StandardException
-public class GenreNotExistException extends RuntimeException {
+public class GenreNotFoundException extends RuntimeException {
 }

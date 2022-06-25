@@ -198,6 +198,11 @@ public class MapperDTO {
         return new PageImpl<>(sessionDTOS, sessionPage.getPageable(), sessionPage.getTotalElements());
     }
 
+    public Page<TicketDTO> fromTicketPage(Page<Ticket> ticketPage) {
+        final List<TicketDTO> ticketDTOList = fromTicketList(ticketPage.getContent());
+        return new PageImpl<>(ticketDTOList, ticketPage.getPageable(), ticketPage.getTotalElements());
+    }
+
 
     public TicketDTO fromTicket(Ticket ticket) {
         final SessionDTO session = fromSession(ticket.getSession());

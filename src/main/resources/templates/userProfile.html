@@ -19,26 +19,64 @@
                                 </div>
 
                                 <div th:if="${ticketList != null && !ticketList.empty}">
-                                    <div class="card w-100"
+
+                                    <div class="py-2 filter-helper col-md-5" style="display: grid;">
+                                        <form th:method="GET">
+                                            <div class="col-md-8 float-left">
+                                                <label for="amountSelector"
+                                                       th:text="|#{pagination.selectPageSize.label}: |"
+                                                       style="vertical-align: -webkit-baseline-middle;">Select page
+                                                    size: </label>
+                                                <select id="amountSelector" class="form-control form-select"
+                                                        name="size">
+                                                    <option value th:text="#{pagination.selectPageSize.option}">Select
+                                                    </option>
+                                                    <option th:value="2"
+                                                            th:selected="${#request.getParameter('size') == '2'}">
+                                                        2
+                                                    </option>
+                                                    <option th:value="4"
+                                                            th:selected="${#request.getParameter('size') == '4'}">
+                                                        4
+                                                    </option>
+                                                    <option th:value="10"
+                                                            th:selected="${#request.getParameter('size') == '10'}">
+                                                        10
+                                                    </option>
+                                                    <option th:value="20"
+                                                            th:selected="${#request.getParameter('size') == '20'}">
+                                                        20
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" th:text="Submit"
+                                                    class="col-md-3 btn btn-outline-secondary float-left">Submit</button>
+                                        </form>
+                                    </div>
+
+                                    <div class="w-100"></div>
+
+                                    <div class="card w-75 mx-auto my-1"
                                          th:each="ticket : ${ticketList}"
                                          th:object="${ticket}">
-                                        <div class="row p-3">
+                                        <div class="row px-4 py-2">
                                             <div class="col-md-6">
                                                 <h3 th:text="#{ticket.ticketTitle} + ': '">Ticket: </h3>
-                                                <p th:text="|#{ticket.date}: *{session.date}|">Date: {date}</p>
-                                                <p th:text="|#{session.time}: *{session.time}|">Time: {time}</p>
-                                                <p th:text="|#{ticket.seatRow}: *{seat.rowNo}|">Seat row: {rowNo}</p>
-                                                <p th:text="|#{ticket.seatPlace}: *{seat.placeNo}|">Seat place:
-                                                    {placeNo}</p>
-                                                <p th:text="|#{ticket.film}: *{session.film.name}|">Film: {filmName}</p>
-                                                <p th:text="|#{film.duration}: *{session.film.duration} #{film.duration.postfix}|">
-                                                    Duration: {duration} minutes</p>
-                                                <p th:text="|#{session.ticketPrice}: *{session.ticketPrice} #{general.currency.short}|">
-                                                    Ticket price: {price} UAH</p>
+                                                <h6 th:text="|#{ticket.date}: *{session.date}|">Date: {date}</h6>
+                                                <h6 th:text="|#{session.time}: *{session.time}|">Time: {time}</h6>
+                                                <h6 th:text="|#{ticket.seatRow}: *{seat.rowNo}|">Seat row: {rowNo}</h6>
+                                                <h6 th:text="|#{ticket.seatPlace}: *{seat.placeNo}|">Seat place:
+                                                    {placeNo}</h6>
+                                                <h6 th:text="|#{ticket.film}: *{session.film.name}|">Film:
+                                                    {filmName}</h6>
+                                                <h6 th:text="|#{film.duration}: *{session.film.duration} #{film.duration.postfix}|">
+                                                    Duration: {duration} minutes</h6>
+                                                <h5 th:text="|#{session.ticketPrice}: *{session.ticketPrice} #{general.currency.short}|">
+                                                    Ticket price: {price} UAH</h5>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="vertical-buttons">
+                                            <div class="col-md-6">
+                                                <div class="vertical-buttons-2 w-75">
                                                     <a type="button" th:href="@{/tickets/{id}/email(id=*{id})}"
                                                        th:text="#{ticket.sendMail}"
                                                        class="btn btn-lg btn-block btn-primary my-2">
@@ -58,6 +96,9 @@
                                 </div>
                             </div>
                         </div>
+
+                        <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '')"></nav>
+
                     </div>
                 </div>
             </div>

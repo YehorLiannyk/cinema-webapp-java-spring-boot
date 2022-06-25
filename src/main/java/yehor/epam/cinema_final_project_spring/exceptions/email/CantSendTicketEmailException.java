@@ -1,4 +1,4 @@
-package yehor.epam.cinema_final_project_spring.exceptions;
+package yehor.epam.cinema_final_project_spring.exceptions.email;
 
 import lombok.experimental.StandardException;
 

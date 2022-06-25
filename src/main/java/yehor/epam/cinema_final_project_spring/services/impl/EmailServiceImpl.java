@@ -7,7 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import yehor.epam.cinema_final_project_spring.exceptions.EmailException;
+import yehor.epam.cinema_final_project_spring.exceptions.email.EmailException;
 import yehor.epam.cinema_final_project_spring.services.EmailService;
 import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 

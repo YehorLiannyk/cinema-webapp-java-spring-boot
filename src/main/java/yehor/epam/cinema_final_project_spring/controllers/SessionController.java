@@ -6,10 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
@@ -31,7 +28,6 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileCon
 @Controller
 @RequestMapping("/sessions")
 public class SessionController {
-    private final FilmService filmService;
     private final SessionService sessionService;
     private final TicketService ticketService;
     private final UserService userService;
@@ -39,7 +35,6 @@ public class SessionController {
 
     @Autowired
     public SessionController(FilmService filmService, SessionService sessionService, PaginationService paginationService, TicketService ticketService, UserService userService) {
-        this.filmService = filmService;
         this.sessionService = sessionService;
         this.paginationService = paginationService;
         this.ticketService = ticketService;
@@ -71,19 +66,18 @@ public class SessionController {
         return HtmlFileConstants.SESSION_PAGE;
     }
 
-    @GetMapping("/{id}/order")
-    public String getOrderPage(@RequestParam(name = PAGE_NO_PARAM, required = false, defaultValue = "1") int page,
-                               @RequestParam(name = PAGE_SIZE_PARAM, required = false, defaultValue = DEF_PAGING_SIZE_STR) int size,
-                               @PathVariable(name = "id") Long sessionId, @AuthenticationPrincipal CustomUserDetails userDetails,
-                               @RequestParam(name = "seat", required = false) List<SeatDTO> seatDTOList, HttpSession session, Model model) {
+    @PostMapping("/{id}/order")
+    public String formOrderPage(@PathVariable(name = "id") Long sessionId, @AuthenticationPrincipal CustomUserDetails userDetails,
+                                @RequestParam(name = "seat", required = false) List<SeatDTO> seatDTOList,
+                                HttpSession session, Model model) {
         if (seatDTOList == null || seatDTOList.isEmpty()) {
             log.debug("User didn't pick any seat for ticket");
             throw new SeatWasNotPickedException();
         }
         final Long userId = userService.getUserIdFromAuthentication(userDetails);
-        final List<TicketDTO> ticketDTOList = ticketService.formTicketList(seatDTOList, sessionId, userId);
-        final BigDecimal totalCost = ticketService.countTotalCost(ticketDTOList);
-        session.setAttribute("ticketList", ticketDTOList);
+        final List<TicketDTO> ticketList = ticketService.formTicketList(seatDTOList, sessionId, userId);
+        final BigDecimal totalCost = ticketService.countTotalCost(ticketList);
+        session.setAttribute("ticketList", ticketList);
         model.addAttribute("totalCost", totalCost);
         return ORDER_PAGE;
     }

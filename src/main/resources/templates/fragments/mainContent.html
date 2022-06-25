@@ -48,8 +48,8 @@
         <!--/GUEST-->
 
         <!--USER-->
-        <a class="py-2 d-none d-md-inline-block" th:href="@{/users/me/tickets}" th:text="#{menu.user.myProfile}"
-           sec:authorize="hasRole('USER')">My profile</a>
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/users/me/tickets}" th:text="#{menu.user.myTickets}"
+           sec:authorize="hasRole('USER')">My tickets</a>
         <!--/USER-->
 
         <!--ADMIN-->

@@ -22,13 +22,11 @@ import java.util.Optional;
 @Service
 public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
-    private final GenreService genreService;
     private final MapperDTO mapperDTO;
 
     @Autowired
-    public FilmServiceImpl(FilmRepository filmRepository, GenreService genreService, MapperDTO mapperDTO) {
+    public FilmServiceImpl(FilmRepository filmRepository, MapperDTO mapperDTO) {
         this.filmRepository = filmRepository;
-        this.genreService = genreService;
         this.mapperDTO = mapperDTO;
     }
 
@@ -41,7 +39,6 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public void save(FilmDTO filmDTO) {
         final Film film = mapperDTO.toFilm(filmDTO);
-        log.debug("Saving film: " + film.toString());
         filmRepository.save(film);
     }
 

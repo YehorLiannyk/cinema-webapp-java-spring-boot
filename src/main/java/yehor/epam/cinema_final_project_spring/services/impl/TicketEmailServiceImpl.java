@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
-import yehor.epam.cinema_final_project_spring.exceptions.CantSendTicketEmailException;
+import yehor.epam.cinema_final_project_spring.exceptions.email.CantSendTicketEmailException;
 import yehor.epam.cinema_final_project_spring.services.EmailService;
 import yehor.epam.cinema_final_project_spring.services.TicketEmailService;
 import yehor.epam.cinema_final_project_spring.services.TicketPDFService;

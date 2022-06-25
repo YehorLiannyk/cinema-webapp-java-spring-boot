@@ -41,7 +41,7 @@
 
                         <div>
                             <h4 th:text="|#{session.sessionSeat}: |">Seats for the session</h4>
-                            <form th:action="@{/sessions/{id}/order(id=*{id})}" th:method="GET">
+                            <form th:action="@{/sessions/{id}/order(id=*{id})}" th:method="POST">
                                 <div class="row under-filter">
                                     <div class="col-md-8 under-filter-block px-3">
 
