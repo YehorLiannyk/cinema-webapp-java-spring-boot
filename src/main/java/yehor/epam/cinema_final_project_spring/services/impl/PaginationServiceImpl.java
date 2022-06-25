@@ -10,7 +10,7 @@ import yehor.epam.cinema_final_project_spring.services.PaginationService;
 public class PaginationServiceImpl implements PaginationService {
     @Override
     public void checkPaginatable(int totalPages, int page, int size) throws PaginationException {
-        if (page > totalPages) {
+        if (page > totalPages || page < 0) {
             log.debug("Page amount is bigger than total page amount. Params: pageNo = " + page + ", size = " + size);
             throw new PaginationException();
         }

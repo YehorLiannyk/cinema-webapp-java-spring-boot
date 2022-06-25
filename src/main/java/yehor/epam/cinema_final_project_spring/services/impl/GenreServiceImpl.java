@@ -28,17 +28,20 @@ public class GenreServiceImpl implements GenreService {
 
     public List<GenreDTO> getAll() throws GenreListIsEmptyException {
         final List<Genre> all = genreRepository.findAll();
-        final List<GenreDTO> genreDTOList = mapperDTO.fromGenreList(all);
-        if (genreDTOList.isEmpty()) {
-            log.error("Received genreDTOList is empty");
+        if (all.isEmpty()) {
+            log.error("Received genreList is empty");
             throw new GenreListIsEmptyException();
         }
-        return genreDTOList;
+        return mapperDTO.fromGenreList(all);
     }
 
     @Override
     public List<GenreDTO> getAllByIdList(List<Long> ids) {
         final List<Genre> byIdIn = genreRepository.findByIdIn(ids);
+        if (byIdIn.isEmpty()) {
+            log.error("Received genreList is empty");
+            throw new GenreListIsEmptyException();
+        }
         return mapperDTO.fromGenreList(byIdIn);
     }
 
