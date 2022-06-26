@@ -22,8 +22,8 @@ import java.util.*;
 
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
 
-@Slf4j
 @Service
+@Slf4j
 public class SessionServiceImpl implements SessionService {
     private final SessionRepository sessionRepository;
     private final SeatService seatService;

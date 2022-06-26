@@ -14,24 +14,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-class MaxSessionTimeValidatorTest {
+class MinSessionTimeValidatorTest {
 
     @Spy
-    private MaxSessionTimeValidator validator;
+    private MinSessionTimeValidator validator;
 
     @Mock
-    private MaxSessionTime maxSessionTime;
+    private MinSessionTime minSessionTime;
 
     @BeforeEach
     public void init() {
-        validator.initialize(maxSessionTime);
+        validator.initialize(minSessionTime);
     }
 
     @Test
     void isValid() {
         LocalTime localTime = LocalTime.of(12, 0);
         ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
-        final boolean valid = validator.isValid(localTime.minusHours(2), context);
+        final boolean valid = validator.isValid(localTime.plusHours(2), context);
         assertThat(valid).isTrue();
     }
 }

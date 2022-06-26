@@ -24,9 +24,9 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*
 import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants.ORDER_PAGE;
 import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants.SESSIONS_PAGE;
 
-@Slf4j
 @Controller
 @RequestMapping("/sessions")
+@Slf4j
 public class SessionController {
     private final SessionService sessionService;
     private final TicketService ticketService;

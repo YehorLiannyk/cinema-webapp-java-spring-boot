@@ -33,6 +33,7 @@ build/
 .vscode/
 
 ### LOGS ###
-/logs/*.log
+*.log
+*.log.gz
 /logs/**/*.log
 

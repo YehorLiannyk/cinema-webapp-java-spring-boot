@@ -1,6 +1,5 @@
 package yehor.epam.cinema_final_project_spring.services.impl;
 
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +27,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.BDDMockito.*;
+import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
 
 @ExtendWith(MockitoExtension.class)
 class SessionServiceImplTest {
@@ -84,8 +84,151 @@ class SessionServiceImplTest {
     }
 
     @Test
-    void getAllInPage() {
+    void getAllSortByFilmName() {
+        String sort = SORT_BY_FILM_NAME;
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
 
+    @Test
+    void getAllSortByFilmNameDesc() {
+        String sort = SORT_BY_FILM_NAME;
+        String method = SORT_METHOD_DESC;
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+
+    @Test
+    void getAllSortByFilmNameWithFilter() {
+        String sort = SORT_BY_FILM_NAME;
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortByFilmNameDescWithFilter() {
+        String sort = SORT_BY_FILM_NAME;
+        String method = SORT_METHOD_DESC;
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortBySeatsRemain() {
+        String sort = SORT_BY_SEATS_REMAIN;
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortBySeatsRemainDesc() {
+        String sort = SORT_BY_SEATS_REMAIN;
+        String method = SORT_METHOD_DESC;
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortBySeatsRemainWithFilter() {
+        String sort = SORT_BY_SEATS_REMAIN;
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortBySeatsRemainDescWithFilter() {
+        String sort = SORT_BY_SEATS_REMAIN;
+        String method = SORT_METHOD_DESC;
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortByDateTime() {
+        String sort = SORT_BY_DATETIME;
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortByDateTimeDesc() {
+        String sort = SORT_BY_DATETIME;
+        String method = SORT_METHOD_DESC;
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortByDateTimeWithFilter() {
+        String sort = SORT_BY_DATETIME;
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortByDateTimeDescWithFilter() {
+        String sort = SORT_BY_DATETIME;
+        String method = SORT_METHOD_DESC;
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortByDefault() {
+        String sort = "";
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
+
+
+    @Test
+    void getAllSortByDefaultDesc() {
+        String sort = "";
+        String method = SORT_METHOD_DESC;
+        final String filter = "";
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+    @Test
+    void getAllSortByDefaultWithFilter() {
+        String sort = "";
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
+        assertThat(all).isNotNull();
+    }
+
+
+    @Test
+    void getAllSortByDefaultDescWithFilter() {
+        String sort = "";
+        String method = SORT_METHOD_DESC;
+        final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
+        assertThat(all).isNotNull();
+    }
+
+    private Page<SessionDTO> getSessionDTOPage(String sort, String method, String filter) {
+        Page<Session> sessionPage = mock(Page.class);
+        Page<SessionDTO> sessionDTOPage = mock(Page.class);
+        given(sessionRepository.findAllBySeatListSize(anyInt(), any())).willReturn(sessionPage);
+        given(mapperDTO.fromSessionPage(sessionPage)).willReturn(sessionDTOPage);
+        final Page<SessionDTO> all = sessionService.getAll(1, 1, filter, sort, method);
+        return all;
     }
 
     @Test
@@ -165,15 +308,20 @@ class SessionServiceImplTest {
 
     @Test
     void isSeatFreeBySessionReturnFalse() {
-        when(sessionRepository.isSeatFreeBySession(1L, 1L)).thenReturn(false);
-        assertThat(sessionRepository.isSeatFreeBySession(1L, 1L)).isFalse();
+        List<Seat> list = mock(List.class);
+        List<SeatDTO> listDTO = mock(List.class);
+        given(sessionRepository.isSeatListFreeBySession(list, 1L)).willReturn(false);
+        given(mapperDTO.toSeatList(listDTO)).willReturn(list);
+        assertThat(sessionService.isSeatListFreeBySession(listDTO, 1L)).isFalse();
     }
 
     @Test
     void isSeatListFreeBySessionReturnTrue() {
         List<Seat> list = mock(List.class);
-        when(sessionRepository.isSeatListFreeBySession(list, 1L)).thenReturn(true);
-        assertThat(sessionRepository.isSeatListFreeBySession(list, 1L)).isTrue();
+        List<SeatDTO> listDTO = mock(List.class);
+        given(sessionRepository.isSeatListFreeBySession(list, 1L)).willReturn(true);
+        given(mapperDTO.toSeatList(listDTO)).willReturn(list);
+        assertThat(sessionService.isSeatListFreeBySession(listDTO, 1L)).isTrue();
     }
 
     @Test
