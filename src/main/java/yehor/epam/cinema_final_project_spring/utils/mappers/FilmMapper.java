@@ -59,13 +59,6 @@ public class FilmMapper {
         return list;
     }
 
-    public List<Film> toFilmList(List<FilmDTO> filmDTOS) {
-        List<Film> list = new ArrayList<>();
-        if (filmDTOS != null)
-            filmDTOS.forEach(film -> list.add(toFilm(film)));
-        return list;
-    }
-
     public Page<FilmDTO> fromFilmPage(Page<Film> filmPage) {
         final List<FilmDTO> filmDTOS = fromFilmList(filmPage.getContent());
         return new PageImpl<>(filmDTOS, filmPage.getPageable(), filmPage.getTotalElements());
