@@ -14,7 +14,9 @@ import yehor.epam.cinema_final_project_spring.exceptions.user.UserNotFoundExcept
 import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
 import yehor.epam.cinema_final_project_spring.services.UserRoleService;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
+import yehor.epam.cinema_final_project_spring.utils.mappers.FilmMapper;
+import yehor.epam.cinema_final_project_spring.utils.mappers.UserMapper;
 
 import java.util.Optional;
 
@@ -36,18 +38,20 @@ class UserServiceImplTest {
     private UserRoleService userRoleService;
 
     @Mock
-    private MapperDTO mapperDTO;
+    private MapperDtoFacade mapperDTO;
 
     @Test
     void save() {
         UserSignUpDTO userDTO = mock(UserSignUpDTO.class);
         User user = mock(User.class);
         UserRole userRole = mock(UserRole.class);
+        UserMapper userMapper = mock(UserMapper.class);
         given(userDTO.getPassword()).willReturn("");
+        given(mapperDTO.getUserMapper()).willReturn(userMapper);
         given(user.getUserRole()).willReturn(userRole);
         given(user.getUserRole().getName()).willReturn("userRole");
         given(userRepository.save(user)).willReturn(user);
-        given(mapperDTO.toUser(userDTO)).willReturn(user);
+        given(mapperDTO.getUserMapper().toUser(userDTO)).willReturn(user);
         userService.save(userDTO);
         then(userService).should(times(1)).save(userDTO);
     }

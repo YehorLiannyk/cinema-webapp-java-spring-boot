@@ -7,12 +7,12 @@ import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
 import javax.persistence.*;
 import java.time.Duration;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "films", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Film {
     @Id
@@ -36,7 +36,7 @@ public class Film {
     /**
      * Film's genres
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     @JoinTable(
             name = "film_genres",
             joinColumns = @JoinColumn(name = "film_id"),
@@ -48,5 +48,8 @@ public class Film {
      */
     @Column(nullable = false)
     private String posterUrl;
+
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
+    private Collection<Session> session;
 
 }

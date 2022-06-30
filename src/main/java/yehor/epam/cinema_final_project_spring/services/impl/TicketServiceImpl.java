@@ -3,10 +3,10 @@ package yehor.epam.cinema_final_project_spring.services.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
@@ -21,7 +21,7 @@ import yehor.epam.cinema_final_project_spring.repositories.TicketRepository;
 import yehor.epam.cinema_final_project_spring.services.SessionService;
 import yehor.epam.cinema_final_project_spring.services.TicketService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,15 +29,16 @@ import java.util.List;
 
 @Slf4j
 @Service
+@Transactional
 public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final SessionService sessionService;
     private final UserService userService;
-    private final MapperDTO mapperDTO;
+    private final MapperDtoFacade mapperDTO;
 
     @Autowired
     public TicketServiceImpl(TicketRepository ticketRepository, SessionService sessionService, UserService userService,
-                             MapperDTO mapperDTO) {
+                             MapperDtoFacade mapperDTO) {
         this.ticketRepository = ticketRepository;
         this.sessionService = sessionService;
         this.userService = userService;
@@ -47,20 +48,20 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<TicketDTO> getAllByUserId(long userId) {
         final List<Ticket> allByUserId = ticketRepository.findAllByUserId(userId);
-        return mapperDTO.fromTicketList(allByUserId);
+        return mapperDTO.getTicketMapper().fromTicketList(allByUserId);
     }
 
     @Override
     public Page<TicketDTO> getAllByUserIdPage(int page, int size, long userId) {
         Pageable pageable = PageRequest.of(page, size);
         final Page<Ticket> allByUserId = ticketRepository.findAllByUserId(userId, pageable);
-        return mapperDTO.fromTicketPage(allByUserId);
+        return mapperDTO.getTicketMapper().fromTicketPage(allByUserId);
     }
 
     @Override
     public List<TicketDTO> formTicketList(List<SeatDTO> seatDTOList, Long sessionId, Long userId) {
         List<Ticket> ticketList = new ArrayList<>();
-        final List<Seat> seatList = mapperDTO.toSeatList(seatDTOList);
+        final List<Seat> seatList = mapperDTO.getSeatMapper().toSeatList(seatDTOList);
         final Session session = sessionService.getEntityById(sessionId);
         final User user = userService.getEntityById(userId);
         seatList.forEach(seat -> {
@@ -70,7 +71,7 @@ public class TicketServiceImpl implements TicketService {
             ticket.setUser(user);
             ticketList.add(ticket);
         });
-        return mapperDTO.fromTicketList(ticketList);
+        return mapperDTO.getTicketMapper().fromTicketList(ticketList);
     }
 
     @Override
@@ -94,7 +95,7 @@ public class TicketServiceImpl implements TicketService {
             log.debug("Couldn't save tickets, seat is already reserved");
             throw new SeatIsAlreadyReservedException();
         }
-        final List<Ticket> ticketList = mapperDTO.toTicketList(ticketDTOList);
+        final List<Ticket> ticketList = mapperDTO.getTicketMapper().toTicketList(ticketDTOList);
         ticketRepository.saveAll(ticketList);
         deleteSeatsOfTicketList(ticketDTOList);
         log.info("Save tickets to DB and delete session seats, ticketList: " + ticketDTOList);
@@ -123,7 +124,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public TicketDTO getById(Long id) {
         final Ticket ticket = ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
-        return mapperDTO.fromTicket(ticket);
+        return mapperDTO.getTicketMapper().fromTicket(ticket);
     }
 
 

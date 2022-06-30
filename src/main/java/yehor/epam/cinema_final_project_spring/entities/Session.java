@@ -1,6 +1,5 @@
 package yehor.epam.cinema_final_project_spring.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +12,6 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "sessions")
 public class Session {
     @Id
@@ -29,7 +27,7 @@ public class Session {
     @Column(nullable = false)
     private LocalTime time;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "film_id", nullable = false)
     private Film film;
 
@@ -40,7 +38,6 @@ public class Session {
             inverseJoinColumns = @JoinColumn(name = "seat_id")
     )
     private List<Seat> seatList;
-
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
     private List<Ticket> ticketList;

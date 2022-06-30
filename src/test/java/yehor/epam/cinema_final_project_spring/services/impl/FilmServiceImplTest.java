@@ -14,13 +14,15 @@ import yehor.epam.cinema_final_project_spring.entities.Film;
 import yehor.epam.cinema_final_project_spring.exceptions.film.FilmListIsEmptyException;
 import yehor.epam.cinema_final_project_spring.exceptions.film.FilmNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.FilmRepository;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
+import yehor.epam.cinema_final_project_spring.utils.mappers.FilmMapper;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +35,7 @@ class FilmServiceImplTest {
     private FilmRepository filmRepository;
 
     @Mock
-    private MapperDTO mapperDTO;
+    private MapperDtoFacade mapperDTO;
 
     @Test
     void getAllSortedByIdAndPaginated() {
@@ -41,6 +43,8 @@ class FilmServiceImplTest {
         given(filmRepository.findAllByOrderByIdDesc(pageable)).willReturn(Page.empty());
         final int pageSize = pageable.getPageSize();
         final int pageNumber = pageable.getPageNumber();
+        FilmMapper filmMapper = mock(FilmMapper.class);
+        given(mapperDTO.getFilmMapper()).willReturn(filmMapper);
         given(filmService.getAllSortedByIdAndPaginated(pageNumber, pageSize)).willReturn(Page.empty());
         final Page<FilmDTO> filmPage = filmService.getAllSortedByIdAndPaginated(pageNumber, pageSize);
         assertThat(filmPage).isNotNull();
@@ -50,8 +54,10 @@ class FilmServiceImplTest {
     void save() {
         Film film = mock(Film.class);
         FilmDTO filmDTO = mock(FilmDTO.class);
+        FilmMapper filmMapper = mock(FilmMapper.class);
         given(filmRepository.save(film)).willReturn(film);
-        given(mapperDTO.toFilm(filmDTO)).willReturn(film);
+        given(mapperDTO.getFilmMapper()).willReturn(filmMapper);
+        given(filmMapper.toFilm(filmDTO)).willReturn(film);
         filmService.save(filmDTO);
         then(filmService).should(times(1)).save(filmDTO);
     }
@@ -60,7 +66,9 @@ class FilmServiceImplTest {
     void getById() {
         Film film = mock(Film.class);
         given(filmRepository.findById(1L)).willReturn(Optional.of(film));
-        given(mapperDTO.fromFilm(film)).willReturn(mock(FilmDTO.class));
+        FilmMapper filmMapper = mock(FilmMapper.class);
+        given(mapperDTO.getFilmMapper()).willReturn(filmMapper);
+        given(filmMapper.fromFilm(film)).willReturn(mock(FilmDTO.class));
         final FilmDTO filmDTO = filmService.getById(1L);
         assertThat(filmDTO).isNotNull();
     }
@@ -87,6 +95,8 @@ class FilmServiceImplTest {
     @Test
     void getAll() {
         List<Film> filmList = List.of(new Film());
+        FilmMapper filmMapper = mock(FilmMapper.class);
+        given(mapperDTO.getFilmMapper()).willReturn(filmMapper);
         given(filmRepository.findAll()).willReturn(filmList);
         filmService.getAll();
         then(filmService).should(times(1)).getAll();

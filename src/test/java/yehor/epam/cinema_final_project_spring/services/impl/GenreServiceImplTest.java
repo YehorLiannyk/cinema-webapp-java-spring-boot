@@ -6,12 +6,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
 import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
 import yehor.epam.cinema_final_project_spring.entities.Genre;
 import yehor.epam.cinema_final_project_spring.exceptions.genre.GenreListIsEmptyException;
 import yehor.epam.cinema_final_project_spring.repositories.GenreRepository;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
+import yehor.epam.cinema_final_project_spring.utils.mappers.GenreMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,11 +33,13 @@ class GenreServiceImplTest {
     private GenreRepository genreRepository;
 
     @Mock
-    private MapperDTO mapperDTO;
+    private MapperDtoFacade mapperDTO;
 
     @Test
     void getAll() {
         List<Genre> genreList = List.of(new Genre());
+        GenreMapper genreMapper = mock(GenreMapper.class);
+        given(mapperDTO.getGenreMapper()).willReturn(genreMapper);
         given(genreRepository.findAll()).willReturn(genreList);
         genreService.getAll();
         then(genreService).should(times(1)).getAll();
@@ -59,6 +61,8 @@ class GenreServiceImplTest {
     void getAllByIdList() {
         List<Long> idList = List.of(1L);
         List<Genre> genreList = List.of(new Genre());
+        GenreMapper genreMapper = mock(GenreMapper.class);
+        given(mapperDTO.getGenreMapper()).willReturn(genreMapper);
         given(genreRepository.findByIdIn(idList)).willReturn(genreList);
         genreService.getAllByIdList(idList);
         then(genreService).should(times(1)).getAllByIdList(idList);
@@ -82,8 +86,10 @@ class GenreServiceImplTest {
     @Test
     void getById() {
         Genre genre = mock(Genre.class);
+        GenreMapper genreMapper = mock(GenreMapper.class);
+        given(mapperDTO.getGenreMapper()).willReturn(genreMapper);
         given(genreRepository.findById(1L)).willReturn(Optional.of(genre));
-        given(mapperDTO.fromGenre(genre)).willReturn(mock(GenreDTO.class));
+        given(genreMapper.fromGenre(genre)).willReturn(mock(GenreDTO.class));
         final GenreDTO genreDTO = genreService.getById(1L);
         assertThat(genreDTO).isNotNull();
     }

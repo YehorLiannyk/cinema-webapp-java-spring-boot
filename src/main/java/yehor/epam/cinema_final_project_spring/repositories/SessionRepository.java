@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import yehor.epam.cinema_final_project_spring.entities.Session;
-import yehor.epam.cinema_final_project_spring.repositories.custom.SessionSeatRepository;
+import yehor.epam.cinema_final_project_spring.repositories.custom.CustomSessionRepository;
 
 @Repository
-public interface SessionRepository extends JpaRepository<Session, Long>, SessionSeatRepository {
+public interface SessionRepository extends JpaRepository<Session, Long>, CustomSessionRepository {
     Page<Session> findAllByOrderByIdDesc(Pageable pageable);
 
     Page<Session> findAll(Pageable pageable);

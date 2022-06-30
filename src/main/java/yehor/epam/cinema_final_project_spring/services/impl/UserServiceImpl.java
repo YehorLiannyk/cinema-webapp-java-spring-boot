@@ -2,12 +2,11 @@ package yehor.epam.cinema_final_project_spring.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
@@ -16,18 +15,19 @@ import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 import yehor.epam.cinema_final_project_spring.security.CustomUserDetails;
 import yehor.epam.cinema_final_project_spring.services.UserRoleService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 import yehor.epam.cinema_final_project_spring.utils.PasswordEncrypt;
 
 @Slf4j
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserRoleService userRoleService;
-    private final MapperDTO mapperDTO;
+    private final MapperDtoFacade mapperDTO;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserRoleService userRoleService, MapperDTO mapperDTO) {
+    public UserServiceImpl(UserRepository userRepository, UserRoleService userRoleService, MapperDtoFacade mapperDTO) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
         this.mapperDTO = mapperDTO;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistException();
         }
         prepareUserSignUpDTO(userSignUpDTO);
-        final User user = mapperDTO.toUser(userSignUpDTO);
+        final User user = mapperDTO.getUserMapper().toUser(userSignUpDTO);
         saveUserAuthentication(user);
         userRepository.save(user);
     }

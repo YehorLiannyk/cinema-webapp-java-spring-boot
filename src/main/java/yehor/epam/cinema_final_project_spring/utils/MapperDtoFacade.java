@@ -1,22 +1,37 @@
 package yehor.epam.cinema_final_project_spring.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import yehor.epam.cinema_final_project_spring.dto.*;
-import yehor.epam.cinema_final_project_spring.entities.*;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import yehor.epam.cinema_final_project_spring.utils.mappers.*;
 
 @Slf4j
 @Service
-public class MapperDTO {
+public class MapperDtoFacade {
+    public FilmMapper getFilmMapper() {
+        return new FilmMapper(this);
+    }
 
-    public User toUser(UserSignUpDTO userDTO) {
+    public GenreMapper getGenreMapper() {
+        return new GenreMapper(this);
+    }
+
+    public SeatMapper getSeatMapper() {
+        return new SeatMapper(this);
+    }
+
+    public SessionMapper getSessionMapper() {
+        return new SessionMapper(this);
+    }
+
+    public TicketMapper getTicketMapper() {
+        return new TicketMapper(this);
+    }
+
+    public UserMapper getUserMapper() {
+        return new UserMapper(this);
+    }
+
+    /*public User toUser(UserSignUpDTO userDTO) {
         final User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -128,14 +143,15 @@ public class MapperDTO {
         if (filmDTO.getDuration() != null)
             duration = Duration.ofMinutes(filmDTO.getDuration());
         List<Genre> genreList = toGenreList(filmDTO.getGenreList());
-        return new Film(
-                filmDTO.getId(),
-                filmDTO.getName(),
-                filmDTO.getDescription(),
-                duration,
-                genreList,
-                filmDTO.getPosterUrl()
-        );
+
+        Film film = new Film();
+        film.setId(filmDTO.getId());
+        film.setName(filmDTO.getName());
+        film.setDescription(filmDTO.getDescription());
+        film.setDuration(duration);
+        film.setGenreList(genreList);
+        film.setPosterUrl(filmDTO.getPosterUrl());
+        return film;
     }
 
     public Seat toSeat(SeatDTO seatDTO) {
@@ -153,6 +169,7 @@ public class MapperDTO {
                 seat.getPlaceNo()
         );
     }
+
 
     public List<SeatDTO> fromSeatList(List<Seat> seatList) {
         List<SeatDTO> list = new ArrayList<>();
@@ -181,6 +198,7 @@ public class MapperDTO {
             filmDTOS.forEach(film -> list.add(toFilm(film)));
         return list;
     }
+
 
     public List<SessionDTO> fromSessionList(List<Session> sessionList) {
         List<SessionDTO> list = new ArrayList<>();
@@ -242,6 +260,6 @@ public class MapperDTO {
         if (ticketDTOList != null)
             ticketDTOList.forEach(ticketDTO -> list.add(toTicket(ticketDTO)));
         return list;
-    }
+    }*/
 
 }

@@ -22,7 +22,10 @@ import yehor.epam.cinema_final_project_spring.exceptions.ticket.TicketListIsEmpt
 import yehor.epam.cinema_final_project_spring.repositories.TicketRepository;
 import yehor.epam.cinema_final_project_spring.services.SessionService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
+import yehor.epam.cinema_final_project_spring.utils.mappers.SeatMapper;
+import yehor.epam.cinema_final_project_spring.utils.mappers.SessionMapper;
+import yehor.epam.cinema_final_project_spring.utils.mappers.TicketMapper;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -50,10 +53,12 @@ class TicketServiceImplTest {
     private UserService userService;
 
     @Mock
-    private MapperDTO mapperDTO;
+    private MapperDtoFacade mapperDTO;
 
     @Test
     void getAllByUserId() {
+        TicketMapper ticketMapper = mock(TicketMapper.class);
+        given(mapperDTO.getTicketMapper()).willReturn(ticketMapper);
         given(ticketRepository.findAllByUserId(1L)).willReturn(List.of());
         given(ticketService.getAllByUserId(1L)).willReturn(List.of());
         final List<TicketDTO> dtoList = ticketService.getAllByUserId(1L);
@@ -66,6 +71,8 @@ class TicketServiceImplTest {
         given(ticketRepository.findAllByUserId(1L, pageable)).willReturn(Page.empty());
         final int pageNumber = pageable.getPageNumber();
         final int pageSize = pageable.getPageSize();
+        TicketMapper ticketMapper = mock(TicketMapper.class);
+        given(mapperDTO.getTicketMapper()).willReturn(ticketMapper);
         given(ticketService.getAllByUserIdPage(pageNumber, pageSize, 1L)).willReturn(Page.empty());
         final Page<TicketDTO> ticketDTOPage = ticketService.getAllByUserIdPage(pageNumber, pageSize, 1L);
         assertThat(ticketDTOPage).isNotNull();
@@ -77,7 +84,11 @@ class TicketServiceImplTest {
         List<Seat> seatList = mock(List.class);
         Session session = mock(Session.class);
         User user = mock(User.class);
-        given(mapperDTO.toSeatList(seatDTOList)).willReturn(seatList);
+        TicketMapper ticketMapper = mock(TicketMapper.class);
+        SeatMapper seatMapper = mock(SeatMapper.class);
+        given(mapperDTO.getTicketMapper()).willReturn(ticketMapper);
+        given(mapperDTO.getSeatMapper()).willReturn(seatMapper);
+        given(seatMapper.toSeatList(seatDTOList)).willReturn(seatList);
         given(sessionService.getEntityById(1L)).willReturn(session);
         given(userService.getEntityById(1L)).willReturn(user);
         assertThat(ticketService.formTicketList(seatDTOList, 1L, 1L)).isNotNull();
@@ -106,7 +117,9 @@ class TicketServiceImplTest {
         List<TicketDTO> list = List.of(ticketDTO);
         SeatDTO seatDTO = mock(SeatDTO.class);
         SessionDTO sessionDTO = mock(SessionDTO.class);
+        TicketMapper ticketMapper = mock(TicketMapper.class);
 
+        given(mapperDTO.getTicketMapper()).willReturn(ticketMapper);
         given(ticketDTO.getSeat()).willReturn(seatDTO);
         given(ticketDTO.getSession()).willReturn(sessionDTO);
         given(sessionService.isSeatFreeBySession(seatDTO.getId(), sessionDTO.getId())).willReturn(true);
@@ -151,7 +164,9 @@ class TicketServiceImplTest {
     void getById() {
         Ticket ticket = mock(Ticket.class);
         given(ticketRepository.findById(1L)).willReturn(Optional.of(ticket));
-        given(mapperDTO.fromTicket(ticket)).willReturn(mock(TicketDTO.class));
+        TicketMapper ticketMapper = mock(TicketMapper.class);
+        given(mapperDTO.getTicketMapper()).willReturn(ticketMapper);
+        given(ticketMapper.fromTicket(ticket)).willReturn(mock(TicketDTO.class));
         final TicketDTO ticketDTO = ticketService.getById(1L);
         assertThat(ticketDTO).isNotNull();
     }

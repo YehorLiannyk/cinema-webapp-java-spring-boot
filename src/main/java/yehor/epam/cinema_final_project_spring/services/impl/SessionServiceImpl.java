@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
 import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.entities.Seat;
@@ -16,7 +17,7 @@ import yehor.epam.cinema_final_project_spring.exceptions.session.SessionNotFound
 import yehor.epam.cinema_final_project_spring.repositories.SessionRepository;
 import yehor.epam.cinema_final_project_spring.services.SeatService;
 import yehor.epam.cinema_final_project_spring.services.SessionService;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 
 import java.util.*;
 
@@ -24,13 +25,14 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*
 
 @Slf4j
 @Service
+@Transactional
 public class SessionServiceImpl implements SessionService {
     private final SessionRepository sessionRepository;
     private final SeatService seatService;
-    private final MapperDTO mapperDTO;
+    private final MapperDtoFacade mapperDTO;
 
     @Autowired
-    public SessionServiceImpl(SessionRepository sessionRepository, SeatService seatService, MapperDTO mapperDTO) {
+    public SessionServiceImpl(SessionRepository sessionRepository, SeatService seatService, MapperDtoFacade mapperDTO) {
         this.sessionRepository = sessionRepository;
         this.seatService = seatService;
         this.mapperDTO = mapperDTO;
@@ -41,10 +43,10 @@ public class SessionServiceImpl implements SessionService {
         if (sessionDTO.getSeatList() == null || sessionDTO.getSeatList().isEmpty()) {
             log.debug("Received session has no seats, set default seatList");
             final List<Seat> allEntities = seatService.getAllEntities();
-            final List<SeatDTO> seatDTOList = mapperDTO.fromSeatList(allEntities);
+            final List<SeatDTO> seatDTOList = mapperDTO.getSeatMapper().fromSeatList(allEntities);
             sessionDTO.setSeatList(seatDTOList);
         }
-        final Session session = mapperDTO.toSession(sessionDTO);
+        final Session session = mapperDTO.getSessionMapper().toSession(sessionDTO);
         sessionRepository.save(session);
         log.debug("Saved session: " + session);
     }
@@ -53,7 +55,7 @@ public class SessionServiceImpl implements SessionService {
     public Page<SessionDTO> getAllSortedByIdAndPaginated(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         final Page<Session> sessionPage = sessionRepository.findAllByOrderByIdDesc(pageable);
-        return mapperDTO.fromSessionPage(sessionPage);
+        return mapperDTO.getSessionMapper().fromSessionPage(sessionPage);
     }
 
     @Override
@@ -64,7 +66,7 @@ public class SessionServiceImpl implements SessionService {
         sorter = getSortWithOrderMethod(sorter, method);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sorter);
         Page<Session> sessionPage = getOrderPageWithFilter(pageable, filter);
-        return mapperDTO.fromSessionPage(sessionPage);
+        return mapperDTO.getSessionMapper().fromSessionPage(sessionPage);
     }
 
     private Page<Session> getOrderPageWithFilter(Pageable pageable, String filter) {
@@ -123,14 +125,14 @@ public class SessionServiceImpl implements SessionService {
             log.debug("Couldn't get all sessions, cause session list is empty");
             throw new SessionListIsEmptyException("Session list is empty");
         }
-        return mapperDTO.fromSessionList(all);
+        return mapperDTO.getSessionMapper().fromSessionList(all);
     }
 
     @Override
     public SessionDTO getById(Long id) {
         final Optional<Session> optional = sessionRepository.findById(id);
         final Session session = optional.orElseThrow(SessionNotFoundException::new);
-        return mapperDTO.fromSession(session);
+        return mapperDTO.getSessionMapper().fromSession(session);
     }
 
     @Override
@@ -148,7 +150,7 @@ public class SessionServiceImpl implements SessionService {
         Map<SeatDTO, Boolean> seatMap = new LinkedHashMap<>();
         allSeatList.forEach(allSeat -> {
             boolean isEqual = freeSeatList.stream().anyMatch(freeSeat -> freeSeat.equals(allSeat));
-            final SeatDTO seatDTO = mapperDTO.fromSeat(allSeat);
+            final SeatDTO seatDTO = mapperDTO.getSeatMapper().fromSeat(allSeat);
             seatMap.put(seatDTO, isEqual);
         });
         return seatMap;
@@ -161,7 +163,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public boolean isSeatListFreeBySession(List<SeatDTO> seatDTOList, Long sessionId) {
-        final List<Seat> seatList = mapperDTO.toSeatList(seatDTOList);
+        final List<Seat> seatList = mapperDTO.getSeatMapper().toSeatList(seatDTOList);
         return sessionRepository.isSeatListFreeBySession(seatList, sessionId);
     }
 
@@ -172,7 +174,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void deleteSessionSeatList(List<SeatDTO> seatDTOList, Long sessionId) {
-        final List<Seat> seatList = mapperDTO.toSeatList(seatDTOList);
+        final List<Seat> seatList = mapperDTO.getSeatMapper().toSeatList(seatDTOList);
         sessionRepository.deleteSessionSeatList(seatList, sessionId);
     }
 

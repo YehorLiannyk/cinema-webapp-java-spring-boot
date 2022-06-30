@@ -18,7 +18,9 @@ import yehor.epam.cinema_final_project_spring.exceptions.session.SessionListIsEm
 import yehor.epam.cinema_final_project_spring.exceptions.session.SessionNotFoundException;
 import yehor.epam.cinema_final_project_spring.repositories.SessionRepository;
 import yehor.epam.cinema_final_project_spring.services.SeatService;
-import yehor.epam.cinema_final_project_spring.utils.MapperDTO;
+import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
+import yehor.epam.cinema_final_project_spring.utils.mappers.SeatMapper;
+import yehor.epam.cinema_final_project_spring.utils.mappers.SessionMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -43,14 +45,16 @@ class SessionServiceImplTest {
     private SessionRepository sessionRepository;
 
     @Mock
-    private MapperDTO mapperDTO;
+    private MapperDtoFacade mapperDTO;
 
     @Test
     void saveNotEmptySeatList() {
         Session session = mock(Session.class);
         SessionDTO sessionDTO = mock(SessionDTO.class);
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         given(sessionRepository.save(session)).willReturn(session);
-        given(mapperDTO.toSession(sessionDTO)).willReturn(session);
+        given(sessionMapper.toSession(sessionDTO)).willReturn(session);
         final List<SeatDTO> seatDTOList = List.of(new SeatDTO());
         given(sessionDTO.getSeatList()).willReturn(seatDTOList);
         sessionService.save(sessionDTO);
@@ -61,12 +65,16 @@ class SessionServiceImplTest {
     void saveEmptySeatList() {
         Session session = mock(Session.class);
         SessionDTO sessionDTO = mock(SessionDTO.class);
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        SeatMapper seatMapper = mock(SeatMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         given(sessionRepository.save(session)).willReturn(session);
-        given(mapperDTO.toSession(sessionDTO)).willReturn(session);
+        given(sessionMapper.toSession(sessionDTO)).willReturn(session);
         final List<SeatDTO> emptyList = List.of();
         final List<Seat> notEmptyList = List.of(new Seat());
+        given(mapperDTO.getSeatMapper()).willReturn(seatMapper);
         given(seatService.getAllEntities()).willReturn(notEmptyList);
-        given(mapperDTO.fromSeatList(notEmptyList)).willReturn(emptyList);
+        given(seatMapper.fromSeatList(notEmptyList)).willReturn(emptyList);
         given(sessionDTO.getSeatList()).willReturn(emptyList);
         sessionService.save(sessionDTO);
         then(sessionService).should(times(1)).save(sessionDTO);
@@ -78,6 +86,8 @@ class SessionServiceImplTest {
         given(sessionRepository.findAllByOrderByIdDesc(pageable)).willReturn(Page.empty());
         final int pageNumber = pageable.getPageNumber();
         final int pageSize = pageable.getPageSize();
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         given(sessionService.getAllSortedByIdAndPaginated(pageNumber, pageSize)).willReturn(Page.empty());
         final Page<SessionDTO> sessionDTOPage = sessionService.getAllSortedByIdAndPaginated(pageNumber, pageSize);
         assertThat(sessionDTOPage).isNotNull();
@@ -87,6 +97,8 @@ class SessionServiceImplTest {
     void getAllSortByFilmName() {
         String sort = SORT_BY_FILM_NAME;
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -96,6 +108,8 @@ class SessionServiceImplTest {
         String sort = SORT_BY_FILM_NAME;
         String method = SORT_METHOD_DESC;
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -105,6 +119,8 @@ class SessionServiceImplTest {
     void getAllSortByFilmNameWithFilter() {
         String sort = SORT_BY_FILM_NAME;
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -114,6 +130,8 @@ class SessionServiceImplTest {
         String sort = SORT_BY_FILM_NAME;
         String method = SORT_METHOD_DESC;
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -122,6 +140,8 @@ class SessionServiceImplTest {
     void getAllSortBySeatsRemain() {
         String sort = SORT_BY_SEATS_REMAIN;
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -131,6 +151,8 @@ class SessionServiceImplTest {
         String sort = SORT_BY_SEATS_REMAIN;
         String method = SORT_METHOD_DESC;
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -139,6 +161,8 @@ class SessionServiceImplTest {
     void getAllSortBySeatsRemainWithFilter() {
         String sort = SORT_BY_SEATS_REMAIN;
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -148,6 +172,8 @@ class SessionServiceImplTest {
         String sort = SORT_BY_SEATS_REMAIN;
         String method = SORT_METHOD_DESC;
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -156,6 +182,8 @@ class SessionServiceImplTest {
     void getAllSortByDateTime() {
         String sort = SORT_BY_DATETIME;
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -165,6 +193,8 @@ class SessionServiceImplTest {
         String sort = SORT_BY_DATETIME;
         String method = SORT_METHOD_DESC;
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -173,6 +203,8 @@ class SessionServiceImplTest {
     void getAllSortByDateTimeWithFilter() {
         String sort = SORT_BY_DATETIME;
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -182,6 +214,8 @@ class SessionServiceImplTest {
         String sort = SORT_BY_DATETIME;
         String method = SORT_METHOD_DESC;
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -190,6 +224,8 @@ class SessionServiceImplTest {
     void getAllSortByDefault() {
         String sort = "";
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -200,6 +236,8 @@ class SessionServiceImplTest {
         String sort = "";
         String method = SORT_METHOD_DESC;
         final String filter = "";
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -208,6 +246,8 @@ class SessionServiceImplTest {
     void getAllSortByDefaultWithFilter() {
         String sort = "";
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, "", filter);
         assertThat(all).isNotNull();
     }
@@ -218,6 +258,8 @@ class SessionServiceImplTest {
         String sort = "";
         String method = SORT_METHOD_DESC;
         final String filter = FILTER_SHOW_ONLY_AVAILABLE;
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         final Page<SessionDTO> all = getSessionDTOPage(sort, method, filter);
         assertThat(all).isNotNull();
     }
@@ -226,7 +268,7 @@ class SessionServiceImplTest {
         Page<Session> sessionPage = mock(Page.class);
         Page<SessionDTO> sessionDTOPage = mock(Page.class);
         given(sessionRepository.findAllBySeatListSize(anyInt(), any())).willReturn(sessionPage);
-        given(mapperDTO.fromSessionPage(sessionPage)).willReturn(sessionDTOPage);
+        given(mapperDTO.getSessionMapper().fromSessionPage(sessionPage)).willReturn(sessionDTOPage);
         final Page<SessionDTO> all = sessionService.getAll(1, 1, filter, sort, method);
         return all;
     }
@@ -253,6 +295,8 @@ class SessionServiceImplTest {
     @Test
     void getAll() {
         List<Session> sessionList = List.of(new Session());
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         given(sessionRepository.findAll()).willReturn(sessionList);
         sessionService.getAll();
         then(sessionService).should(times(1)).getAll();
@@ -273,8 +317,10 @@ class SessionServiceImplTest {
     @Test
     void getById() {
         Session session = mock(Session.class);
+        SessionMapper sessionMapper = mock(SessionMapper.class);
+        given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
         given(sessionRepository.findById(1L)).willReturn(Optional.of(session));
-        given(mapperDTO.fromSession(session)).willReturn(mock(SessionDTO.class));
+        given(sessionMapper.fromSession(session)).willReturn(mock(SessionDTO.class));
         final SessionDTO sessionDTO = sessionService.getById(1L);
         assertThat(sessionDTO).isNotNull();
     }
@@ -310,8 +356,10 @@ class SessionServiceImplTest {
     void isSeatFreeBySessionReturnFalse() {
         List<Seat> list = mock(List.class);
         List<SeatDTO> listDTO = mock(List.class);
+        SeatMapper seatMapper = mock(SeatMapper.class);
+        given(mapperDTO.getSeatMapper()).willReturn(seatMapper);
         given(sessionRepository.isSeatListFreeBySession(list, 1L)).willReturn(false);
-        given(mapperDTO.toSeatList(listDTO)).willReturn(list);
+        given(seatMapper.toSeatList(listDTO)).willReturn(list);
         assertThat(sessionService.isSeatListFreeBySession(listDTO, 1L)).isFalse();
     }
 
@@ -319,8 +367,10 @@ class SessionServiceImplTest {
     void isSeatListFreeBySessionReturnTrue() {
         List<Seat> list = mock(List.class);
         List<SeatDTO> listDTO = mock(List.class);
+        SeatMapper seatMapper = mock(SeatMapper.class);
+        given(mapperDTO.getSeatMapper()).willReturn(seatMapper);
         given(sessionRepository.isSeatListFreeBySession(list, 1L)).willReturn(true);
-        given(mapperDTO.toSeatList(listDTO)).willReturn(list);
+        given(seatMapper.toSeatList(listDTO)).willReturn(list);
         assertThat(sessionService.isSeatListFreeBySession(listDTO, 1L)).isTrue();
     }
 
@@ -342,8 +392,10 @@ class SessionServiceImplTest {
     void deleteSessionSeatList() {
         List<Seat> seatList = mock(List.class);
         List<SeatDTO> seatDTOList = mock(List.class);
+        SeatMapper seatMapper = mock(SeatMapper.class);
+        given(mapperDTO.getSeatMapper()).willReturn(seatMapper);
         willDoNothing().given(sessionRepository).deleteSessionSeatList(seatList, 1L);
-        given(mapperDTO.toSeatList(seatDTOList)).willReturn(seatList);
+        given(seatMapper.toSeatList(seatDTOList)).willReturn(seatList);
         sessionService.deleteSessionSeatList(seatDTOList, 1L);
         then(sessionService).should(times(1)).deleteSessionSeatList(seatDTOList, 1L);
     }
