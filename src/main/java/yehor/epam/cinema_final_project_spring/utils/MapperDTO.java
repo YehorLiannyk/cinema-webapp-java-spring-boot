@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import yehor.epam.cinema_final_project_spring.dto.*;
 import yehor.epam.cinema_final_project_spring.entities.*;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Component
+@Service
 public class MapperDTO {
 
     public User toUser(UserSignUpDTO userDTO) {

@@ -12,6 +12,7 @@ import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.services.FilmService;
 import yehor.epam.cinema_final_project_spring.services.PaginationService;
 import yehor.epam.cinema_final_project_spring.services.SessionService;
+import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,8 +39,14 @@ public class AdminSessionController {
     @GetMapping("/new")
     public String addSessionPage(Model model) {
         model.addAttribute("session", new SessionDTO());
-        model.addAttribute("allFilmList", filmService.getAll());
+        prepareAddingPage(model);
         return ADMIN_ADD_SESSION_PAGE;
+    }
+
+    private void prepareAddingPage(Model model) {
+        model.addAttribute("allFilmList", filmService.getAll());
+        model.addAttribute("minTime", MIN_SESSION_TIME);
+        model.addAttribute("maxTime", MAX_SESSION_TIME);
     }
 
     @PostMapping
@@ -47,7 +54,7 @@ public class AdminSessionController {
                                 Model model) {
         log.debug("Received session: " + sessionDTO);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("allFilmList", filmService.getAll());
+            prepareAddingPage(model);
             return ADMIN_ADD_SESSION_PAGE;
         }
         sessionService.save(sessionDTO);

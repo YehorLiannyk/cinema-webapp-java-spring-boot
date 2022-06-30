@@ -87,7 +87,7 @@
                         <div class="w-100"></div>
                         <article class="card card-sorter" style="border-top: 0;">
                             <div class="row">
-                                <div class="col-4 py-2 filter-helper">
+                                <div class="col-5 py-2 filter-helper">
                                     <label for="amountSelector" th:text="|#{pagination.selectPageSize.label}: |"
                                            style="vertical-align: -webkit-baseline-middle;">Select page size: </label>
                                     <select id="amountSelector" class="form-control form-select" name="size">
@@ -107,7 +107,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-4 py-2 filter-helper">
+                                <div class="col-3 py-2 filter-helper">
                                     <button type="submit" class="btn btn-primary w-25 btn-sorter"
                                             th:text="#{schedule.submitBtn}">Submit
                                     </button>
@@ -126,7 +126,11 @@
             </aside> <!-- col.// -->
 
             <div class="film-posts py-4">
-                <table id="main-film-list">
+                <div th:unless="${allSessionList != null && !allSessionList.empty}">
+                    <span th:text="#{schedule.noSessions}"></span>
+                </div>
+
+                <table id="main-film-list" th:if="${allSessionList != null && !allSessionList.empty}">
                     <thead>
                     </thead>
                     <tbody>

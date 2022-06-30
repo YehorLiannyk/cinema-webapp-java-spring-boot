@@ -8,7 +8,12 @@
         <div class="col-md-12 blog-main">
             <h1 class="" th:text="#{admin.filmsSetting.pageTitle}">Films setting</h1>
             <div class="film-posts py-4">
-                <table id="main-film-list">
+
+                <div th:unless="${filmList != null && !filmList.empty}">
+                    <span th:text="#{filmList.noFilms}"></span>
+                </div>
+
+                <table id="main-film-list" th:if="${filmList != null && !filmList.empty}">
                     <thead>
                     </thead>
                     <tbody>

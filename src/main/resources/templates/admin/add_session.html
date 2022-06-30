@@ -48,9 +48,9 @@
                                         <label for="time" th:text="#{admin.addSession.time}">Time</label>
                                         <input th:type="time" class="form-control" id="time" th:field="*{time}"
                                                required/>
-                                        <!--<small id="timeTips" class="form-text text-muted">
-                                            ${timeMinTips} ${minTime} ${timeMaxTips} ${maxTime}
-                                        </small>-->
+                                        <small id="timeTips" class="form-text text-muted"
+                                               th:text="|#{admin.addSession.timeMinTips} ${minTime} #{admin.addSession.timeMaxTips} ${maxTime}|">
+                                        </small>
                                         <div th:if="${#fields.hasErrors('time')}" th:errors="*{time}"
                                              class="form-error">Time error
                                         </div>
@@ -66,7 +66,8 @@
                                                            th:field="*{ticketPrice}"
                                                            th:placeholder="#{admin.addSession.ticketPricePlaceholder}"
                                                            required/>
-                                                    <div th:if="${#fields.hasErrors('ticketPrice')}" th:errors="*{ticketPrice}"
+                                                    <div th:if="${#fields.hasErrors('ticketPrice')}"
+                                                         th:errors="*{ticketPrice}"
                                                          class="form-error">Ticket price error
                                                     </div>
                                                 </div>

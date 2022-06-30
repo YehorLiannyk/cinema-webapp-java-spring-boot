@@ -25,16 +25,16 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileCon
 import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants.SESSIONS_PAGE;
 
 @Controller
-@RequestMapping("/sessions")
 @Slf4j
+@RequestMapping("/sessions")
 public class SessionController {
     private final SessionService sessionService;
+    private final PaginationService paginationService;
     private final TicketService ticketService;
     private final UserService userService;
-    private final PaginationService paginationService;
 
     @Autowired
-    public SessionController(FilmService filmService, SessionService sessionService, PaginationService paginationService, TicketService ticketService, UserService userService) {
+    public SessionController(SessionService sessionService, PaginationService paginationService, TicketService ticketService, UserService userService) {
         this.sessionService = sessionService;
         this.paginationService = paginationService;
         this.ticketService = ticketService;

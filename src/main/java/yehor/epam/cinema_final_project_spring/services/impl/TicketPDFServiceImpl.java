@@ -57,12 +57,7 @@ public class TicketPDFServiceImpl implements TicketPDFService {
         return headFont;
     }
 
-    /**
-     * create ByteArrayOutputStream from ticket object and form it to PDF table
-     *
-     * @param ticket Ticket object
-     * @return ByteArrayOutputStream
-     */
+
     @Override
     public ByteArrayOutputStream formPdfTicketToStream(TicketDTO ticket, Locale locale) {
         Document document = new Document();

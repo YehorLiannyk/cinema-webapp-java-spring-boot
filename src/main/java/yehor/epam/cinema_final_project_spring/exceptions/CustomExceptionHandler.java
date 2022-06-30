@@ -165,7 +165,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {PaginationException.class})
     protected String handlePaginationException(Locale locale, Model model, Throwable e) {
-        final int errorStatus = HttpStatus.BAD_REQUEST.value();
+        final int errorStatus = HttpStatus.NOT_FOUND.value();
         return goToErrorPage("error.pagination", null, locale, errorStatus, e, model);
     }
 

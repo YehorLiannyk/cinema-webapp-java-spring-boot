@@ -1,6 +1,5 @@
 package yehor.epam.cinema_final_project_spring.services;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;

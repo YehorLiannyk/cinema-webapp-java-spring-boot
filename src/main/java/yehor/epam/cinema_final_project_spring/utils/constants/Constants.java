@@ -4,8 +4,8 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 public final class Constants {
-    public static final int DEFAULT_PAGING_SIZE = 4;
-    public static final String DEF_PAGING_SIZE_STR = "4";
+    public static final int DEFAULT_PAGING_SIZE = 6;
+    public static final String DEF_PAGING_SIZE_STR = "6";
 
     public static final String PAGE_NO_PARAM = "page";
     public static final String PAGE_SIZE_PARAM = "size";
@@ -62,6 +62,9 @@ public final class Constants {
      * Schedule page filter "show only available" param value
      */
     public static final String FILTER_SHOW_ONLY_AVAILABLE = "available";
+    /**
+     * Schedule page filter "show all" param value
+     */
     public static final String FILTER_SHOW_ALL = "all";
     /**
      * Schedule page sorter param name
@@ -100,6 +103,9 @@ public final class Constants {
 
     public static final String NO_REPLY_EMAIL = "noreply@cinema-epam-localhost.com";
 
+    /**
+     * Default name for ticket file name
+     */
     public static final String DEF_TICKET_FILENAME= "ticket";
 
     private Constants() {
