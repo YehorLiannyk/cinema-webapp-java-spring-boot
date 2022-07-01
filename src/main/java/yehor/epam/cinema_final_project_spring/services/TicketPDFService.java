@@ -15,5 +15,5 @@ public interface TicketPDFService {
      */
     ByteArrayOutputStream formPdfTicketToStream(TicketDTO ticket, Locale locale);
 
-    void writePdfToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response);
+    //void writePdfToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response);
 }

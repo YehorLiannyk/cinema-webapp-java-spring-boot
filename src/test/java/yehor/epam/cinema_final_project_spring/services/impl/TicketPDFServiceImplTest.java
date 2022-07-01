@@ -77,7 +77,7 @@ class TicketPDFServiceImplTest {
         assertThat(stream).isNull();
     }
 
-    @Test
+   /* @Test
     void writePdfToResponse() {
         ByteArrayOutputStream stream = mock(ByteArrayOutputStream.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -96,5 +96,5 @@ class TicketPDFServiceImplTest {
             fail("WritePdfToResponseException should be thrown");
         } catch (WritePdfToResponseException e) {
         }
-    }
+    }*/
 }

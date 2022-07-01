@@ -103,7 +103,7 @@ public class TicketPDFServiceImpl implements TicketPDFService {
         return outputStream;
     }
 
-    @Override
+    /*@Override
     public void writePdfToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response) {
         try {
             writeByteArrayOutputStreamToResponse(byteArrayOutputStream, response);
@@ -127,7 +127,7 @@ public class TicketPDFServiceImpl implements TicketPDFService {
             byteArrayOutputStream.flush();
             byteArrayOutputStream.close();
         }
-    }
+    }*/
 
     /**
      * Add appropriate row to PDF table

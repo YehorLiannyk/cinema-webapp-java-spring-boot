@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 @ExtendWith(MockitoExtension.class)
 class TicketEmailServiceImplTest {
 
-    @Spy
+    /*@Spy
     @InjectMocks
     private TicketEmailServiceImpl ticketEmailService;
 
@@ -43,7 +43,7 @@ class TicketEmailServiceImplTest {
         given(ticketPDFService.formPdfTicketToStream(ticketDTO, locale)).willReturn(stream);
         ticketEmailService.sentTicketViaEmail(ticketDTO, locale, "");
         then(ticketEmailService).should().sentTicketViaEmail(ticketDTO, locale, "");
-    }
+    }*/
 
   /*  @Test
     void sentTicketViaEmailThrowCantSendTicketEmailException() throws IOException {
