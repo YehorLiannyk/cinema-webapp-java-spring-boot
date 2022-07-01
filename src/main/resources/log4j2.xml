@@ -52,18 +52,18 @@
 
     <Loggers>
 
-        <logger name="org.springframework" level="DEBUG" >
+       <!-- <logger name="org.springframework" level="DEBUG" >
             <AppenderRef ref="ADMIN_FILE_LOG"/>
             <AppenderRef ref="COMMON_FILE_LOG"/>
             <AppenderRef ref="Console" level="INFO"/>
-        </logger>
-        <logger name="yehor.epam.cinema_final_project_spring" level="ALL" >
+        </logger>-->
+        <logger name="yehor.epam.cinema_final_project_spring" level="DEBUG" >
             <AppenderRef ref="ADMIN_FILE_LOG" />
             <AppenderRef ref="COMMON_FILE_LOG"/>
             <AppenderRef ref="Console" level="INFO"/>
         </logger>
 
-        <Root level="ALL" includeLocation="true">
+        <Root level="DEBUG" includeLocation="true">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="ADMIN_FILE_LOG"/>
             <AppenderRef ref="COMMON_FILE_LOG"/>
