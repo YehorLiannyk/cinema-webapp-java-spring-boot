@@ -22,7 +22,7 @@ public final class Constants {
     public static final int MIN_LAST_NAME_LENGTH = 1;
     public static final int MAX_PASS_LENGTH = 120;
     public static final int MIN_PASS_LENGTH = 3;
-    public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$"; // empty/ has a gap/ is a number
+    public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$"; // empty/has a gap/is a number
 
     public static final int MIN_TICKET_COST = 1;
     public static final int MAX_TICKET_COST = 5000;

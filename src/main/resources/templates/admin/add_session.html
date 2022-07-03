@@ -28,15 +28,12 @@
                                         <div th:if="${#fields.hasErrors('film')}" th:errors="*{film}"
                                              class="form-error">Film error
                                         </div>
-                                        <!--<div th:if="${filmIsEmpty}" th:text="#{valid.film.genreList.notEmpty}"
-                                             class="form-error">Genre list error
-                                        </div>-->
                                     </div>
 
                                     <div class="form-group">
                                         <label for="date" th:text="#{admin.addSession.date}">Date</label>
                                         <input type="date" class="form-control" id="date" th:field="*{date}"
-                                               required/>
+                                               required th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
                                         <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
                                              class="form-error">Date error
                                         </div>

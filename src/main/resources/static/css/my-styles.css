@@ -202,14 +202,14 @@ article.card-filter {
 }
 
 .main-carousel {
-    background-image: url(https://images.hdqwalls.com/wallpapers/deadpool-2-movie-cinema-01.jpg);
+    background-image: url(../images/carousel.jpg);
     background-size: cover;
 }
 
 .main-carousel-text {
     background-color: black;
     opacity: 80%;
-    border-radius: 2rem;
+    border-radius: 0.3rem;
 }
 
 .two-column-table {

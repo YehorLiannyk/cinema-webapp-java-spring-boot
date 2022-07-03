@@ -3,6 +3,7 @@ package yehor.epam.cinema_final_project_spring.controllers;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
@@ -33,5 +34,10 @@ public class ErrorsController implements ErrorController {
             }
         }
         return HtmlFileConstants.ERROR_PAGE;
+    }
+
+    @RequestMapping("/user-not-found")
+    public String userNotFound() {
+        return HtmlFileConstants.ERROR_USER_NOT_FOUND_PAGE;
     }
 }

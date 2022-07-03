@@ -15,6 +15,7 @@ public final class HtmlFileConstants {
     public static final String ADMIN_FILMS_SETTING_PAGE = "admin/films";
 
     public static final String ERROR_PAGE = "error";
+    public static final String ERROR_USER_NOT_FOUND_PAGE = "error/user-not-found.html";
     public static final String ERROR_ACCESS_DENIED_PAGE = "error/403";
     public static final String ERROR_NOT_FOUND_PAGE = "error/404";
     public static final String ERROR_BAD_REQUEST_PAGE = "error/400";
