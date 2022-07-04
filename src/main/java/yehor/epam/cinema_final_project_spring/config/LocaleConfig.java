@@ -14,6 +14,9 @@ import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
 import java.util.Locale;
 
+/**
+ * Locale configuration
+ */
 @Configuration
 public class LocaleConfig implements WebMvcConfigurer {
 

@@ -11,6 +11,9 @@ import yehor.epam.cinema_final_project_spring.repositories.UserRepository;
 
 import java.util.Optional;
 
+/**
+ * User details service for Spring Security
+ */
 @Slf4j
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

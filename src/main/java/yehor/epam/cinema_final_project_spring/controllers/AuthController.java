@@ -62,6 +62,13 @@ public class AuthController {
         return getPageAfterSaving(userSignUpDTO, model);
     }
 
+    /**
+     * Return to signUp page if user exists , otherwise save user and redirect to user's page
+     *
+     * @param userSignUpDTO User
+     * @param model         Model
+     * @return Page path or URL
+     */
     private String getPageAfterSaving(UserSignUpDTO userSignUpDTO, Model model) {
         try {
             userService.save(userSignUpDTO);
@@ -72,6 +79,13 @@ public class AuthController {
         return "redirect:/users/me/tickets";
     }
 
+    /**
+     * Check if BindingResult has error and add error if password and password confirm are not equal
+     *
+     * @param userSignUpDTO
+     * @param bindingResult
+     * @return
+     */
     private boolean hasError(UserSignUpDTO userSignUpDTO, BindingResult bindingResult) {
         if (!userSignUpDTO.getPassword().equals(userSignUpDTO.getPasswordRepeat())) {
             bindingResult.addError(new FieldError("user", "passwordRepeat", "Passwords aren't equal"));

@@ -52,14 +52,14 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Page<SessionDTO> getAllSortedByIdAndPaginated(int pageNo, int pageSize) {
+    public Page<SessionDTO> getAll(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         final Page<Session> sessionPage = sessionRepository.findAllByOrderByIdDesc(pageable);
         return mapperDTO.getSessionMapper().fromSessionPage(sessionPage);
     }
 
     @Override
-    public Page<SessionDTO> getAll(int pageNo, int pageSize, String filter, String sort, String method) {
+    public Page<SessionDTO> getAllSortedAndFiltered(int pageNo, int pageSize, String filter, String sort, String method) {
         log.debug("Sort by: " + sort);
         List<Sort.Order> generalOrders = getSortOrder(sort);
         Sort sorter = Sort.by(generalOrders);

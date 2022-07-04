@@ -49,6 +49,7 @@ public class Film {
     @Column(nullable = false)
     private String posterUrl;
 
+
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
     private Collection<Session> session;
 

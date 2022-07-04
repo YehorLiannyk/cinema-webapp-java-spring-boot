@@ -13,6 +13,9 @@ import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
+/**
+ * Strategy of sending ticket via email
+ */
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor

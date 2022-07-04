@@ -6,6 +6,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalTime;
 
+/**
+ * Implementation for {@link MinSessionTime} annotation
+ */
 public class MinSessionTimeValidator implements ConstraintValidator<MinSessionTime, LocalTime> {
 
     private LocalTime minTime;

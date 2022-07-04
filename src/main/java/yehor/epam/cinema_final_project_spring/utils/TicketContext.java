@@ -14,6 +14,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * Context for realization Strategy patterm for ticket sending
+ */
 @Data
 @Service
 @Slf4j
@@ -30,6 +33,9 @@ public class TicketContext {
         this.ticketPDFService = ticketPDFService;
     }
 
+    /**
+     * Send ticket with appropriate strategy
+     */
     public void sendTicket() {
         isReady();
         try (ByteArrayOutputStream ticketPdfStream = ticketPDFService.formPdfTicketToStream(ticketDTO, locale)) {
@@ -40,6 +46,9 @@ public class TicketContext {
         }
     }
 
+    /**
+     * Check is Context has all required components to send ticket
+     */
     public void isReady() {
         final boolean isReady = ticketPDFService != null && locale != null && strategy != null && ticketDTO != null;
         if (!isReady) {

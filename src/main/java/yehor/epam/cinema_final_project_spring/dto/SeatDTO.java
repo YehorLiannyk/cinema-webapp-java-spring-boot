@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SeatDTO {
     private Long id;
-
+    /**
+     * Number of row
+     */
     private Integer rowNo;
-
+    /**
+     * Number of place
+     */
     private Integer placeNo;
 }

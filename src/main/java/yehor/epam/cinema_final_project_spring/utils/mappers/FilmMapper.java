@@ -13,6 +13,9 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Mapper for {@link Film} and {@link FilmDTO}
+ */
 @Slf4j
 public class FilmMapper {
     private final MapperDtoFacade facade;

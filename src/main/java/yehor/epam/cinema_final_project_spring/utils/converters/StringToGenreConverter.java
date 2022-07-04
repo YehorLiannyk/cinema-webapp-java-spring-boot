@@ -4,11 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
 
-import java.util.Collections;
-import java.util.List;
-
+/**
+ * Converter from string to GenreDto (by genre id)
+ */
 @Slf4j
 public class StringToGenreConverter implements Converter<String, GenreDTO> {
+    /**
+     * Convert from string to GenreDto (by genre id)
+     *
+     * @param source string value
+     * @return genreDto
+     */
     @Override
     public GenreDTO convert(String source) {
         log.debug("Source in StringToGenreConverter = " + source);

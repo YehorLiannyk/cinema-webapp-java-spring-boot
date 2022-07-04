@@ -48,7 +48,7 @@ public class SessionController {
                               @RequestParam(name = SORT_BY_PARAM, required = false, defaultValue = SORT_BY_DATETIME) String sort,
                               @RequestParam(name = SORT_METHOD_PARAM, required = false, defaultValue = SORT_METHOD_ASC) String method,
                               Model model) {
-        final Page<SessionDTO> sessionPage = sessionService.getAll(page - 1, size, filter, sort, method);
+        final Page<SessionDTO> sessionPage = sessionService.getAllSortedAndFiltered(page - 1, size, filter, sort, method);
         paginationService.checkPaginatable(sessionPage.getTotalPages(), page, size);
         final List<SessionDTO> sessionList = sessionPage.getContent();
         model.addAttribute(PAGE_AMOUNT_PARAM, sessionPage.getTotalPages());

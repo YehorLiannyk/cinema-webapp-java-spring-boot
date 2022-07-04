@@ -1,13 +1,18 @@
 package yehor.epam.cinema_final_project_spring.utils.mappers;
 
 import lombok.extern.slf4j.Slf4j;
+import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
 import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
+import yehor.epam.cinema_final_project_spring.entities.Film;
 import yehor.epam.cinema_final_project_spring.entities.Seat;
 import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Mapper for {@link Seat} and {@link SeatDTO}
+ */
 @Slf4j
 public class SeatMapper {
     private final MapperDtoFacade facade;

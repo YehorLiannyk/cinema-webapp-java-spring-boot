@@ -9,6 +9,9 @@ import yehor.epam.cinema_final_project_spring.entities.UserRole;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * User details for Spring Security
+ */
 public class CustomUserDetails implements UserDetails {
     private final User user;
 

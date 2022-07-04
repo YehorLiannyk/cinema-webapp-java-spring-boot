@@ -46,6 +46,12 @@ public class SendTicketHttpResponse implements SendTicketStrategy {
         }
     }
 
+    /**
+     * Write ByteArrayOutputStream to HttpServletResponse
+     * @param byteArrayOutputStream ByteArrayOutputStream (PDF file)
+     * @param response HttpServletResponse
+     * @throws IOException
+     */
     private void writeByteArrayOutputStreamToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response)
             throws IOException {
         try {

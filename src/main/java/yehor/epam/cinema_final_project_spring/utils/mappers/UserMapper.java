@@ -8,6 +8,9 @@ import yehor.epam.cinema_final_project_spring.entities.User;
 import yehor.epam.cinema_final_project_spring.entities.UserRole;
 import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 
+/**
+ * Mapper for {@link User} and {@link UserDTO}
+ */
 @Slf4j
 public class UserMapper {
     private final MapperDtoFacade facade;

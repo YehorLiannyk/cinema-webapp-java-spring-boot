@@ -9,6 +9,9 @@ import yehor.epam.cinema_final_project_spring.utils.converters.StringToFilmConve
 import yehor.epam.cinema_final_project_spring.utils.converters.StringToGenreConverter;
 import yehor.epam.cinema_final_project_spring.utils.converters.StringToSeatConverter;
 
+/**
+ * Other configuration, including formatters registration
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 

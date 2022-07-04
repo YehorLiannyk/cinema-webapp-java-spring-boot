@@ -13,6 +13,9 @@ import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Mapper for {@link Session} and {@link SessionDTO}
+ */
 @Slf4j
 public class SessionMapper {
     private final MapperDtoFacade facade;

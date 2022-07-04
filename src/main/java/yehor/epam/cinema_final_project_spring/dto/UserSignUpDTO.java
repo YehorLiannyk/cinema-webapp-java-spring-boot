@@ -12,6 +12,9 @@ import javax.validation.constraints.Pattern;
 
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.*;
 
+/**
+ * Dto using for transfer user sign up info
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,13 +40,13 @@ public class UserSignUpDTO {
     @Email(message = "{valid.email.invalid}")
     private String email;
     /**
-     * User's encrypted password
+     * User's password
      */
     @NotBlank(message = "{valid.password.notEmpty}")
     @Length(max = MAX_PASS_LENGTH, min = MIN_PASS_LENGTH, message = "{valid.password.length}")
     private String password;
     /**
-     * Repeat password input
+     * Repeat password repeat
      */
     @NotBlank(message = "{valid.password.notEmpty}")
     private String passwordRepeat;

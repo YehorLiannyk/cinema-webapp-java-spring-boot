@@ -88,8 +88,8 @@ class SessionServiceImplTest {
         final int pageSize = pageable.getPageSize();
         SessionMapper sessionMapper = mock(SessionMapper.class);
         given(mapperDTO.getSessionMapper()).willReturn(sessionMapper);
-        given(sessionService.getAllSortedByIdAndPaginated(pageNumber, pageSize)).willReturn(Page.empty());
-        final Page<SessionDTO> sessionDTOPage = sessionService.getAllSortedByIdAndPaginated(pageNumber, pageSize);
+        given(sessionService.getAll(pageNumber, pageSize)).willReturn(Page.empty());
+        final Page<SessionDTO> sessionDTOPage = sessionService.getAll(pageNumber, pageSize);
         assertThat(sessionDTOPage).isNotNull();
     }
 
@@ -269,7 +269,7 @@ class SessionServiceImplTest {
         Page<SessionDTO> sessionDTOPage = mock(Page.class);
         given(sessionRepository.findAllBySeatListSize(anyInt(), any())).willReturn(sessionPage);
         given(mapperDTO.getSessionMapper().fromSessionPage(sessionPage)).willReturn(sessionDTOPage);
-        final Page<SessionDTO> all = sessionService.getAll(1, 1, filter, sort, method);
+        final Page<SessionDTO> all = sessionService.getAllSortedAndFiltered(1, 1, filter, sort, method);
         return all;
     }
 

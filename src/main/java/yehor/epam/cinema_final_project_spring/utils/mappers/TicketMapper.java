@@ -3,19 +3,15 @@ package yehor.epam.cinema_final_project_spring.utils.mappers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import yehor.epam.cinema_final_project_spring.dto.SeatDTO;
-import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
-import yehor.epam.cinema_final_project_spring.dto.TicketDTO;
-import yehor.epam.cinema_final_project_spring.dto.UserDTO;
-import yehor.epam.cinema_final_project_spring.entities.Seat;
-import yehor.epam.cinema_final_project_spring.entities.Session;
-import yehor.epam.cinema_final_project_spring.entities.Ticket;
-import yehor.epam.cinema_final_project_spring.entities.User;
+import yehor.epam.cinema_final_project_spring.dto.*;
+import yehor.epam.cinema_final_project_spring.entities.*;
 import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Mapper for {@link Ticket} and {@link TicketDTO}
+ */
 @Slf4j
 public class TicketMapper {
     private final MapperDtoFacade facade;

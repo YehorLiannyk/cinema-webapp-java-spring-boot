@@ -12,10 +12,18 @@ import yehor.epam.cinema_final_project_spring.entities.User;
 @AllArgsConstructor
 public class TicketDTO {
     private Long id;
-
+    /**
+     * Ticket session
+     */
     private SessionDTO session;
 
+    /**
+     * Ticket user
+     */
     private UserDTO user;
 
+    /**
+     * Ticket seat
+     */
     private SeatDTO seat;
 }

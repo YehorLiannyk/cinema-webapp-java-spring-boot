@@ -6,6 +6,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalTime;
 
+/**
+ * Implementation for {@link MaxSessionTime} annotation
+ */
 public class MaxSessionTimeValidator implements ConstraintValidator<MaxSessionTime, LocalTime> {
 
     private LocalTime maxTime;

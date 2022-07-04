@@ -12,7 +12,6 @@ import yehor.epam.cinema_final_project_spring.dto.SessionDTO;
 import yehor.epam.cinema_final_project_spring.services.FilmService;
 import yehor.epam.cinema_final_project_spring.services.PaginationService;
 import yehor.epam.cinema_final_project_spring.services.SessionService;
-import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -65,7 +64,7 @@ public class AdminSessionController {
     public String getAdminSessionPage(@RequestParam(name = PAGE_NO_PARAM, required = false, defaultValue = "1") int page,
                                     @RequestParam(name = PAGE_SIZE_PARAM, required = false, defaultValue = DEF_PAGING_SIZE_STR) int size,
                                     Model model) {
-        final Page<SessionDTO> sessionPage = sessionService.getAllSortedByIdAndPaginated(page - 1, DEFAULT_PAGING_SIZE);
+        final Page<SessionDTO> sessionPage = sessionService.getAll(page - 1, DEFAULT_PAGING_SIZE);
         paginationService.checkPaginatable(sessionPage.getTotalPages(), page, size);
         final List<SessionDTO> sessionList = sessionPage.getContent();
         model.addAttribute(PAGE_AMOUNT_PARAM, sessionPage.getTotalPages());

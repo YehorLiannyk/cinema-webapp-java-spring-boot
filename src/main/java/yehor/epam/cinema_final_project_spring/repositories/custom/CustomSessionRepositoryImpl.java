@@ -8,7 +8,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-
+/**
+ * Custom repository for session's seat list
+ */
 public class CustomSessionRepositoryImpl implements CustomSessionRepository {
     @PersistenceContext
     private EntityManager entityManager;
