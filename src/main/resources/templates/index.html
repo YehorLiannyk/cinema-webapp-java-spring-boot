@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{mainPage.title})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<div class="container">
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark main-carousel">
+        <div class="col-md-6 px-3 main-carousel-text">
+            <h1 class="display-4 font-italic" th:text="#{mainpage.carousel.title}"></h1>
+            <p class="lead my-3 p-4" th:text="#{mainpage.carousel.text}"></p>
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h1 th:text="#{filmList.title}"></h1>
+            <div class="film-posts py-4">
+                <table id="main-film-list">
+                    <thead>
+                    </thead>
+                    <tbody class="row">
+                    <tr class="col-md-6" th:each="film, state : ${filmList}" th:object="${film}">
+                        <td style="min-height: 100%; display: grid;">
+                            <div class="w-100 p-3 film-post card">
+                                <div class="row card-body">
+                                    <div class="col-md-4">
+                                        <img class="poster-img card-img" th:src="*{posterUrl}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h2 class="card-title" th:text="*{name}">Film name</h2>
+                                        <ul class="list-unstyled mt-3 mb-4">
+                                            <li class="card-text"
+                                                th:text="|#{film.duration}: *{duration} #{film.duration.postfix}|">Film
+                                                duration
+                                            </li>
+                                            <li class="card-text">
+                                                <span th:text="|#{film.genres}: |">Film genres</span>
+                                                <div th:replace="fragments/others :: filmGenreList(${film})"></div>
+                                            </li>
+                                        </ul>
+                                        <a class="btn btn-lg btn-block btn-primary w-75"
+                                           th:href="@{/films/{id}(id=*{id})}"
+                                           th:text="#{film.filmPage}">Film info</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/main')"></nav>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

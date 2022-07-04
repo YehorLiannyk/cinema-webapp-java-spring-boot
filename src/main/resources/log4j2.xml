@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF">
+
+    <Properties>
+        <Property name="LOG_HOME">logs</Property>
+        <Property name="LOG_CONSOLE_LAYOUT">%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} :: %msg%n</Property>
+        <Property name="LOG_FILE_LAYOUT">%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} :: %msg%n</Property>
+        <Property name="LOG_FILE_ADMIN">${LOG_HOME}/admin.log</Property>
+        <Property name="LOG_FILE_COMMON">${LOG_HOME}/common.log</Property>
+        <Property name="LOG_FILE_ADMIN_PATTERN">${LOG_HOME}/back/${date:yyyy-MM}/admin-%d{yyyy-MM-dd}-%i.log
+        </Property>
+        <Property name="LOG_FILE_COMMON_PATTERN">${LOG_HOME}/back/${date:yyyy-MM}/common-%d{yyyy-MM-dd}-%i.log.gz
+        </Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_CONSOLE_LAYOUT}"/>
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT"/>
+            </Filters>
+        </Console>
+
+        <RollingRandomAccessFile name="ADMIN_FILE_LOG"
+                                 fileName="${LOG_FILE_ADMIN}"
+                                 filePattern="${LOG_FILE_ADMIN_PATTERN}"
+                                 append="false">
+            <PatternLayout pattern="${LOG_FILE_LAYOUT}"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="25MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="COMMON_FILE_LOG"
+                                 fileName="${LOG_FILE_COMMON}"
+                                 filePattern="${LOG_FILE_COMMON_PATTERN}"
+                                 append="true">
+            <PatternLayout pattern="${LOG_FILE_LAYOUT}"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+
+       <!-- <logger name="org.springframework" level="DEBUG" >
+            <AppenderRef ref="ADMIN_FILE_LOG"/>
+            <AppenderRef ref="COMMON_FILE_LOG"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </logger>-->
+        <logger name="yehor.epam.cinema_final_project_spring" level="DEBUG" >
+            <AppenderRef ref="ADMIN_FILE_LOG" />
+            <AppenderRef ref="COMMON_FILE_LOG"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </logger>
+
+        <Root level="DEBUG" includeLocation="true">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ADMIN_FILE_LOG"/>
+            <AppenderRef ref="COMMON_FILE_LOG"/>
+        </Root>
+
+    </Loggers>
+</Configuration>

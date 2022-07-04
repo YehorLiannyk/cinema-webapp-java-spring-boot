@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{error.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <div class="d-flex justify-content-center align-items-center" id="main" style="background-color: wheat;">
+                <th:block th:if="${errorMessage != null && errorCode != null}">
+                    <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center notNullErrMsg"
+                        th:text="${errorCode}"></h1>
+                    <div class="inline-block align-middle p-3">
+                        <h2 class="font-weight-normal lead"
+                            th:text="${errorMessage}"></h2>
+                        <a th:href="@{/}" class="btn btn-link" th:text="#{error.goMainPage}"></a>
+                    </div>
+                </th:block>
+                <th:block th:if="${errorMessage == null || errorCode == null}">
+                    <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center nullErrMsg"
+                        th:text="#{error.oops}"></h1>
+                    <div class="inline-block align-middle p-3">
+                        <h2 class="font-weight-normal lead"
+                            th:text="#{error.smthWentWrong}"></h2>
+                        <a th:href="@{/}" class="btn btn-link" th:text="#{error.goMainPage}"></a>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

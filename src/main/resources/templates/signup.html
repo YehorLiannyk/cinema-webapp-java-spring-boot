@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{signup.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+
+<main class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-lg-12 col-xl-11">
+            <div class="card text-black" style="border-radius: 25px;">
+                <div class="card-body p-md-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                            <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4" th:text="#{form.signup}"></p>
+
+                            <div th:if="${userExists}" class="user-form-msg alert alert-danger"
+                                 th:text="#{error.userAlreadyExists}"></div>
+
+                            <form class="mx-1 mx-md-4 mt-2" th:method="POST" th:action="@{/signup}" th:object="${user}">
+
+                                <div class="d-flex flex-row align-items-center mb-4">
+                                    <div class="form-outline flex-fill mb-0">
+                                        <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="firstName" th:text="#{form.fName}"></label>
+                                        <input type="text" id="firstName" class="form-control" th:field="*{firstName}"
+                                               th:placeholder="#{form.requiredField}"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                             class="form-error">First name error
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-row align-items-center mb-4">
+                                    <div class="form-outline flex-fill mb-0">
+                                        <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="lastName" th:text="#{form.lName}"></label>
+                                        <input type="text" id="lastName" class="form-control"
+                                               th:field="*{lastName}"
+                                               th:placeholder="#{form.requiredField}"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                             class="form-error">Last name error
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-row align-items-center mb-4">
+                                    <div class="form-outline flex-fill mb-0">
+                                        <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="email" th:text="#{form.email}"></label>
+                                        <input type="email" id="email" class="form-control"
+                                               th:field="*{email}"
+                                               th:placeholder="#{form.requiredField}" maxlength="320"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                             class="form-error">Email error
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-row align-items-center mb-4">
+                                    <div class="form-outline flex-fill mb-0">
+                                        <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="password" th:text="#{form.password}"></label>
+                                        <input type="password" id="password" class="form-control"
+                                               maxlength="200" onkeyup='check();'
+                                               th:field="*{password}" th:placeholder="#{form.requiredField}"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                             class="form-error">Password error
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-row align-items-center mb-4">
+                                    <div class="form-outline flex-fill mb-0">
+                                        <i class="fa fa-key fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="repeat_password"
+                                               th:text="#{form.passwordRepeat}"></label>
+                                        <input type="password" id="repeat_password" class="form-control"
+                                               maxlength="200" onkeyup='check();'
+                                               th:placeholder="#{form.requiredField}" th:field="*{passwordRepeat}"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('passwordRepeat')}"
+                                             th:text="#{valid.password.notEqual}" class="form-error">Password
+                                            repeat error
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-row align-items-center mb-4">
+                                    <div class="form-outline flex-fill mb-0">
+                                        <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                        <label class="form-label" for="phoneNumber"
+                                               th:text="#{form.phoneNumber}"></label>
+                                        <input type="text" name="phoneNumber"
+                                               th:placeholder="|#{form.phoneNumber.tips} #{form.nonRequiredField}|"
+                                               id="phoneNumber"
+                                               class="form-control" th:field="*{phoneNumber}"/>
+                                        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"
+                                             class="form-error">Phone number error
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-check d-flex mb-4">
+                                    <input class="form-check-input me-2" type="checkbox"
+                                           checked
+                                           id="notification" name="notification" th:field="*{notification}"
+                                           th:checked="*{notification}"/>
+                                    <label class="form-check-label" for="notification" th:text="#{form.notification}">
+
+                                    </label>
+                                </div>
+
+                                <div class="d-flex mb-4 g-recaptcha" id="recaptcha"
+                                     th:data-sitekey="${@environment.getProperty('google.recaptcha.site')}">
+                                </div>
+                                <div th:if="${invalidCaptcha}" class="mb-2">
+                                    <span id="captcha-error" class="alert alert-danger col-sm-4"
+                                          style="display: block; min-width: 100%;"
+                                          th:text="#{valid.captcha}"></span>
+                                </div>
+
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <input type="submit" id="button" class="btn btn-primary btn-lg"
+                                           th:value="#{form.signupBtn}"/>
+                                </div>
+
+
+                            </form>
+                        </div>
+                        <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                                 class="img-fluid" alt="Sample image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

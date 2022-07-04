@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang=ua xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="header (pageTitle)">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/my-styles.css}"/>
+
+    <title th:text="${pageTitle}"></title>
+</head>
+<body>
+
+<!--Menu-->
+<nav class="container-fluid site-header sticky-top" th:fragment="menu">
+    <div class="container d-flex flex-column flex-md-row justify-content-between py-2">
+        <span class="py-2 menu-item" th:text="#{menu.title}"></span>
+
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/main}" th:text="#{menu.main}">Main</a>
+
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/sessions}" th:text="#{menu.schedule}">Schedule</a>
+
+        <!--GUEST-->
+        <th:block sec:authorize="isAnonymous()">
+            <a class="py-2 d-none d-md-inline-block" th:href="@{/login}" th:text="#{menu.guest.login}">Login</a>
+            <a class="py-2 d-none d-md-inline-block" th:href="@{/signup}" th:text="#{menu.guest.signup}">Sign up</a>
+        </th:block>
+        <!--/GUEST-->
+
+        <!--USER-->
+        <a class="py-2 d-none d-md-inline-block" th:href="@{/users/me/tickets}" th:text="#{menu.user.myTickets}"
+           sec:authorize="hasRole('USER')">My tickets</a>
+        <!--/USER-->
+
+        <!--ADMIN-->
+        <div class="dropdown" sec:authorize="hasRole('ADMIN')">
+            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    th:text="#{menu.admin.filmSession}">Films/sessions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <ul style="list-style-type: none;" class="px-3">
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admins/me/films/new}" th:text="#{menu.admin.addFilm}">Add film</a>
+                    </li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admins/me/films}" th:text="#{menu.admin.filmSetting}">Film settings</a>
+                    </li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admins/me/sessions/new}" th:text="#{menu.admin.addSession}">Add session</a>
+                    </li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{/admins/me/sessions}" th:text="#{menu.admin.sessionsSetting}">Session settings</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--/ADMIN-->
+
+        <!--REGISTERED USER-->
+        <form th:action="@{/logout}" th:method="POST" name="logout" sec:authorize="isAuthenticated()">
+            <input type="submit" class="py-2 d-none d-md-inline-block logout-btn" th:value="#{menu.user.logout}"/>
+        </form>
+        <!--/REGISTERED USER-->
+
+        <!--LANGUAGE SWITCHER-->
+        <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
+            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    th:text="#{menu.languageSelector}">Select language
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
+                <ul style="list-style-type: none;" class="px-3"
+                    th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                    <li class="menu-li py-1">
+                        <a th:href="@{${urlBuilder.replaceQueryParam('lang', 'en').toUriString()}}"
+                           th:text="#{menu.languageENG}">English</a>
+                    </li>
+                    <li class="menu-li py-1">
+                        <a th:href="@{${urlBuilder.replaceQueryParam('lang', 'uk').toUriString()}}"
+                           th:text="#{menu.languageUA}">Ukrainian</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--/LANGUAGE SWITCHER-->
+
+    </div>
+</nav>
+<!--Pagination-->
+<nav class="pagination-nav" th:fragment="pagination(pageAmount, pageLink)">
+    <ul class="pagination justify-content-center">
+        <th:block th:if="${pageAmount > 1}" th:each="i, state: ${#numbers.sequence(1, pageAmount)}">
+            <li class="page-item">
+                <!--<a class="page-link" th:href="@{${pageLink}(page=${state.count})}"
+                   th:text="${state.count}"></a>-->
+                <a class="page-link"
+                   th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
+                   th:href="@{${urlBuilder.replaceQueryParam('page', state.count).toUriString()}}"
+                   th:text="${state.count}"></a>
+            </li>
+
+        </th:block>
+    </ul>
+</nav>
+
+<!--Footer-->
+<footer th:fragment="footer" class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12 mx-auto footer-info">
+            <address class="footer-made-by">Made by Yehor Liannyk</address>
+            <small class="d-block mb-3 text-muted">EPAM University Program 2022</small>
+        </div>
+    </div>
+</footer>
+
+</body>

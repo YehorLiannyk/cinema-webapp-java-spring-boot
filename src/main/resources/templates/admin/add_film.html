@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{admin.addFilm.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h1 class="" th:text="#{admin.addFilm.pageTitle}">Add a new film</h1>
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-primary">
+                    <div class="panel-collapse">
+                        <form class="panel-body" th:method="POST" th:action="@{/admins/me/films}" th:object="${film}">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" th:field="*{name}"
+                                               th:placeholder="#{admin.addFilm.filmName}" required/>
+                                        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                             class="form-error">Film name error
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" th:field="*{description}"
+                                                  th:placeholder="#{film.description}" rows="5"></textarea>
+                                        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                                             class="form-error">Description error
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="genreList" th:text="#{admin.addFilm.genres}">Genres</label>
+                                        <select id="genreList" class="form-control"
+                                                multiple required name="genreList">
+                                            <option th:each="genre: ${allGenreList}"
+                                                    th:value="${genre.id}" th:text="${genre.name}">Genre name
+                                            </option>
+                                        </select>
+                                        <small id="selectTips" class="form-text text-muted"
+                                               th:text="#{general.selector.multipleSelectTips}">Hold Ctrl to choose
+                                            several items</small>
+                                        <div th:if="${genreListIsEmpty}" th:text="#{valid.film.genreList.notEmpty}"
+                                             class="form-error">Genre list error
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="poster-url" th:text="#{admin.addFilm.poster}">Poster</label>
+                                        <input type="text" class="form-control" id="poster-url" th:field="*{posterUrl}"
+                                              th:placeholder="#{admin.addFilm.posterPlaceholder}"
+                                               required/>
+                                        <div th:if="${#fields.hasErrors('posterUrl')}" th:errors="*{posterUrl}"
+                                             class="form-error">Poster error
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="duration"
+                                                           th:text="#{admin.addFilm.duration}">Duration</label>
+                                                    <input type="number" min="0" class="form-control" id="duration"
+                                                         th:field="*{duration}"
+                                                           th:placeholder="#{admin.addFilm.durationPlaceholder}"
+                                                           required/>
+                                                    <div th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"
+                                                         class="form-error">Duration error
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label th:text="#{admin.addFilm.filmUpload}">Film upload</label>
+                                                    <button type="submit" class="btn btn-success btn-sm form-control">
+                                                        <span class="glyphicon glyphicon-floppy-disk"
+                                                              th:text="#{admin.addFilm.uploadBtn}">Upload</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

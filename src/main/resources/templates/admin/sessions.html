@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{admin.sessionsSetting.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h1 class="" th:text="#{admin.sessionsSetting.pageTitle}">Sessions setting</h1>
+            <div class="film-posts py-4">
+
+                <div th:unless="${allSessionList != null && !allSessionList.empty}">
+                    <span th:text="#{schedule.noSessions}"></span>
+                </div>
+
+                <table id="main-film-list" th:if="${allSessionList != null && !allSessionList.empty}">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr th:each="theSession : ${allSessionList}" th:object="${theSession}">
+                        <td>
+                            <div class="p-4 film-post card w-100">
+                                <div class="row card-body">
+                                    <div class="col-md-2">
+                                        <img class="poster-img card-img" th:src="*{film.posterUrl}">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <h2 class="card-title" th:text="*{film.name}">Film name</h2>
+                                        <ul class="list-unstyled mt-3 mb-4">
+                                            <li class="card-text"
+                                                th:text="|#{film.duration}: *{film.duration} #{film.duration.postfix}|">
+                                                Film duration
+                                            </li>
+                                            <li class="card-text">
+                                                <span th:text="|#{film.genres}: |">Film genres</span>
+                                                <div th:replace="fragments/others :: filmGenreList(*{film})"></div>
+                                            </li>
+                                            <li class="card-text"
+                                                th:text="|#{admin.addSession.time}: *{date} #{session.timePrefix} *{time}|">
+                                                Time: {date} at {time}
+                                            </li>
+                                            <li class="card-text"
+                                                th:text="|#{session.seatsRemain}: ${theSession.seatList.size()}|">
+                                                Seats remains: {amount}
+                                            </li>
+                                        </ul>
+                                        <h5 class="card-text"
+                                            th:text="|#{session.ticketPrice}: *{ticketPrice} #{general.currency.short}|">
+                                            Ticket price: {price} UAH
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="vertical-buttons-4">
+                                            <a type="button"
+                                               class="btn btn-lg btn-block btn-primary my-2"
+                                               th:text="#{admin.sessionsSetting.sessionInfo}"
+                                               th:href="@{/admins/me/sessions/{id}(id=*{id})}">Sessions page
+                                            </a>
+                                            <button type="button"
+                                                    class="btn btn-lg btn-block btn-danger"
+                                                    data-toggle="modal" th:data-target="|#modal*{id}|"
+                                                    th:text="#{admin.sessionsSetting.delete}">
+                                                Delete Session
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" th:id="|modal*{id}|" tabindex="-1"
+                                 aria-labelledby="modalAccept" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="modalAccept" th:text="#{admin.sessionsSetting.sessionDeleting}">Session
+                                                deleting</h5>
+                                        </div>
+                                        <div class="modal-body" th:text="#{admin.sessionsSetting.sureWantDelete}">
+                                            You're sure you want to delete the session?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form name="film" th:method="DELETE"
+                                                  th:action="@{/admins/me/sessions/{id}(id=*{id})}">
+                                                <button type="submit"
+                                                        class="btn btn-primary" th:text="#{admin.sessionsSetting.delete}">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <nav th:replace="fragments/mainContent :: pagination(${pageAmount}, '/admins/me/sessions')"></nav>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

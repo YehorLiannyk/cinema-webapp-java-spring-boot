@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/mainContent :: header (#{session.pageTitle})"></head>
+<body>
+<nav th:replace="fragments/mainContent :: menu"></nav>
+<main role="main" class="container">
+    <div class="container-fluid">
+        <h1 class="" th:text="#{session.pageTitle}">About the film</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row" th:object="${theSession}">
+                    <div class="col-md-3">
+                        <img class="poster-img card-img" th:src="@{*{film.posterUrl}}">
+                    </div>
+                    <div class="col-md-9">
+                        <div>
+                            <h2 class="card-title" th:text="*{film.name}">Film name</h2>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li class="card-text"
+                                    th:text="|#{film.duration}: *{film.duration} #{film.duration.postfix}|">Film
+                                    duration
+                                </li>
+                                <li class="card-text">
+                                    <span th:text="|#{film.genres}: |">Film genres</span>
+                                    <div th:replace="fragments/others :: filmGenreList(*{film})"></div>
+                                </li>
+                                <li class="card-text"
+                                    th:text="|#{admin.addSession.time}: *{date} #{session.timePrefix} *{time}|">
+                                    Time: {date} at {time}
+                                </li>
+                                <li class="card-text"
+                                    th:text="|#{session.seatsRemain}: ${theSession.seatList.size()}|">
+                                    Seats remains: {amount}
+                                </li>
+                            </ul>
+                            <h5 class="card-text"
+                                th:text="|#{session.ticketPrice}: *{ticketPrice} #{general.currency.short}|">
+                                Ticket price: {price} UAH
+                            </h5>
+                        </div>
+
+                        <div>
+                            <h4 th:text="|#{session.sessionSeat}: |">Seats for the session</h4>
+                            <form th:action="@{/sessions/{id}/order(id=*{id})}" th:method="POST">
+                                <div class="row under-filter">
+                                    <div class="col-md-8 under-filter-block px-3">
+
+                                        <th:block th:each="seat : ${freeAndReservedSeatMap}">
+
+                                            <div th:if="${seat.key.placeNo == 1}" class="w-100"></div>
+
+                                            <label th:if="${seat.value}">
+                                                <input type="checkbox" name="seat"
+                                                       class="seatsElement"
+                                                       th:value="|${seat.key.id}_${seat.key.rowNo}_${seat.key.placeNo}|">
+                                                <img class="seatsImg" th:src="@{/images/seat_blue.png}">
+                                            </label>
+
+                                            <label th:unless="${seat.value}">
+                                                <input type="checkbox"
+                                                       class="seatsElement" disabled>
+                                                <img class="seatsImg"
+                                                     th:src="@{/images/seat_gray.png}">
+                                            </label>
+
+                                        </th:block>
+
+                                    </div>
+
+                                    <div class="col-md-3 under-filter-block px-3">
+                                        <button type="submit" class="btn btn-lg btn-block btn-primary"
+                                                th:text="#{session.buyTicket}">Buy tickets
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="fragments/mainContent :: footer"></footer>
+</body>

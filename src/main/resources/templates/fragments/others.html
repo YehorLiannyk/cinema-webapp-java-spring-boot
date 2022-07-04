@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<head th:replace="fragments/header.html :: header ('')"></head>-->
+<body>
+<main class="container">
+    <!--Film's genreList as text-->
+    <th:block th:fragment="filmGenreList (film)">
+        <th:block th:each="genre, state : ${film.genreList}">
+            <span th:if="${!state.last}" th:text="|${genre.name}, |"/>
+            <span th:unless="${!state.last}" th:text="${genre.name}"/>
+        </th:block>
+    </th:block>
+</main>
+</body>
