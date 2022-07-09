@@ -6,7 +6,7 @@ import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 import java.security.SecureRandom;
 
 /**
- * Password encrypt maanger class
+ * Password encrypt manager class
  */
 public class PasswordEncrypt {
 

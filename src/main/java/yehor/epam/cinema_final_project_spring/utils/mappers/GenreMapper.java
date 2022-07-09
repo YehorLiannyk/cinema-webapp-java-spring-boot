@@ -1,14 +1,13 @@
 package yehor.epam.cinema_final_project_spring.utils.mappers;
 
 import lombok.extern.slf4j.Slf4j;
-import yehor.epam.cinema_final_project_spring.dto.FilmDTO;
 import yehor.epam.cinema_final_project_spring.dto.GenreDTO;
-import yehor.epam.cinema_final_project_spring.entities.Film;
 import yehor.epam.cinema_final_project_spring.entities.Genre;
 import yehor.epam.cinema_final_project_spring.utils.MapperDtoFacade;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Mapper for {@link Genre} and {@link GenreDTO}
  */

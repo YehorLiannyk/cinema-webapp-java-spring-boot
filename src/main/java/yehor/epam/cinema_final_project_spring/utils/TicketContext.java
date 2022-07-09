@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * Context for realization Strategy patterm for ticket sending
+ * Context for realization Strategy pattern for ticket sending
  */
 @Data
 @Service

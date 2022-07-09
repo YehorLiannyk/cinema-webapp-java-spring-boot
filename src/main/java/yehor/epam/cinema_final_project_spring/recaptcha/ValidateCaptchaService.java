@@ -25,6 +25,11 @@ public class ValidateCaptchaService {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Validate captcha
+     * @param captcha String response of recaptcha
+     * @return true - validation is successful, otherwise - false
+     */
     public boolean isValidCaptcha(String captcha) {
         String params = "?secret=" + recaptchaSecret + "&response=" + captcha;
         String completeUrl = recaptchaEndpoint + params;

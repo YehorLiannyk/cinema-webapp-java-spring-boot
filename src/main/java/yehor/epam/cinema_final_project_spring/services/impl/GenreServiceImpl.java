@@ -28,6 +28,7 @@ public class GenreServiceImpl implements GenreService {
         this.mapperDTO = mapperDTO;
     }
 
+    @Override
     public List<GenreDTO> getAll() throws GenreListIsEmptyException {
         final List<Genre> all = genreRepository.findAll();
         if (all.isEmpty()) {

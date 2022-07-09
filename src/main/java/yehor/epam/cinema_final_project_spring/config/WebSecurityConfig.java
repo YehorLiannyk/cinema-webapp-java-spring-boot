@@ -16,6 +16,9 @@ import yehor.epam.cinema_final_project_spring.utils.constants.Constants;
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.ADMIN_ROLE;
 import static yehor.epam.cinema_final_project_spring.utils.constants.Constants.USER_ROLE;
 
+/**
+ * Configuration for Spring Security
+ */
 @Slf4j
 @Configuration
 @EnableWebSecurity

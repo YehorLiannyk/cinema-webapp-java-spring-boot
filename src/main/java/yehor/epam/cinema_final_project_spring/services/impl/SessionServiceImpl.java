@@ -69,6 +69,13 @@ public class SessionServiceImpl implements SessionService {
         return mapperDTO.getSessionMapper().fromSessionPage(sessionPage);
     }
 
+    /**
+     * Filter by show all or only available session (free seat amount > 0)
+     *
+     * @param pageable Pageable
+     * @param filter   String parameter
+     * @return Session Page according to received pageable and filter parameter
+     */
     private Page<Session> getOrderPageWithFilter(Pageable pageable, String filter) {
         if (filter.equals(FILTER_SHOW_ONLY_AVAILABLE)) {
             return sessionRepository.findAllBySeatListSize(1, pageable);
@@ -76,6 +83,13 @@ public class SessionServiceImpl implements SessionService {
         return sessionRepository.findAllBySeatListSize(0, pageable);
     }
 
+    /**
+     * Set sort method
+     *
+     * @param sort   {@link Sort} object
+     * @param method String parameter of method (ASC or DESC)
+     * @return directed {@link Sort} object
+     */
     private Sort getSortWithOrderMethod(Sort sort, String method) {
         if (method.equals(SORT_METHOD_DESC)) {
             return sort.descending();
@@ -83,6 +97,12 @@ public class SessionServiceImpl implements SessionService {
         return sort.ascending();
     }
 
+    /**
+     * Get list of {@link Sort.Order} according to String sort parameter
+     *
+     * @param sort String parameter with parameter for ORDER BY
+     * @return list of {@link Sort.Order} according to String sort parameter
+     */
     private List<Sort.Order> getSortOrder(String sort) {
         List<Sort.Order> orders = new ArrayList<>();
         switch (sort) {

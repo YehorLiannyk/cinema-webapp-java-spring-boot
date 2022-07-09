@@ -101,6 +101,12 @@ public class TicketServiceImpl implements TicketService {
         log.info("Save tickets to DB and delete session seats, ticketList: " + ticketDTOList);
     }
 
+    /**
+     * Checks all seats from Ticket list by its free
+     *
+     * @param ticketDTOList ticket List
+     * @return true - all seats are free, false - all or some seats are reserved already
+     */
     private boolean checkSeatsOfTicketListAreFree(List<TicketDTO> ticketDTOList) {
         return ticketDTOList.stream()
                 .allMatch(ticketDTO -> {
@@ -110,6 +116,11 @@ public class TicketServiceImpl implements TicketService {
                 });
     }
 
+    /**
+     * Delete seats from Session free Seat list after buying by Ticket list
+     *
+     * @param ticketDTOList ticket list
+     */
     private void deleteSeatsOfTicketList(List<TicketDTO> ticketDTOList) {
         ticketDTOList
                 .forEach(ticketDTO -> {
@@ -120,13 +131,10 @@ public class TicketServiceImpl implements TicketService {
                 });
     }
 
-
     @Override
     public TicketDTO getById(Long id) {
         final Ticket ticket = ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
         return mapperDTO.getTicketMapper().fromTicket(ticket);
     }
-
-
 
 }

@@ -36,21 +36,25 @@ public class CustomUserDetails implements UserDetails {
         return user.getEmail();
     }
 
+    // Is not used, so set as true
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    // Is not used, so set as true
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    // Is not used, so set as true
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    // Is not used, so set as true
     @Override
     public boolean isEnabled() {
         return true;

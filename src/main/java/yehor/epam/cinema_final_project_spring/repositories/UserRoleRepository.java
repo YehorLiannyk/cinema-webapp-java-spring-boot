@@ -6,7 +6,10 @@ import yehor.epam.cinema_final_project_spring.entities.UserRole;
 import java.util.Optional;
 
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
-    //Optional<UserRole> findUserRoleByUserEmail(String email);
-
+    /**
+     * Get UserRole by its name
+     * @param roleName name of UserRole
+     * @return UserRole
+     */
     Optional<UserRole> findUserRoleByName(String roleName);
 }
