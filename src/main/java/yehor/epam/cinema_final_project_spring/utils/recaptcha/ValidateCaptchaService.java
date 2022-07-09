@@ -1,4 +1,4 @@
-package yehor.epam.cinema_final_project_spring.recaptcha;
+package yehor.epam.cinema_final_project_spring.utils.recaptcha;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

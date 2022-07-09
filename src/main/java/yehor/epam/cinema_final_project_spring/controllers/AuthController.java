@@ -13,7 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
-import yehor.epam.cinema_final_project_spring.recaptcha.ValidateCaptchaService;
+import yehor.epam.cinema_final_project_spring.utils.recaptcha.ValidateCaptchaService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
