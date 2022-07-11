@@ -45,12 +45,22 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Set USER role for User and encrypt password
+     *
+     * @param userSignUpDTO User
+     */
     private void prepareUserSignUpDTO(UserSignUpDTO userSignUpDTO) {
         PasswordEncrypt encrypt = new PasswordEncrypt();
         userSignUpDTO.setUserRole(userRoleService.getUserRole());
         userSignUpDTO.setPassword(encrypt.encodePassword(userSignUpDTO.getPassword()));
     }
 
+    /**
+     * Set Authentication to {@link org.springframework.security.core.context.SecurityContext}
+     *
+     * @param user User
+     */
     private void saveUserAuthentication(User user) {
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
         Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
@@ -77,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long getUserIdFromAuthentication(CustomUserDetails userDetails) {
-        if (userDetails == null ) {
+        if (userDetails == null) {
             log.debug("Couldn't authenticate user");
             throw new UserNotFoundException();
         }

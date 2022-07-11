@@ -14,9 +14,22 @@ public interface SessionRepository extends JpaRepository<Session, Long>, CustomS
 
     Page<Session> findAll(Pageable pageable);
 
+    /**
+     * Count free seats by session id
+     *
+     * @param sessionId session id
+     * @return amount of free seats (0 - when no free seats)
+     */
     @Query(value = "SELECT s.seatList.size FROM Session as s WHERE s.id=?1")
     Long countFreeSeats(Long sessionId);
 
+    /**
+     * Get Session page, where sessions have seatList.size() equal or bigger than {minListSize}
+     *
+     * @param minListSize minimum session seatList size
+     * @param pageable    Pageable
+     * @return Page of appropriate Session
+     */
     @Query(value = "SELECT s FROM Session AS s WHERE s.seatList.size >= ?1")
     Page<Session> findAllBySeatListSize(Integer minListSize, Pageable pageable);
 

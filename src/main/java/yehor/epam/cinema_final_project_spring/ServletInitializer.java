@@ -1,4 +1,3 @@
-/*
 package yehor.epam.cinema_final_project_spring;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,4 +11,4 @@ public class ServletInitializer extends SpringBootServletInitializer {
     }
 
 }
-*/
+

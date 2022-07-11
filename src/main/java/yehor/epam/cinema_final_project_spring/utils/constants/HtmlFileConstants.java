@@ -1,5 +1,8 @@
 package yehor.epam.cinema_final_project_spring.utils.constants;
 
+/**
+ * Name of HTML files
+ */
 public final class HtmlFileConstants {
     public static final String MAIN_PAGE = "index";
     public static final String SIGN_UP_PAGE = "signup";

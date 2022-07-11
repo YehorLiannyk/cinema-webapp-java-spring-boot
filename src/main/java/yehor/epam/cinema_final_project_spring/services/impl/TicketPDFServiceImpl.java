@@ -103,32 +103,6 @@ public class TicketPDFServiceImpl implements TicketPDFService {
         return outputStream;
     }
 
-    /*@Override
-    public void writePdfToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response) {
-        try {
-            writeByteArrayOutputStreamToResponse(byteArrayOutputStream, response);
-        } catch (IOException e) {
-            log.error("Couldn't write pdf ticket (byteArrayOutputStream) to HttpServletResponse", e);
-            throw new WritePdfToResponseException(e);
-        }
-    }
-
-    private void writeByteArrayOutputStreamToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response)
-            throws IOException {
-        try {
-            response.setContentType("application/pdf");
-            response.addHeader("Content-Disposition", "inline; filename=" + Constants.DEF_TICKET_FILENAME);
-            ServletOutputStream servletOutputStream = response.getOutputStream();
-            byteArrayOutputStream.writeTo(servletOutputStream);
-        } catch (Exception e) {
-            log.error("Handled error when trying to write PDF to output", e);
-            throw new PdfException();
-        } finally {
-            byteArrayOutputStream.flush();
-            byteArrayOutputStream.close();
-        }
-    }*/
-
     /**
      * Add appropriate row to PDF table
      *

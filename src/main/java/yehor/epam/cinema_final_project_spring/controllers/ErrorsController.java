@@ -3,7 +3,6 @@ package yehor.epam.cinema_final_project_spring.controllers;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
@@ -15,11 +14,12 @@ import static yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileCon
 @Controller
 @RequestMapping("/error")
 public class ErrorsController implements ErrorController {
-    @RequestMapping("/access-denied")
-    public String accessDenied() {
-        return HtmlFileConstants.ERROR_ACCESS_DENIED_PAGE;
-    }
 
+    /**
+     * Handle all non-specific exceptions and return appropriate html view
+     * @param status error status code (not required)
+     * @return html view
+     */
     @RequestMapping
     public String handleGeneralError(@RequestAttribute(name = RequestDispatcher.ERROR_STATUS_CODE, required = false) Integer status) {
         if (status != null) {
@@ -34,6 +34,11 @@ public class ErrorsController implements ErrorController {
             }
         }
         return HtmlFileConstants.ERROR_PAGE;
+    }
+
+    @RequestMapping("/access-denied")
+    public String accessDenied() {
+        return HtmlFileConstants.ERROR_ACCESS_DENIED_PAGE;
     }
 
     @RequestMapping("/user-not-found")

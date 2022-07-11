@@ -13,12 +13,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import yehor.epam.cinema_final_project_spring.dto.UserSignUpDTO;
 import yehor.epam.cinema_final_project_spring.exceptions.user.UserAlreadyExistException;
-import yehor.epam.cinema_final_project_spring.recaptcha.ValidateCaptchaService;
+import yehor.epam.cinema_final_project_spring.utils.recaptcha.ValidateCaptchaService;
 import yehor.epam.cinema_final_project_spring.services.UserService;
 import yehor.epam.cinema_final_project_spring.utils.constants.HtmlFileConstants;
 
 import javax.validation.Valid;
 
+/**
+ * Login and signup controller
+ */
 @Controller
 @Slf4j
 public class AuthController {
@@ -82,9 +85,9 @@ public class AuthController {
     /**
      * Check if BindingResult has error and add error if password and password confirm are not equal
      *
-     * @param userSignUpDTO
-     * @param bindingResult
-     * @return
+     * @param userSignUpDTO User object after entry registration data
+     * @param bindingResult BindingResult
+     * @return true - BindingResul has errors and/or password and confirmation are equal, otherwise - false
      */
     private boolean hasError(UserSignUpDTO userSignUpDTO, BindingResult bindingResult) {
         if (!userSignUpDTO.getPassword().equals(userSignUpDTO.getPasswordRepeat())) {

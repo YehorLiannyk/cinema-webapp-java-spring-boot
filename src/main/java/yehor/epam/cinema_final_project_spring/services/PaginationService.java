@@ -7,7 +7,7 @@ import yehor.epam.cinema_final_project_spring.exceptions.PaginationException;
  */
 public interface PaginationService {
     /**
-     * Checking is received parameter are properly set
+     * Check if the received parameters are properly set and page can be formed
      *
      * @param totalPages total pages param
      * @param page       page number param

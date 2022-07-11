@@ -1,4 +1,4 @@
-package yehor.epam.cinema_final_project_spring.recaptcha;
+package yehor.epam.cinema_final_project_spring.utils.recaptcha;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,11 @@ public class ValidateCaptchaService {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Validate captcha
+     * @param captcha String response of recaptcha
+     * @return true - validation is successful, otherwise - false
+     */
     public boolean isValidCaptcha(String captcha) {
         String params = "?secret=" + recaptchaSecret + "&response=" + captcha;
         String completeUrl = recaptchaEndpoint + params;
