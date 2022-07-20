@@ -77,11 +77,9 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public BigDecimal countTotalCost(List<TicketDTO> ticketDTOList) {
         BigDecimal totalCost = new BigDecimal(0);
-        for (TicketDTO ticketDTO : ticketDTOList) {
-            final BigDecimal ticketPrice = ticketDTO.getSession().getTicketPrice();
-            totalCost = totalCost.add(ticketPrice);
-        }
-        return totalCost;
+        return ticketDTOList.stream()
+                .map(ticketDTO -> ticketDTO.getSession().getTicketPrice())
+                .reduce(totalCost, BigDecimal::add);
     }
 
     @Override

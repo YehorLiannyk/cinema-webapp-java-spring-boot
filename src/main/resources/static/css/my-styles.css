@@ -45,6 +45,10 @@ h1, h2, h3, h4, h5, h6 {
     max-width: fit-content;
 }
 
+.current-page {
+    background: #add2f8;
+}
+
 .poster-img {
     max-width: 100%;
     min-height: 100%;
