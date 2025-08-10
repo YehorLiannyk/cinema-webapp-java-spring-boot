@@ -1,6 +1,8 @@
 # CINEMA_FINAL_PROJECT_SPRING
 Final task of EPAM Course (with Spring)
 
+[DeepWiki - Cinema Final Project Spring - Overview](https://deepwiki.com/YehorLiannyk/cinema-webapp-java-spring-boot/1-cinema-final-project-spring-overview)
+
 Завдання:
 Кінотеатр
 
